@@ -1,2 +1,2 @@
-# stuthesis
-LaTeX class for bachelor's and master's theses at the STU Bratislava. / LaTeX trieda pre bakalárske a diplomové práce na STU v Bratislave.
+# Bakalárska práca AeroPendulum
+LaTeX bachelor's theses at the STU Bratislava. / LaTeX bakalárska práca na STU v Bratislave.
