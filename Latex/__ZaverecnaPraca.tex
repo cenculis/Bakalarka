@@ -15,6 +15,7 @@
 %This is to remove warnings resulting by otherwise OK URL's
 \usepackage[hyphens]{url}
 \usepackage{notes}
+\usepackage{indentfirst}
 
 
 %This custom command defines how the literal menus look like.
@@ -72,7 +73,7 @@ alsoletter={_}
 \input{Prehlasenie}
 \input{Podakovanie}
 \input{Abstrakt}
-\input{Predhovor}
+%%%%%% \input{Predhovor} %%%%%%
 \tableofcontents
 \thispagestyle{empty}
 \cleardoublepage
@@ -83,11 +84,13 @@ alsoletter={_}
 \setcounter{page}{1}
 
 \include{Uvod}
-\include{Kapitola0}
-%\include{Kapitola1}
-%\include{Kapitola2}
-%[...]
+\include{Motivácia}
+\include{AeroShield}
+\include{Didaktické príklady}
 \include{Zaver}
+\include{Kapitola1}
+\include{Kapitola2}
+%[...]
 
 %%%%%%% Koniec %%%%%%%%
 \bibliographystyle{abbrv}
