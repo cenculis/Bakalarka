@@ -1,24 +1,47 @@
 \chapter{AeroShield}
 
 \section{Hardware}
+
+Tu ešte pridám krátke žvásty 
+
 \subsection{Popis súčiastok}
 
-akc clen motor hovor bam!
-neviem aky mam motor :( 
-poriesime
+Tu ešte pridám krátke žvásty 
 
 \subsubsection{buck converter/Znižovanie napätia}
 
-Na správne napájanie akčného člena kyvadla, motorčeka, potrebujeme napätie v rozmedzí 0-4,7V a prúd 0-2A podľa vyvýjaného zaťaženia motora. Na shield však je privázdaný pomocou koaxiálneho napájacieho konektora prúd 12V ktorý by motor v priebehu chvíle zničil. Potrebujeme preto spôsob ako znížiť privádzané napätie, no súčastne neznížiť privádzaný prúd potrebný na pohon motorčeka. Na tieto účely slúži takzvaný buck converter alebo konvertor na zníženie napätia
+Na správne napájanie akčného člena, motorčeka, potrebujeme napätie v rozmedzí 0-3,7V. Na shield je však privázdané pomocou koaxiálneho napájacieho konektora napätie 12V ktoré by motor v priebehu chvíle zničilo. Potrebujeme preto spôsob ako znížiť privádzané napätie, no súčastne neznížiť privádzaný prúd potrebný na pohon motorčeka. Na tieto účely slúži takzvaný buck converter alebo konvertor na zníženie napätia. Hlavnou Časťou konvertora je čip TPS56339 od výrobcu Texas Instruments.
 
-\subsubsection{INA}
-MOTOR PWM hovor ina BUM!
+ Na čip je privádzané napätie 12V ktoré sa pomocou zapojenia, vididelného na schéme obr.\ref{OBRAZOK 2.1}, znižuje na napätie 3,7V s možnosťou poskytovania prúdu do 3A. Napájanie motora musí byť realizované externe pomocou koaxiálneho napájacieho konektora, z dôvodu vysokého prúdu odoberaného motorom počas vysokého zaťaženia. Rovnaký konektor sa síce nachádza aj na doske Arduino UNO a pomocou VIN pinu sa dajú napájať napätím 0-12V aj iné zariadenia, avšak tento pin je napojený na diódu obmedzujúcu prúd na 1A\cite{ampere}\cite{ampere2}.  
 
-meranie prúdu hovor bam !
+\begin{figure}[!tbh]
+\centering
+\includegraphics[width=90mm]{obr/schemaBuck.png}
+\caption{Schéma zapojenia konvertora napätia.}\label{OBRAZOK 2.1}
+\end{figure}
 
-MANualna verzia pomocou PONTENCIOMETRa BAM!
+\subsubsection{motor}
 
-HALL SENZOR!
+akc clen motor hovor bam!
+neviem aky mam motor :(
+poriesime
+
+PWM a mosfet spomeň 
+
+\subsubsection{meranie prúdu}
+meranie prúdu hovor ina bam !
+
+\subsubsection{meranie uhla kyvadla}
+
+Na správne fungovanie AeroShieldu je dôležité vedieť s vysokou presnosťou merať uhol naklonenia kyvadla. Na tento účel sme si zvolili meranie uhlu bezkontaktnou formou, pomocou snímača na princípe hallovho javu. Hallov jav vieme opísať ako vznik priečneho elektrického poľa v pevnom materiáli, keď ním preteká elektrický prúd a tento materiál je umiestnený v magnetickom poli, ktoré je kolmé na prúd\cite{Hall}. Toto elektrické pole resp. vznik elektrického potenciálu vieme detegovať a na základe jeho zmeny vieme určit rotáciu kyvadla. V kyvadle je na konci horizontálneho ramena umiestnený špeciálny magnet kruhového tvaru ktorý je polarizovaný naprieč prierezom magnetu.
+
+Ako senzor na meranie hallovho efektu je použitý AS5600 od výrobcu OSRAM obr.\ref{OBRAZOK 2.2}. Senzor má 12-bitový analógový výstup s rozlíšením 0°5'16".
+
+\begin{figure}[!tbh]
+\centering
+\includegraphics[width=90mm]{obr/hall.jpg}
+\caption{Senzor AS5600.}\label{OBRAZOK 2.2}
+\end{figure}
 
 \subsection{Schéma zapojenia}
 
