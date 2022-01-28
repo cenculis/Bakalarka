@@ -10,6 +10,8 @@
 \contentsline {figure}{\numberline {2.2}{\ignorespaces meranie prúdu}}{6}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia snímača prúdu.}}}{6}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Senzor INA169NA/250\cite {INAobr}}}}{6}{}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Senzor AS5600.}}{7}{}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces meranie uhla kyvadla}}{7}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia čipu na meranie uhlu.}}}{7}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {čip AS5600\cite {As5600obr}}}}{7}{}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

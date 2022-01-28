@@ -69,24 +69,25 @@ alsoletter={_}
 
 \begin{document}
 %%%%%%% Zaciaatok %%%%%%%%
+
 \input{Obalka}
 \input{Titul}
+\frontmatter
 \input{Zadanie}
 \input{Prehlasenie}
 \input{Podakovanie}
 \input{Abstrakt}
-\listoffigures
 %%%%%% \input{Predhovor} %%%%%%
 \tableofcontents
 \thispagestyle{empty}
 \cleardoublepage
-
+\listoffigures
 %%%%%% Jednotlive kapitoly %%%%%%%%%
 \pagestyle{plain}
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-
+\mainmatter
 \include{Uvod}
 \include{Motivácia}
 \include{AeroShield}

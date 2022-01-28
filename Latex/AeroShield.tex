@@ -2,7 +2,6 @@
 
 \section{Hardware}
 
-Tu ešte pridám krátke žvásty
 
 \subsection{Popis súčiastok}
 
@@ -14,9 +13,7 @@ Na správne napájanie akčného člena, motorčeka, potrebujeme napätie v rozm
 
  Na čip je privádzané napätie 12V ktoré sa pomocou zapojenia, vididelného na schéme obr.\ref{OBRAZOK 2.1}.a, znižuje na napätie 3,7V s možnosťou poskytovania prúdu do 3A. Napájanie motora musí byť realizované externe pomocou koaxiálneho napájacieho konektora, z dôvodu vysokého prúdu odoberaného motorom počas vysokého zaťaženia. Rovnaký konektor sa síce nachádza aj na doske Arduino UNO a pomocou VIN pinu sa dajú napájať napätím 0-12V aj iné zariadenia, avšak tento pin je napojený na diódu obmedzujúcu prúd na 1A\cite{ampere}\cite{ampere2}.
 
-
-
-\begin{figure}
+\begin{figure}[!tbh]
 \hfill
 \subfigure[Schéma zapojenia konvertora napätia.]{\includegraphics[width=9cm]{obr/schemaBuck.png}}
 \hfill
@@ -24,6 +21,7 @@ Na správne napájanie akčného člena, motorčeka, potrebujeme napätie v rozm
 \hfill
 \caption{buck converter}\label{OBRAZOK 2.1}
 \end{figure}
+
 
 \subsubsection{motor}
 
@@ -41,7 +39,7 @@ Pre čo najpresnejšie ovládanie akčného člena sústavy, motora, je dobré v
 
 INA169 je "high-side current monitor", čo znamená, že na kladnú stranu je umiestnený špeciálny rezistor ("shunt resistor") a INA169 meria úbytok napätia na tomto rezistore obr.\ref{OBRAZOK 2.3}.a. Na základe nameraného úbytku napätia vysiela senzor určité napätie ktoré sa následne znásobuje a toto napätie môžeme zaznamenávať. Pomocou základnej matematiky udáva výstupné napätie prúd pretekajúci cez shunt rezistor\cite{INA}.
 
-\begin{figure}
+\begin{figure}[!tbh]
 \hfill
 \subfigure[Schéma zapojenia snímača prúdu.]{\includegraphics[width=9cm]{obr/INAschema.png}}
 \hfill
@@ -56,13 +54,18 @@ INA169 je "high-side current monitor", čo znamená, že na kladnú stranu je um
 
 Na správne fungovanie AeroShieldu je dôležité vedieť s vysokou presnosťou merať uhol naklonenia kyvadla. Na tento účel sme si zvolili meranie uhlu bezkontaktnou formou, pomocou snímača na princípe hallovho javu. Hallov jav vieme opísať ako vznik priečneho elektrického poľa v pevnom materiáli, keď ním preteká elektrický prúd a tento materiál je umiestnený v magnetickom poli, ktoré je kolmé na prúd\cite{Hall}. Toto elektrické pole resp. vznik elektrického potenciálu vieme detegovať a na základe jeho zmeny vieme určit rotáciu kyvadla. V kyvadle je na konci horizontálneho ramena umiestnený špeciálny magnet kruhového tvaru ktorý je polarizovaný naprieč prierezom magnetu.
 
-Ako senzor na meranie hallovho efektu je použitý AS5600 od výrobcu OSRAM obr.\ref{OBRAZOK 2.2}. Senzor má 12-bitový analógový výstup s rozlíšením 0°5'16". Toto rozlíšenie nám umožnuje s vysokou presnosťou kontrolovať naklonenie kyvadla a na základe zýskaných informácii ovplyvňovať fungovanie akčného členu sústavy. 
+Ako senzor na meranie hallovho efektu je použitý AS5600 od výrobcu OSRAM obr.\ref{OBRAZOK 2.2}.b. Senzor má 12-bitový analógový výstup s rozlíšením 0°5'16". Toto rozlíšenie nám umožnuje s vysokou presnosťou kontrolovať naklonenie kyvadla a na základe zýskaných informácii ovplyvňovať fungovanie akčného členu sústavy. Schéma zapojenia čipu na meranie uhlu môžeme vidieť na obr.\ref{OBRAZOK 2.2}.a.
+
 
 \begin{figure}[!tbh]
-\centering
-\includegraphics[width=80mm]{obr/hall.jpg}
-\caption{Senzor AS5600.}\label{OBRAZOK 2.2}
+\hfill
+\subfigure[Schéma zapojenia čipu na meranie uhlu.]{\includegraphics[width=10cm]{obr/as5600.png}}
+\hfill
+\subfigure[{čip AS5600\cite{As5600obr}}]{\includegraphics[width=5cm]{obr/hall.jpg}}
+\hfill
+\caption{meranie uhla kyvadla}\label{OBRAZOK 2.2}
 \end{figure}
+
 
 \subsection{Schéma zapojenia}
 
