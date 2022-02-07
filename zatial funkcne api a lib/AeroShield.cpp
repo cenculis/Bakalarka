@@ -25,6 +25,19 @@ void AeroShieldClass::begin(){
       Wire.begin();                       //
 }
 
+float AeroShieldClass::ams5600_initialization(bool isDetected){  
+  if(isDetected == 0 ){
+    while(1){
+        if(isDetected == 1 ){
+            AutomationShield.serialPrint("Magnet detected \n");
+            break;
+        }
+        else{
+            AutomationShield.serialPrint("Can not detect magnet \n");
+      }
+    }
+  }
+}
 
 float AeroShieldClass::convertRawAngleToDegrees(word newAngle) {
   float retVal = newAngle * 0.087;
@@ -40,7 +53,7 @@ float AeroShieldClass::calibration(word RawAngle) {
   analogWrite(AERO_UPIN,50);
   delay(250);
   analogWrite(AERO_UPIN,0);
-  delay(5000);
+  delay(4000);
   
   startangle = RawAngle;
   analogWrite(AERO_UPIN,0);
@@ -53,15 +66,20 @@ float AeroShieldClass::calibration(word RawAngle) {
 
   AutomationShield.serialPrint("Calibration done");
     return startangle;
-    /*     
-  while(angle<=startangle+90.0){
-    analogWrite(AERO_UPIN,MOTOR_PWM);
-    delay(300);
-    angle=AeroShield.convertRawAngleToDegrees(ams5600.getRawAngle());
-    MOTOR_PWM=MOTOR_PWM+5;
-    }
-    */
-  }
+}
+
+
+  float AeroShieldClass::referenceRead(void) {                                                      // Reference read
+  referenceValue = (float)analogRead(AERO_RPIN);                                           // Reads the actual analog value of potentiometer runner
+  referencePercent = AutomationShield.mapFloat(referenceValue, 0.0, 1024.0, 0.0, 100.0);   // Remapps the analog value from original range 0.0-1023 to percentual range 0.0-100.0
+  return referencePercent;                                                                  // Returns the percentual position of potentiometer runner
+}
+
+void AeroShieldClass::actuatorWrite(float PotPercent) {
+  float mappedValue = AutomationShield.mapFloat(PotPercent, 0.0, 100.0, 0.0, 255.0);       // Takes the float type percentual value 0.0-100.0 and remapps it to range 0.0-255.0
+  mappedValue = AutomationShield.constrainFloat(mappedValue, 0.0, 255.0);                // Constrains the remapped value to fit the range 0.0-255.0 - safety precaution
+  analogWrite(AERO_UPIN, (int)mappedValue);                                            
+}
 
 /*
 void AeroShieldClass::actuatorWrite(float percent){  

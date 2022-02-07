@@ -45,7 +45,7 @@ byte AutomationShieldClass::percToPwm(float perc){
  }
 
  void AutomationShieldClass::serialPrint(const char *str){   // Function for printing messages to serial monitor if its enabled
- #if ECHO_TO_SERIAL                                    // If Serial Echo is turned on in the DEFINE (by advanced user)
+ #if ECHO_TO_SERIAL                                  // If Serial Echo is turned on in the DEFINE (by advanced user)
  Serial.print(str);                                    // Print message to serial monitor
  #endif 
  }

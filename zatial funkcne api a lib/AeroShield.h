@@ -35,13 +35,19 @@
 class AeroShieldClass{			// Class for the AeroShield device
  public:
     void begin();
+    float ams5600_initialization(bool isDetected);
+    void actuatorWrite(float PotPercent);
     float calibration(word RawAngle);
     float convertRawAngleToDegrees(word newAngle);
+    float referenceRead(void);
+
 
 
   private:
     int ang;
     float startangle;
+    float referenceValue;
+    float referencePercent;
 
    
     
