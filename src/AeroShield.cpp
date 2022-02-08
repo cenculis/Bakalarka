@@ -81,24 +81,22 @@ void AeroShieldClass::actuatorWrite(float PotPercent) {                         
   analogWrite(AERO_UPIN, (int)mappedValue);                                                // Write remapped value to actuator pin 
 }
 
-float AeroShieldClass::currentMeasure(void){                                               // Measuring current drawn by DC motor 
-  for(int i=0 ; i<repeatTimes ; i++){                                                      // Function for callculating mean current value 
-     voltageValue= analogRead(VOLTAGE_SENSOR_PIN);                                         // Read a value from the INA169 
-     voltageValue= (voltageValue * voltageReference) / 1024;                               // Remap the ADC value into a voltage number (5V reference)
-     current= current + correction1-(voltageValue / (10 * ShuntRes));                      // Equation given by the INA169 datasheet to
-                                                                                           // determine the current flowing through ShuntRes. RL = 10k
-     }                                                                                     // Is = (Vout x 1k) / (RS x RL)
+float AeroShieldClass::currentMeasure(void){
+  for(int i=0 ; i<repeatTimes ; i++){
+     float voltageValue = analogRead(VOLTAGE_SENSOR_PIN);
+     voltageValue = (voltageValue * voltageReference) / 1024;
+     float current +=  correction1-(voltageValue / (10 * ShuntRes));
+    }
 
-   float currentMean= current/repeatTimes;                                                 // Callculating mean current value 
-   currentMean= currentMean-correction2;                                                   // Small correction of current value(determined by ampermeter)
-   if(currentMean < 0.000){                                                                // Correction for occasional bug causing the value to be negative. 
-      currentMean= 0.000;                                                                  // When it so happens, zero out the value. 
+   float currentMean= current/repeatTimes;
+   currentMean -= correction2;
+   if(currentMean < 0.000){
+      currentMean = 0.000;
       }
 
-  current= 0;                                                                              // Zero out current value        
-  voltageValue= 0;                                                                         // Zero out voltage value  
-  return currentMean;                                                                      // Return mean current value 
-
+  return currentMean
+  voltageValue= 0.0;
+  current= 0.0;
 }
 
 AeroShieldClass AeroShield;
