@@ -5,7 +5,7 @@ Téma tejto bakalárskej práce vznikla ako pokračovanie, na už započatom pro
 
 \begin{figure}[!tbh]
 \centering
-\includegraphics[width=80mm]{obr/oldshield.jpg} 
+\includegraphics[width=80mm]{obr/oldshield.jpg}
 
 (a)
 \includegraphics[width=\linewidth]{obr/oldshieldscheme.png}
@@ -19,15 +19,15 @@ Téma tejto bakalárskej práce vznikla ako pokračovanie, na už započatom pro
 Prvá verzia dosky mala niekoľko nedostatkov, vďaka ktorým bola prakticky nepoužiteľná. Hlavnými nedostatkami boli:
 
 \begin{itemize}
-\item neprepojenie pinov komunikácie I2C tj. piny SDA a SCL senzoru hall efektu, ktorý slúži na meranie uhlu natočenia kyvadla,   
+\item neprepojenie pinov komunikácie I2C tj. piny SDA a SCL senzoru hall efektu, ktorý slúži na meranie uhlu natočenia kyvadla,
 \item nesprávne zapojenie mosfetu PMW45EN, ktorý ovláda PWM signál idúci do akčného člena,
-\item nesprávne umiestnená ochranná dióda na konektoroch akčného člena, 
+\item nesprávne umiestnená ochranná dióda na konektoroch akčného člena,
 \item nesprávne zapojený obvod s čipom INA169, ktorý slúži na meranie prúdu,
 \item neprepojenie nulového konektora shieldu s nulovým konektorom arduina.
 \end{itemize}
 
 Základom tejto bakalárskej práce teda bolo najskôr pochopiť jednotlivé časti zapojenia, analizovať chyby a ich následná oprava. V rámci školského projektu bola vytvorená hlavná doska na ktorej sa nachádza väčšina elektroniky, avšak bola vytvorená aj verzia menšej dosky ktorá slúži na fungovanie senzoru hall efektu. Táto doska fungovala bezproblémovo a teda netrebalo nijakým spôsobom meniť jej schému zapojenia. Tejto menšej doske sa budeme bližšie venovať v časti\ref{}, no jej podoba je viditelná na obr.\ref{OBRAZOK 2.1.2}.
- 
+
  \begin{figure}[!tbh]
 \centering
 \includegraphics[width=100mm]{obr/breakout.jpg}
@@ -71,13 +71,11 @@ Na správne napájanie akčného člena, motorčeka, potrebujeme napätie v rozm
 \subsubsection{akčný člen}
 \label{akcclen}
 
-akc clen motor hovor bam!
-neviem aky mam motor :(
-poriesime
+Ako akčný člen AeroShieldu je použitý 7mm, 3,7V jednosmerný motorček bez jadra. “coreless motor“ alebo motor bez jadra je motor s cievkou navinutou samou na sebe a nie na železe\cite{coreless}. Takéto jadro ale samé o sebe nie je veľmi pevné a nedrží dobre tvar, preto sa častokrát zalieva epoxidom. Stator je vyrobený z magnetov na báze vzácnych zemín, ako je neodým alebo SmCo (samárium-kobalt), ktoré sa nachádzajú vo vnútri bezjadrového rotora.
 
-PWM 
+Takýto motor ponúka mnoho výhod oproti motoru so železným jadrom. Tým že jadro v sebe nemá železo, výrazne sa znižuje hmotnosť a tým aj zotrvačnosť rotora, čo je dôležité pre naše použitie kedy potrebujeme dosahovať vysokú akceleráciu a rýchle spomalenie rotora. Ďalšou výhodou je fakt že nedochádza k stratám na železe a tým pádom sa účinnosť takýchto motorov blíži až ku 90\%-\cite{5545147}. Motor je ovládaný pomocou impulzovej šírkovej modulácie (PWM).
 
-\vspace{4cm}
+
 
 \subsubsection{meranie prúdu}
 \label{merprud}
@@ -97,7 +95,7 @@ INA169 je "high-side current monitor", čo znamená, že na kladnú stranu je um
 
 
 \label{Hall}
-\pagebreak 
+\pagebreak
 
 \subsubsection{meranie uhla kyvadla}
 \label{meruhl}
@@ -107,7 +105,7 @@ Na správne fungovanie AeroShieldu je dôležité vedieť s vysokou presnosťou 
 Ako senzor na meranie hallovho efektu je použitý AS5600 od výrobcu OSRAM obr.\ref{OBRAZOK 2.2}.b. Signály prichádzajúce zo snímača sa najprv zosilnia, následne sú filtrované a prechádzajú konverziou pomocou analógovo-digitálneho prevodníkom (ADC). Výstup ADC je spracovaný pomocou bloku CORDIC (Coordinate Rotation Digital computer) ktorý slúži na výpočet uhla a veľkosti otáčok vektora magnetického poľa. Snímaná je aj intenzita magnetického poľa ktorá sa ďalej používa na
 automatické riadenie zosilnenia (AGC) ktoré slúži na kompenzáciu teploty a veľkosti magnetického poľa, ktoré sa mení na základe vzdialenosti magnetu od senzoru.
 
-Na výber sú dva typy výstupu a to analógový výstup alebo digitálny výstup s kódovaním PWM. Senzor má taktiež aj možnosti interného programovania pomocou rozhrania I2C. 
+Na výber sú dva typy výstupu a to analógový výstup alebo digitálny výstup s kódovaním PWM. Senzor má taktiež aj možnosti interného programovania pomocou rozhrania I2C.
 V našom prípade používame 12-bitový analógový výstup s rozlíšením 0°5'16". Toto rozlíšenie nám umožnuje s vysokou presnosťou kontrolovať naklonenie kyvadla a na základe získaných informácii ovplyvňovať fungovanie akčného členu sústavy. Schéma zapojenia čipu na meranie uhlu môžeme vidieť na obr.\ref{OBRAZOK 2.2}.a.
 
 
