@@ -5,15 +5,28 @@
 \contentsline {figure}{\numberline {1.3}{\ignorespaces {Arduino UNO.}}}{4}{}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {2.1}{\ignorespaces (a) Prvá verzia AeroShieldu. (b) Schéma zapojenia prvej verzie AeroShieldu.}}{5}{}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Doska slúžiaca na fungovanie senzoru hall efektu.}}{6}{}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces meranie uhla kyvadla}}{6}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia externej dosky.}}}{6}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Doska slúžiaca na fungovanie senzoru hall efektu}}}{6}{}%
 \contentsline {figure}{\numberline {2.3}{\ignorespaces buck converter}}{7}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia konvertora napätia.}}}{7}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {čip TPS56339\cite {buckobr}}}}{7}{}%
-\contentsline {figure}{\numberline {2.4}{\ignorespaces meranie prúdu}}{8}{}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia snímača prúdu.}}}{8}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Senzor INA169NA/250\cite {INAobr}}}}{8}{}%
-\contentsline {figure}{\numberline {2.5}{\ignorespaces meranie uhla kyvadla}}{9}{}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces akčný člen}}{8}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia motorčeka.}}}{8}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Motorček\cite {corelessMotor}}}}{8}{}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces meranie prúdu}}{9}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia snímača prúdu.}}}{9}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Senzor INA169NA/250\cite {INAobr}}}}{9}{}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces meranie uhla kyvadla}}{9}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia čipu na meranie uhlu.}}}{9}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {čip AS5600\cite {As5600obr}}}}{9}{}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Schéma zapojenia AeroShieldu}}{10}{}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Vedlajšia doska AeroShieldu- breakout board}}{11}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Vrchná strana breakout boardu}}}{11}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Spodná strana breakout boardu}}}{11}{}%
+\contentsline {figure}{\numberline {2.9}{\ignorespaces (a) Vrchná strana AeroShieldu (b) Spodná strana AeroShieldu}}{12}{}%
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Dosky plošných spojov AeroShieldu}}{13}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Hlavná doska AeroShieldu}}}{13}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Vedľajšia doska AeroShieldu}}}{13}{}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
