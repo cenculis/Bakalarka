@@ -21,7 +21,6 @@
 // Defining libraries used by the AeroShield 
 #include "AutomationShield.h"    // Include the main library
 #include <Wire.h>                // Include I2C protocol library
-#include <AS5600.h>              // Include hall sensor library 
 #include "Arduino.h"			       // Required Arduino API in libraries
 
 
@@ -34,17 +33,20 @@
 
 
 
-class AeroShieldClass{		    	                       // Class for the AeroShield device
+class AeroShield{		    	                       // Class for the AeroShield device
 
  public:
-
-    void begin();                                      // Board initialisation - initialisation of pin modes and variables                             
-    float ams5600_initialization(bool isDetected);     // Hall senzor initialisation - looking for magnet 
+    AeroShield(void);
+    float begin(bool isDetected);                                      // Board initialisation - initialisation of pin modes and variables                             
+   //  float ams5600_initialization(bool isDetected);     // Hall senzor initialisation - looking for magnet 
     void actuatorWrite(float PotPercent);              // Write actuator - function takes input 0.0-100.0% and sets motor speed accordingly
     float calibration(word RawAngle);                  // Board calibration - finding out the 0° value in raw format 
     float convertRawAngleToDegrees(word newAngle);     // Convert raw angle from hall senzor to degrees
     float referenceRead(void);                         // Read value of potentiometer and converts it to percentual value 
-    float currentMeasure(void);
+    float currentMeasure(void);		  				   // Read current from actuator 
+    int detectMagnet();								   // AS5600 detect magnet 
+    int getMagnetStrength();						   // AS5600 magnet strength
+    word getRawAngle();								   // AS5600 angle value 
 
 
  private:
@@ -53,16 +55,21 @@ class AeroShieldClass{		    	                       // Class for the AeroShield 
     float startangle;                                  // Variable for storing zero angle position 
     float referenceValue;                              // Variable for potentiometer value in percent
     float referencePercent;                            // Percentual value of potentiometer 
-    float correction1= 4.1220;
-    float correction2= 0.33;
-    int repeatTimes= 100;
-    float voltageReference= 5.0;
-    float ShuntRes= 0.1;
-    float current;
-    float voltageValue;
+    float correction1= 4.1220;						   // Correction for measuring current 
+    float correction2= 0.33;						   // Correction for measuring current 
+    int repeatTimes= 100;						  	   // Number of repeats for current mean measuring 
+    float voltageReference= 5.0;					   // Volatage reference in Volts 
+    float ShuntRes= 0.1;						   	   // Value of shunt resistor in Ohms 
+    float current;						  			   // Variable for storing current value in Amps 
+    float voltageValue;						  		   // Auxiliary variable
+    int _ams5600_Address;						       // AS5600 address
+    int _stat;										   // AS5600 communication variable 
+    int _raw_ang_hi;								   // AS5600 communication variable 
+    int _raw_ang_lo;								   // AS5600 communication variable 
+    int readOneByte(int in_adr);								   // AS5600 one bite communication
+    word readTwoBytes(int in_adr_hi, int in_adr_lo); 			   // AS5600 two bites communication
    
     
 };
 
-extern AeroShieldClass AeroShield;                     // Creation of external AeroShieldClass object
 #endif

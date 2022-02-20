@@ -168,26 +168,30 @@ Veľmi dobrou vlastnosťou pogramu DipTrace je možnosť zafarbovania jednotliv�
 
 \subsection{Doska plošných spojov}
 
-Po návrhu a kontrole schém zapojenia sa schémy dalej spracovávajú do podoby dosky plošných spojov. Schémy exportujeme do programu DipTrace PCB v ktorom máme následne niekoľko možností postupu. Jednotlivé komponenty sa nám už zobrazujú v reálnej podobe, takže vidíme ich veľkosť a rozmiestnenie pinov na pájkovanie.
+Po návrhu a kontrole schém zapojenia sa schémy dalej spracovávajú do podoby dosky plošných spojov. Schémy exportujeme do programu DipTrace PCB v ktorom máme následne niekoľko možností postupu. Jednotlivé komponenty sa nám už zobrazujú v reálnej podobe, takže vidíme ich veľkosť a rozmiestnenie pinov na pájkovanie. Dosky plošných spojov majú niekoľko nevýhod, ale aj výhod oproti ponúkaným alternatívam\cite{dosky}. 
+
+Výhodou je fakt, že vodivé spojenia medzi jednotlivými súčiastkami zapojenia, sú realizované vrstvou medi ktorá je ukrytá pod ochrannými vrstavmi povrchu dosky, narozdiel od typických káblových spojení. Káble majú niekoľko nedostatkov ako to že sa vedia ľahko vypojiť, ľahko dochádza k ich porušeniu a v neposlednom rade, nepôsobia veľmi esteticky. V prípade nesprávneho prepojenia pinov má jednodoznačnú výhodu spoj realizovaný káblami, kedže pri doskách plošných spojov sa s už hotovými cestami manipuluje obtiažne. Ďaľšou výhodou dosiek plošných spojov je skutočnosť, že sú veľmi odolné a kompaktné. Tým že vodivé cesty môžu mať veľmi malé rozmery, ovplyvňujúcim faktorom veľkosti dosky plošných spojov je samotná veľkosť jej komponentov. 
 
 Po prenesení schém do DipTrace PCB, sú jednotlivé komponenty rozhádzané a nemajú žiadne logické rozloženie. Program ponúka možnosť automatického zoradenia komponentov na vyhradenej ploche, avšak táto funkcia komponenty uložila nie podľa našich potrieb a teda, využili sme možnosť manuálneho umiestnenia jednotlivých komponentov. Pri pohybovaní jednotlivými komponentami môžeme vidieť čiary, ktoré symbolizujú prepojenia s ostatnými komponentami a vďaka tomu vieme komponenty logicky poukladať.
 
-Po zvolení optimálneho rozmiestnenia komponentov treba jednotlivé piny poprepájať cestami, ktoré nám nahrádzajú funkciu káblov. Máme možnosť zvoliť automatické rozmiestnenie ciest alebo ich manuálnu tvorbu. V našom prípade sme zvolili manuálnu tvorbu ciest, pretože ich vieme čo najlepšie optimalizovať.
+\begin{figure}[!tbh]
+	\hfill
+	\subfigure[Vrchná strana breakout boardu]{\includegraphics[width=7cm]{obr/breakoutTOP.png}}
+	\hfill
+	\subfigure[Spodná strana breakout boardu]{\includegraphics[width=7cm]{obr/breakoutbottom.png}}
+	\hfill
+	\caption{Vedlajšia doska AeroShieldu- breakout board}\label{OBRAZOK 2.6}
+\end{figure}
+
+Po zvolení optimálneho rozmiestnenia komponentov treba jednotlivé piny poprepájať vodivými cestami, ktoré nám nahrádzajú funkciu káblov. Máme možnosť zvoliť automatické rozmiestnenie ciest alebo ich manuálnu tvorbu. V našom prípade sme zvolili manuálnu tvorbu ciest, pretože ich vieme čo najlepšie optimalizovať. Ako je viditeľné aj na obr.\ref{OBRAZOK 2.4}.a, nie všetky cesty majú rovnakú šírku. Je to z toho titulu že niektorými cestami prúdi vyšší prúd a to až do 1A. V zásade sa používa pravidlo, čím vyšší prú preteka vodičom, tým väčšiu plochu prierezu by mal mať. Prúdy pretekajúce vodičmi tieto vodiče zahrievajú a pokiaľ je toto zahrievanie nadmerné, môže dôjsť k poškodeniu vodiča.  
 
 Tvorba ciest má niekolko pravidiel, avšak najdôležitejšie z nich je že jednotlivé cesty ktoré v schéme zapojenia nie su prepojené, sa nemôžu križovať inak dôjde k ich vzájomnému vyskratovaniu. Z toho dôvodu treba niekedy cestu priviesť na druhú stranu dosky plošných spojov kde v jej pokračovaní neprekáža iná cesta. Na tento účel sa používajú vodivé diery, takzvané via, spájajúce obe strany dosky.
 
 Pri výroby dosky sa taktiež myslelo na montáž držiaku kyvadla, pre ktoré boli vytvorené 4 diery na jeho následné prichytenie pomocou skrutiek. Finálna verzia hlavnej dosky je na obr.\ref{OBRAZOK 2.4}. Zhotovená bola aj menšia doska tzv. breakout board, slúžiaca na meranie uhlu kyvadla, ktorá je na obr.\ref{OBRAZOK 2.6}.
 
-\begin{figure}[!tbh]
-\hfill
-\subfigure[Vrchná strana breakout boardu]{\includegraphics[width=7cm]{obr/breakoutTOP.png}}
-\hfill
-\subfigure[Spodná strana breakout boardu]{\includegraphics[width=7cm]{obr/breakoutbottom.png}}
-\hfill
-\caption{Vedlajšia doska AeroShieldu- breakout board}\label{OBRAZOK 2.6}
-\end{figure}
 
-\begin{figure}[!tbh]
+
+\begin{figure}
 \centering
 \includegraphics[width=8cm]{obr/AeroShieldTOP.png}
 
@@ -201,12 +205,12 @@ Pri výroby dosky sa taktiež myslelo na montáž držiaku kyvadla, pre ktoré b
 \label{OBRAZOK 2.4}
 \end{figure}
 
-\newpage
+
 
 Po finálnej kontrole zapojenia komponentov na doske plošných spojov môžeme tieto dosky uložiť do formátu gerber. Súbory typu gerber v sebe ukladajú presné zloženie finálnej dosky plošných spojov a to po jej jednotlivých vrstvách. Nachádza sa tu teda vrstva zobrazujúca vodivé cesty, vrstva pre konektory via, vrstva pre farebné popisy a mnoho ďalších. Pri tvorbe súboru máme veľa možností aké parametre jednotlivých vrstiev chceme zvoliť. Môžeme meniť hrúbky jednotlivých vrstiev, veľkostí dier a priestoru okolo dier, veľkosti konektorov via a iné. Gerber súbor ďalej posielame výrobcovi PCB dosiek kde si môžeme zvoliť dalšie parametre dosky, ako jej farbu, možnosti pájkovacích doštičiek, dokonca nám môže výrobca poslať už napájkovanú dosku, ktorá je tak hneď pripravená na použitie. Podobu finálnej dosky AeroShieldu môžeme vidieť na obr.\ref{OBRAZOK 2.7}.a a dosky breakout boardu na obr.\ref{OBRAZOK 2.7}.b.
 
 
-\begin{figure}[!tbh]
+\begin{figure}
 \hfill
 \subfigure[Hlavná doska AeroShieldu]{\includegraphics[width=9cm]{obr/AeroShield.jpg}}
 \hfill
@@ -215,3 +219,6 @@ Po finálnej kontrole zapojenia komponentov na doske plošných spojov môžeme 
 \caption{Dosky plošných spojov AeroShieldu}\label{OBRAZOK 2.7}
 \end{figure}
 
+\subsection{Model držiaku kyvadla}
+
+Tu ešte poviem čo to a designovaní držiaku pendulum 
