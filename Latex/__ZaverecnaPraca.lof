@@ -1,6 +1,6 @@
 \babel@toc {slovak}{}\relax 
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1.1}{\ignorespaces dočasný obrázok pokial nebude hotovec final.}}{2}{}%
+\contentsline {figure}{\numberline {1.1}{\ignorespaces dočasný obrázok pokiaľ nebude hotovec final.}}{2}{}%
 \contentsline {figure}{\numberline {1.2}{\ignorespaces {Aeropendulum značky Real Sim\cite {AeroPendulumTeheran}.}}}{3}{}%
 \contentsline {figure}{\numberline {1.3}{\ignorespaces {Arduino UNO.}}}{4}{}%
 \addvspace {10\p@ }
@@ -21,7 +21,7 @@
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia čipu na meranie uhlu.}}}{9}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {čip AS5600\cite {As5600obr}}}}{9}{}%
 \contentsline {figure}{\numberline {2.7}{\ignorespaces Schéma zapojenia AeroShieldu}}{10}{}%
-\contentsline {figure}{\numberline {2.8}{\ignorespaces Vedlajšia doska AeroShieldu- breakout board}}{11}{}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Vedľajšia doska AeroShieldu- breakout board}}{11}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Vrchná strana breakout boardu}}}{11}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Spodná strana breakout boardu}}}{11}{}%
 \contentsline {figure}{\numberline {2.9}{\ignorespaces (a) Vrchná strana AeroShieldu (b) Spodná strana AeroShieldu}}{12}{}%

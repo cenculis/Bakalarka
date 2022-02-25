@@ -1,2 +1,27 @@
 \section{Software}
 
+Programovacie rozhranie pre platformy arduino sa nazýva Arduino IDE\footnote[5]{Arduino Integrated Development Environment.} a využíva programovací jazyk C++ resp. jeho podobu, s pridanými špecializovanými príkazmi a funkciami priamo pre arduino IDE. Príkazy sú na prvý pohľad zrozumiteľnejšie ako ich skompilovaná\footnote[6]{Kompilácia je preklad zdrojového kódu do podoby ktorú vie procesor prečítať a spracovať.} podoba v jazyku C++, no funkcie resp. schopnosti príkazu sú rovnaké. Preto je arduino vhodným prostriedkom na programovanie ako pre začiatočníkov, tak aj pre skúsenejších programátorov. 
+
+Pri tvorbe programovej časti AeroShieldu je dôležité uvedomiť si fakt že doska vzniká v rámci projektu AutomationShield. Tým že je tento projekt opensource, ktokoľvek môže kód upravovať a vylepšovať, je preto dôležité aby funkcie navádzali používateľov na ich správne použitie a aby boli čo najviac prehľadné. Z tohoto dôvodu bola vytvorená knižnica AutomationShield ktorá v sebe zahŕňa najviac používané funkcie. Predstavme si situáciu kedy v programe ktorý píšeme potrebujeme premenu jednotiek z metrov na centimetre. Pokiaľ takúto funkciu potrebujeme použiť v kóde jeden krát, môžeme túto funkciu napísať priamo do kódu. Avšak pokiaľ túto funkciu využívame častejšie, dáva zmysel uložiť ju mimo kód a následne túto funkciu zavolať naspäť v prípade jej potreby. Sprehľadňuje sa tak vzniknutý kód a znižuje sa možnosť chýb vďaka monotónnym kopírovaniam tej istej funkcie. 
+
+Takúto možnosť externých preddefinovaných funkcií prístupných na zavolanie ponúka objektovo orientované programovanie(OOP) v jazyku C++. Zvyčajne sa vytvárajú dva súbory resp. knižnice, z ktorých jedna sa nazýva "header" alebo hlavička s koncovkou .h a druhá, "source" alebo zdrojový dokument s koncovkou .cpp. Header slúži ako akýsi navádzač a sklad pre premenné a funkcie, ktorý následne komunikuje so source dokumentom v ktorom sú uložené samotné funkcie. 
+
+\subsection{Header}
+
+Header súbor má niekoľko náležitostí ktoré obsahuje. Vytvárame v ňom "class" alebo triedu ktorá v sebe zahŕňa funkcie a premenné ktoré sa nazývajú "objects" alebo objekty. Class teda obsahuje podmnožinu objectov ktoré vieme prepájať a spájať vo väčšie celky, vďaka čomu vieme dosiahnuť veľmi komplexné funkcie. Tieto funkcie a premenné môžu byť buď "public" teda verejné a prístupné aj mimo súbor alebo "privat" teda súkromné ktoré su prístupné len v knižniciach header a source. Deklarácia takejto triedy vyzerá nasledovne: 
+
+
+\begin{lstlisting}
+	class AeroShield{		// Deklaracia triedy
+		public :		// Verejna cast
+		void FirstObject();	// Deklaracia funkcie
+		
+		private :		// Sukromna cast
+		float FirstVariable;	// Deklaracia premennej
+	};				// Koniec triedy
+\end{lstlisting}
+\newpage
+
+V našom prípade nám postačuje jedna trieda ktorá sa nazýva AeroShield a má v sebe jednu funkciu s názvom FirstObject() v časti public a jednu premennú FirstVariable typu float v časti pivate. Rozdelenie na public a privat má zmysel hlavne v prípade ak chceme mať zadefinované isté premenné, pri ktorých nechceme aby sa dala externe zmeniť ich hodnota alebo typ. V prípade privat, takáto zmena nie je možná, jediná možnosť ako premennú zmeniť, je jej ručné prepísanie v súbore. V časti private deklarujeme funkcie ktoré následne využívame v rámci triedy a slúžia ako pomocné funkcie pri tvorbe komplexnejších častí kódu. V časti public sú funkcie viditeľné a schopné interagovať s inými triedami ako aj s inými knižnicami. 
+
+
