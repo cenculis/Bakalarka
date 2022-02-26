@@ -2,16 +2,40 @@
 
 Programovacie rozhranie pre platformy arduino sa nazýva Arduino IDE\footnote[5]{Arduino Integrated Development Environment.} a využíva programovací jazyk C++ resp. jeho podobu, s pridanými špecializovanými príkazmi a funkciami priamo pre arduino IDE. Príkazy sú na prvý pohľad zrozumiteľnejšie ako ich skompilovaná\footnote[6]{Kompilácia je preklad zdrojového kódu do podoby ktorú vie procesor prečítať a spracovať.} podoba v jazyku C++, no funkcie resp. schopnosti príkazu sú rovnaké. Preto je arduino vhodným prostriedkom na programovanie ako pre začiatočníkov, tak aj pre skúsenejších programátorov. 
 
-Pri tvorbe programovej časti AeroShieldu je dôležité uvedomiť si fakt že doska vzniká v rámci projektu AutomationShield. Tým že je tento projekt opensource, ktokoľvek môže kód upravovať a vylepšovať, je preto dôležité aby funkcie navádzali používateľov na ich správne použitie a aby boli čo najviac prehľadné. Z tohoto dôvodu bola vytvorená knižnica AutomationShield ktorá v sebe zahŕňa najviac používané funkcie. Predstavme si situáciu kedy v programe ktorý píšeme potrebujeme premenu jednotiek z metrov na centimetre. Pokiaľ takúto funkciu potrebujeme použiť v kóde jeden krát, môžeme túto funkciu napísať priamo do kódu. Avšak pokiaľ túto funkciu využívame častejšie, dáva zmysel uložiť ju mimo kód a následne túto funkciu zavolať naspäť v prípade jej potreby. Sprehľadňuje sa tak vzniknutý kód a znižuje sa možnosť chýb vďaka monotónnym kopírovaniam tej istej funkcie. 
+Pri tvorbe programovej časti AeroShieldu je dôležité uvedomiť si fakt že doska vzniká v rámci projektu AutomationShield. Tým že je tento projekt opensource, ktokoľvek môže kód upravovať a vylepšovať, je preto dôležité aby funkcie navádzali používateľov na ich správne použitie a aby boli čo najviac prehľadné. Z tohoto dôvodu bola vytvorená knižnica AutomationShield ktorá v sebe zahŕňa najviac používané funkcie. Predstavme si situáciu kedy v programe ktorý píšeme potrebujeme premenu jednotiek z metrov na centimetre. Pokiaľ takúto funkciu použijeme v kóde jeden krát, môžeme túto funkciu napísať priamo do kódu. Avšak pokiaľ túto funkciu využívame častejšie, dáva zmysel uložiť ju mimo kód a následne túto funkciu zavolať naspäť v prípade jej potreby. Sprehľadňuje sa tak vzniknutý kód a znižuje sa možnosť chýb vďaka monotónnym kopírovaniam tej istej funkcie. 
 
-Takúto možnosť externých preddefinovaných funkcií prístupných na zavolanie ponúka objektovo orientované programovanie(OOP) v jazyku C++. Zvyčajne sa vytvárajú dva súbory resp. knižnice, z ktorých jedna sa nazýva "header" alebo hlavička s koncovkou .h a druhá, "source" alebo zdrojový dokument s koncovkou .cpp. Header slúži ako akýsi navádzač a sklad pre premenné a funkcie, ktorý následne komunikuje so source dokumentom v ktorom sú uložené samotné funkcie. 
+Takúto možnosť externých preddefinovaných funkcií prístupných na zavolanie ponúka objektovo orientované programovanie(OOP) v jazyku C++\cite{oop}. Zvyčajne sa vytvárajú dva súbory resp. knižnice, z ktorých jedna sa nazýva \verb|headers| alebo hlavička s koncovkou .h a druhá, \verb|source| alebo zdrojový dokument s koncovkou .cpp. Header slúži ako akýsi navádzač a sklad pre premenné a funkcie, ktorý následne komunikuje so source dokumentom v ktorom sú uložené samotné funkcie. 
 
 \subsection{Header}
 
-Header súbor má niekoľko náležitostí ktoré obsahuje. Vytvárame v ňom "class" alebo triedu ktorá v sebe zahŕňa funkcie a premenné ktoré sa nazývajú "objects" alebo objekty. Class teda obsahuje podmnožinu objectov ktoré vieme prepájať a spájať vo väčšie celky, vďaka čomu vieme dosiahnuť veľmi komplexné funkcie. Tieto funkcie a premenné môžu byť buď "public" teda verejné a prístupné aj mimo súbor alebo "privat" teda súkromné ktoré su prístupné len v knižniciach header a source. Deklarácia takejto triedy vyzerá nasledovne: 
+Header súbor má niekoľko náležitostí ktoré obsahuje. Na začiatok deklarujeme súbor samotný. Robíme to pomocou príkazu \verb|#define|. Avšak, ak by sa takáto deklarácia nachádzala vo viacerých súboroch, a teda header súbor by sa načítal niekoľko krát, spôsobovalo by to problém pri kompilácii kódu. Z toho dôvodu používame funkciu \verb|Include guard| ktorá zamedzuje niekoľkonásobne načítanie rovnakých súborov. 
+
+Hneď za definovaním knižnice AeroShild.h môžeme vkladať ďalšie knižnice, ktoré sú potrebné pre funkcie danej knižnice, a to pomocou príkazu \verb|#include|. Môžeme si všimnúť že za príkazom \verb|#include| sa nachádzajú dva typy zátvoriek resp. znakov. Konvencia je taká že na preddefinované knižnice sa používajú hranaté zátvorky \verb|<nazovKniznice.h>| a na knižnice tvorené programátormi sa používajú úvodzovky \verb|"nazovDalsejKniznice.h"|.
+
+Za knižnicami následne určujeme premenné, ktoré majú priradené fyzické čísla pinov na arduine. Tieto premenné potom využívame buď na posielanie, alebo na prijímanie signálov z daných pinov. Názvy týchto premenných sa snažíme voliť tak, aby bola na prvý pohľad jasná ich funkcia, alebo podľa všeobecne zaužívaných pravidiel. V teórii riadenia sa na označenie vstupov používa písmeno \verb|R| a na označenie výstupov \verb|U,Y|. Príkaz \verb|#endif| vkladáme až na úplný záver header súboru.
+
+\begin{lstlisting}[caption={Ukážka zdrojového kódu headeru.},captionpos=b]
+#ifndef AEROSHIELD_H	 	 // Pokial nie je definovana AEROSHIELD_H
+#define AEROSHIELD_H	 	 // Definuj kniznicu AEROSHIELD_H
+
+#include "AutomationShield.h"    // Hlavna kniznica AutomationShieldu
+#include <Wire.h>                // Kniznica potrebna pre komunikaciu I2C
+#include <Arduino.h>		 // Zakladna arduino kniznica
+
+#define AERO_RPIN A3             // Vstup z potenciometra
+#define VOLTAGE_SENSOR_PIN A2    // Vstup pre meranie prudu 
+#define AERO_UPIN 5              // Aktuator
+
+----------------------Zdrojovy kod----------------------
+
+#endif			   	 // Koniec if podmienky 
+\end{lstlisting}
 
 
-\begin{lstlisting}
+
+V časti \verb|Zdrojovy kod|, vytvárame \verb|class| alebo triedu ktorá v sebe zahŕňa funkcie a premenné ktoré sa nazývajú \verb|objects|, teda objekty. Class obsahuje podmnožinu objectov ktoré vieme prepájať a spájať vo väčšie celky, vďaka čomu vieme dosiahnuť veľmi komplexné funkcie. Tieto funkcie a premenné môžu byť buď \verb|public|, teda verejné a prístupné aj mimo súbor, alebo \verb|privat|, teda súkromné ktoré su prístupné len v knižniciach header a source. V header súbore sa môže nachádzať jedna, alebo viacero tried, záleží to od logicky deliteľných úsekov kódu, alebo od preferencie programátora. Deklarácia triedy s objektami vyzerá nasledovne: 
+
+\begin{lstlisting}[caption={Triedy a objekty.},captionpos=b]
 	class AeroShield{		// Deklaracia triedy
 		public :		// Verejna cast
 		void FirstObject();	// Deklaracia funkcie
@@ -20,8 +44,135 @@ Header súbor má niekoľko náležitostí ktoré obsahuje. Vytvárame v ňom "c
 		float FirstVariable;	// Deklaracia premennej
 	};				// Koniec triedy
 \end{lstlisting}
+
+V tomto prípade sa trieda nazýva AeroShield a má v sebe jednu funkciu s názvom \verb|FirstObject()| v časti public a jednu premennú \verb|FirstVariable|, typu float, v časti pivate. Rozdelenie na public a privat má zmysel hlavne v prípade ak chceme mať zadefinované isté premenné, pri ktorých nechceme aby sa dala externe zmeniť ich hodnota alebo typ. V prípade privat, takáto zmena nie je možná, jediná možnosť ako premennú zmeniť, je jej ručné prepísanie v súbore. V časti private deklarujeme funkcie ktoré následne využívame v rámci triedy a slúžia ako pomocné funkcie pri tvorbe komplexnejších častí kódu. V časti public sú funkcie viditeľné a schopné interagovať s inými triedami ako aj s inými knižnicami. 
+
 \newpage
+\subsection{Source}
 
-V našom prípade nám postačuje jedna trieda ktorá sa nazýva AeroShield a má v sebe jednu funkciu s názvom FirstObject() v časti public a jednu premennú FirstVariable typu float v časti pivate. Rozdelenie na public a privat má zmysel hlavne v prípade ak chceme mať zadefinované isté premenné, pri ktorých nechceme aby sa dala externe zmeniť ich hodnota alebo typ. V prípade privat, takáto zmena nie je možná, jediná možnosť ako premennú zmeniť, je jej ručné prepísanie v súbore. V časti private deklarujeme funkcie ktoré následne využívame v rámci triedy a slúžia ako pomocné funkcie pri tvorbe komplexnejších častí kódu. V časti public sú funkcie viditeľné a schopné interagovať s inými triedami ako aj s inými knižnicami. 
+Ako sme už spomínali, v knižnici source sa nachádzajú všetky funkcie využívané v AeroShielde. Keďže knižnice sa už definovali a načítavali v súbore header, stačí nám načítať len tento jeden súbor a to pomocou príkazu \code{#include "AeroShield.h"}, ktorý vložíme na začiatok súboru. Ďalej v súbore deklarujeme jednotlivé samostatné funkcie. Funkcie zapisujeme pomocou už spomínaného classu, dátového typu a názvu funkcie v podobe:
+\begin{lstlisting}[caption={Source volanie funkcie.},captionpos=b]
+typFunkcie AeroShield::nazovFunkcie()
+\end{lstlisting}
+V tomto prípade je AeroShield názov classu, nazovFunkcie hovorí sám za seba. Dátové typy funkcií poznáme rôzne. Vyberáme si ich na základe potreby ako chceme aby funkcia reagovala resp. aké hodnoty by mala prenášať. Dátové typy poznáme nasledovné\cite{datovetypy} (všetky hodnoty sú platné pre arduino UNO, pre iné typy arduina sa hodnoty môžu líšiť): 
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{|p{0.25\linewidth} | p{0.25\linewidth} |p{0.25\linewidth} |p{0.25\linewidth} |}
+		\hline
+		\thead{dátový typ} & \thead{vlastnosti} & \thead{dátový typ} & \thead{vlastnosti} \\ \hline
+		\textbf{array} & skupina premenných s priradeným indexom. Maximálna veľkosť je obmedzená veľkosťou pamäte RAM & \textbf{short }& 16 bitové celé čísla \\ \hline
+		\textbf{boolean} & má buď hodnotu 0-nepravda, alebo 1-pravda & \textbf{char array }& spojenie viacerých dát typu char ukončené hodnotou null \\\hline
+		\textbf{byte} & 8 bitové čísla od 0 do 255 & \textbf{string-object} & podobná funkcia ako object v header súbore \\ \hline
+		\textbf{double} & rovnaké ako float & \textbf{unsigned char} & 8-bit znaky od 0 do 255 \\ \hline
+		\textbf{float} & 32 bitové desatinne čísla $\pm$3.4028235E$+38$ & \textbf{unsigned int }& 16 bitové kladné celé čísla od 0 do 2$^{16}$-1 \\\hline
+		\textbf{char} & 8 bit ascii tabulka & \textbf{unsigned long} & 32 bitové kladné celé čísla od 0 do 2$^{32}$-1 \\\hline
+		\textbf{int} & 16 bitové celé čísla & \textbf{void }& nevracia naspäť žiadne informácie \\ \hline
+		\textbf{long }& 32 bitové celé čísla & \textbf{word} & 16-bit číslo bez znamienka \\ \hline
+    \end{tabular}
+\caption{Dátové typy}
+\label{tabulka typov}
+\end{table}
+
+\subsubsection{Popis použitých funkcií z knižnice AutomationShield}
+
+Ako už bolo spomenuté, knižnica AutomationShield ponúka najviac používané funkcie, ktoré sa využívajú takmer na každom shielde. Pri rôznych veľkostiach a rozsahoch číselných stupníc, je dobré vyjadrovať hodnoty v percentách, namiesto ich absolútnej hodnoty. Arduino ponúka funkciu \verb|map()|, ktorá však pracuje len s dátovým typom integer. Aby sme docielili vyššiu presnosť, potrebujeme mapovať dátový typ float. Na tento účel nám slúži funkcia mapFloat do ktorej vstupuje veličina x, ktorej priradíme požadované hodnoty. Funkcie funguje na základe princípu lineárneho mapovania\cite{linearMap}.  
+
+\begin{lstlisting}[caption={Zdrojový kód funkcie mapFloat.},captionpos=b]
+float AutomationShieldClass::mapFloat(float x, float in_min, float in_max, float out_min, float out_max) 
+{
+return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; 
+}
+\end{lstlisting}
+
+Ďalšou z funkcií použitých z knižnice AutomationShield je serialPrint. Funkcia vypisuje zvolený text na sériový monitor arduina. 
+
+\begin{lstlisting}[caption={Zdrojový kód funkcie serialPrint.},captionpos=b]
+ void AutomationShieldClass::serialPrint(const char *str){   
+	#if ECHO_TO_SERIAL           // Pokial je tato funkcia povolena                       
+	Serial.print(str);           // Vypis na seriovy monitor                       
+	#endif 		// Koniec
+}
+\end{lstlisting}
+
+\subsubsection{Popis použitých funkcií z knižnice AeroShield}
 
 
+Keďže na AeroShielde využívame senzor hall efektu, musíme s ním v prvom rade nadviazať komunikáciu pomocou sériovej komunikácie I$^{2}$C. Protokol I$^{2}$C využíva na odosielanie a prijímanie údajov dva vodiče resp. dve linky: 
+\begin{itemize}
+\item sériovú dátovú linku (SDA-serial data), cez ktorú sa posielajú údaje, 
+\item sériovú hodinovú linku (SCL-serial clock), na ktorú arduino v pravidelných intervaloch posiela impulzy. 
+\end{itemize}
+
+Hodinový pin udáva tempo komunikácie a je ovládaný mastrom. Mení stav v pravidelných impulzoch z low-nízkeho na high-vysoký stav. Pri každej takejto zmene je na dátový pin poslaný jeden bit informácie. Tieto bity najskôr obsahujú adresu zariadenia slave s ktorým chce master komunikovať, následne sa odosielajú bity príkazov. Keď sa táto informácia celá odošle, slave vykoná požiadavku a ak je to vyžadované, môže spätne mastrovi poslať údaje. Všetky tieto bity informácií sa posielajú na linke SDA\cite{idvac}.
+
+I$^{2}$C funguje na princípe master-slave, kedy master je nadriadený a slave je podriadené zariadenie, s ktorým master komunikuje. Master môže naraz komunikovať s viacerými zariadeniami a to na základe jedinečných adries zariadení, ktoré sa medzi sebou striedajú v komunikácii.   
+
+Pre naše účely postačuje vedieť čítať jeden alebo dva bajty informácií. Z toho dôvodu sme vytvorili dve funkcie: \code{int AeroShield::readOneByte()} a \newline\code{word AeroShield::readTwoBytes()}. Funkcia \code{int AeroShield::readOneByte()}, ako jej názov napovedá, získava 1 bajt informácii zo senzoru. Túto funkciu využívame napríklad na čítanie polohy kyvadla. 
+
+\newpage
+\begin{lstlisting}[caption={Zdrojový kód funkcie readOneByte.},captionpos=b]
+int AeroShield::readOneByte(int in_adr)         
+{
+	int retVal = -1;	 // Zadefinovanie pomocnej premennej
+	Wire.beginTransmission(_ams5600_Address);// Zaciatok komunikacie 
+	Wire.write(in_adr);	// Poziadavka na zaznamenianie uhlu kyvadla 
+	Wire.endTransmission();	// Koniec komunikacie zo strany mastra
+	Wire.requestFrom(_ams5600_Address, 1);	// Ziadost na odpoved  
+	while (Wire.available() == 0);	// Cakaj pokial odpoved nepride  
+	
+	retVal = Wire.read();	// Zaznamenanie odpovede 
+	
+	return retVal;	// Zaslanie odpovede 
+}
+\end{lstlisting}
+
+Ako môžeme vidieť v kóde funkcie, master najskôr osloví zariadenie slave, pomocou jeho adresy. Pri tomto konkrétnom čipe je adresa zariadenia v hexadecimálnej podobe 0x36. Následne zašle od výrobcu predprogramovanú žiadosť, ktorá zaznamená aktuálnu polohu magnetu resp. v našom prípade kyvadla. Následne je komunikácia ukončená a je zaslaná požiadavka na odpoveď zo strany slave zariadenia. Táto odpoveď je zaznamenaná a odoslaná späť, na miesto z ktorého bola funkcia privolaná.
+
+Funkcia \code{word AeroShield::readTwoBytes()} je podobná predošlej funkcii, s rozdielom, že získané su dva bajty informácií narozdiel od jedného a na konci funkcie prebieha posun bitov\footnote[7]{Bitový posun je operácia vykonávaná so všetkými bitmi binárnej hodnoty, pri ktorej sa posúvajú o určený počet miest doľava alebo doprava\cite{biteShift}.}. 
+
+\begin{lstlisting}[caption={Zdrojový kód funkcie readTwoBytes.},captionpos=b]
+word AeroShield::readTwoBytes(int in_adr_hi, int in_adr_lo)        
+{
+	word retVal = -1;		// Zadefinovanie pomocnej premennej
+	/* citanie "Low" bajtu */
+	Wire.beginTransmission(_ams5600_Address);// Zaciatok komunikacie 
+	Wire.write(in_adr);	// Poziadavka na zaznamenianie uhlu kyvadla 
+	Wire.endTransmission();	// Koniec komunikacie zo strany mastra
+	Wire.requestFrom(_ams5600_Address, 1);	// Ziadost na odpoved  
+	while (Wire.available() == 0);	// Cakaj pokial odpoved nepride  
+
+	int low = Wire.read();     	// Ulozenie prveho bajtu 
+	/* citanie "High" bajtu */
+	Wire.beginTransmission(_ams5600_Address);// Zaciatok komunikacie 
+	Wire.write(in_adr);	// Poziadavka na zaznamenianie uhlu kyvadla 
+	Wire.endTransmission();	// Koniec komunikacie zo strany mastra
+	Wire.requestFrom(_ams5600_Address, 1);	// Ziadost na odpoved  
+	while (Wire.available() == 0);	// Cakaj pokial odpoved nepride  
+	
+	word high = Wire.read();   	// Ulozenie druheho bajtu 
+	
+	high = high << 8;          	// Posun bitov
+	retVal = high | low;
+	
+	return retVal;	   	  	// Zaslanie odpovede 
+}
+\end{lstlisting}
+
+zistiť prítomnosť magnetu na kyvadle. Túto úlohu vykonáva funkcia \code{int AeroShield::detectMagnet()}. 
+
+\begin{lstlisting}[caption={Zdrojový kód funkcie detectMagnet.},captionpos=b]
+int AeroShield::detectMagnet()                                                             // Function for detecting presence of magnet 
+{
+	int magStatus;                                                                           // Auxiliary variable
+	int retVal = 0;                                                                          // Auxiliary variable
+	magStatus = readOneByte(_stat);                                                          // Another function for communication with senzor, called from this library                         
+	
+	if (magStatus & 0x20)
+	retVal = 1;
+	
+	return retVal;                                                                           // Return value 
+}
+\end{lstlisting}
+
+píš aj o samplingu
