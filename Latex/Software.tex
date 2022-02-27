@@ -159,20 +159,83 @@ word AeroShield::readTwoBytes(int in_adr_hi, int in_adr_lo)
 }
 \end{lstlisting}
 
-zistiť prítomnosť magnetu na kyvadle. Túto úlohu vykonáva funkcia \code{int AeroShield::detectMagnet()}. 
+Ďalšou dôležitou funkciou, je zistiť prítomnosť magnetu na kyvadle. Túto úlohu vykonáva funkcia \code{int AeroShield::detectMagnet()}. Využívame ju vždy pri inicializácii AeroShieldu, na to aby sme zistili či nenastali problémy s magnetom, alebo so senzorom samotným. Funkcia komunikuje so senzorom, a na základe výstupu vieme určiť či bol magnet detegovaný. Funkcia nám vráti na výstupe 1- pokiaľ sa magnet nachádza pri senzore a 0- pokiaľ magnet nie je prítomný, alebo je príliš vzdialený od senzoru. 
 
 \begin{lstlisting}[caption={Zdrojový kód funkcie detectMagnet.},captionpos=b]
-int AeroShield::detectMagnet()                                                             // Function for detecting presence of magnet 
+int AeroShield::detectMagnet() 
 {
-	int magStatus;                                                                           // Auxiliary variable
-	int retVal = 0;                                                                          // Auxiliary variable
-	magStatus = readOneByte(_stat);                                                          // Another function for communication with senzor, called from this library                         
+	int magStatus;		// Pomocna premenna  
+	int retVal = 0;		// Pomocna premenna
+	magStatus = readOneByte(_stat);	// Prebieha komunikacia so senzorom                        
 	
-	if (magStatus & 0x20)
+	if (magStatus & 0x20)		// Pokial je podmeinka splnena vrat 1, pokial nie je splnena vrat 0 
 	retVal = 1;
 	
-	return retVal;                                                                           // Return value 
+	return retVal;			// Zaslanie odpovede 
 }
+\end{lstlisting}
+
+Pre správnosť fungovania hall senzoru je dôležité dodržať správnu vzdialenosť magnetu od senzoru. Výrobca udáva že najideálnejšia vzdialenosť je 0.5-3mm, v závislosti na sile a veľkosti magnetu. Bolo by nepraktické túto vzdialenosť merať ručne, použijeme preto funkciu \code{int AeroShield::getMagnetStrength()}. Môžeme si všimnúť že táto funkcia používa rovnaký príkaz na komunikáciu so senzorom, ako aj funkcia \code{detectMagnet()} a to síce \verb|_stat|. Z toho vyplýva že \code{detectMagnet()} kontroluje nielen prítomnosť magnetu, ale aj jeho správnu vzdialenosť. Pokiaľ teda dostaneme z funkcie \code{detectMagnet()} ako výsledok 1, vieme že magnet je prítomný a zároveň v ideálnej vzdialenosti. Funkcia \code{getMagnetStrength()} je teda iba doplňujúcou funkciou, ktorá nám určí či je magnet moc blízko senzoru, výsledná hodnota výstupu bude 3, alebo naopak, je magnet moc vzdialený a výstupná hodnota bude 1. 
+
+\begin{lstlisting}[caption={Zdrojový kód funkcie getMagnetStrength.},captionpos=b]
+int AeroShield::getMagnetStrength()   
+{
+	int magStatus;                  // Pomocna premenna 
+	int retVal = 0;                 // Pomocna premenna
+	magStatus = readOneByte(_stat);	// Prebieha komunikacia so senzorom       
+	
+	if (detectMagnet() == 1)	// Pokial je splnena podmienka detectMagnet()
+	{
+		retVal = 2;  // Vrat 2, magnet je v idelnej vzdialenosti
+		if (magStatus & 0x10)
+		retVal = 1;  // Vrat 1, magnet je v prilis daleko
+		else if (magStatus & 0x08)
+		retVal = 3;  // Vrat 3, magnet je v prilis blizko
+	}
+	
+	return retVal;                  // Zaslanie odpovede  
+}
+\end{lstlisting}
+
+Poslednou funkciu komunikácie s hall senzorom je \code{word AeroShield::getRawAngle()}. Funkcia slúži na čítanie samotného uhlu kyvadla. Výsledkom tejto funkcie je číslo s rozsahom 12bitov, teda číslo od 0 do 4096 ktoré udáva momentálnu polohu kyvadla. O tomto senzore, ako aj o jeho fungovaní sme už hovorili bližšie v časti \ref{meruhl}. 
+
+\begin{lstlisting}[caption={Zdrojový kód funkcie getRawAngle.},captionpos=b]
+word AeroShield::getRawAngle() 
+{
+	return readTwoBytes(_raw_ang_hi, _raw_ang_lo); // Prebieha komunikacia so senzorom, ktory rovno vrati vysledok pomocou prikazu return 
+}
+\end{lstlisting}
+
+
+Prvou z funkcií mimo komunikácie s hall senzorom je \code{float AeroShield::begin(bool isDetected)}, do ktorej vstupuje výsledok z funkcie \code{detectMagnet()} ako premenná \verb|isDetected|. Funkcia \code{begin()} nastaví pin potrebný na ovládanie akčného člena, pomocou príkazu \verb|pinMode|, ako výstup, teda \verb|OUTPUT|. Zároveň inicializuje sériovú komunikáciu I$^{2}$C. Príkaz na započatie komunikácie I$^{2}$C sa pri rôznych typoch dosiek, resp. architektúr mikroradiča Arduino líši. Použijeme preto podmienku \verb|#ifdef| za ktorou nasleduje typ architektúry daného mikroradiča a príslušný príkaz pre začiatok sériovej komunikácie I$^{2}$C. V prípade Arduino UNO, je to príkaz \verb|Wire.begin()|. 
+
+Zároveň je vo funkcii \code{begin()}, pomocou if podmienky, kontrolovaná premenná \verb|isDetected|. Pokiaľ bol magnet detegovaný, vypíše na sériový port správu "Magnet detected" a while\footnote[8]{Cyklus while sa bude opakovať nepretržite, pokiaľ sa výraz vnútri zátvoriek () nestane nepravdivým.} cyklus sa pomocou príkazu \verb|break| ukončí. Pokiaľ magnet detegovaný nebol, vypíše "Can not detect magnet", no while cyklus pokračuje.  
+
+
+\begin{lstlisting}[caption={Zdrojový kód funkcie begin.},captionpos=b]
+float AeroShield::begin(bool isDetected){ 
+	pinMode(AERO_UPIN,OUTPUT);	// Pin aktuatora
+	
+	#ifdef ARDUINO_ARCH_AVR		// Pre dosky s architekturov AVR
+	Wire.begin();			// Pouzi objekt Wire
+	#elif ARDUINO_ARCH_SAM      	// Pre dosky s architekturov SAM
+	Wire1.begin();			// Pouzi objekt Wire1
+	#elif ARDUINO_ARCH_SAMD     	// Pre dosky s architekturov SAMD
+	Wire.begin();			// Pouzi objekt Wire
+	#endif
+	
+	if(isDetected == 0 ){       	// Pokial magnet nie je detegovany
+		while(1){               // While podmienka
+		 if(isDetected == 1 ){	// Pokial sa magnet deteguje
+		  AutomationShield.serialPrint("Magnet detected \n");	
+		break;		    // Koniec while podmienky
+		}
+		else{               // Pokial magnet nie je detegovany
+		  AutomationShield.serialPrint("Can not detect magnet \n");
+			}
+		}
+	}       
+} 
 \end{lstlisting}
 
 píš aj o samplingu

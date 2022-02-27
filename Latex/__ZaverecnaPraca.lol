@@ -6,3 +6,6 @@
 \contentsline {lstlisting}{\numberline {2.6}Zdrojový kód funkcie readOneByte.}{18}{}%
 \contentsline {lstlisting}{\numberline {2.7}Zdrojový kód funkcie readTwoBytes.}{18}{}%
 \contentsline {lstlisting}{\numberline {2.8}Zdrojový kód funkcie detectMagnet.}{19}{}%
+\contentsline {lstlisting}{\numberline {2.9}Zdrojový kód funkcie getMagnetStrength.}{19}{}%
+\contentsline {lstlisting}{\numberline {2.10}Zdrojový kód funkcie getRawAngle.}{20}{}%
+\contentsline {lstlisting}{\numberline {2.11}Zdrojový kód funkcie begin.}{20}{}%
