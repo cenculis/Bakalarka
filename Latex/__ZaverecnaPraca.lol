@@ -14,3 +14,5 @@
 \contentsline {lstlisting}{\numberline {2.14}Zdrojový kód funkcie referenceRead.}{22}{}%
 \contentsline {lstlisting}{\numberline {2.15}Zdrojový kód funkcie actuatorWrite.}{23}{}%
 \contentsline {lstlisting}{\numberline {2.16}Zdrojový kód funkcie currentMeasure.}{23}{}%
+\contentsline {lstlisting}{\numberline {4.1}Zdrojový kód súboru AeroShield.h.}{iv}{}%
+\contentsline {lstlisting}{\numberline {4.2}Zdrojový kód súboru AeroShield.cpp.}{vi}{}%
