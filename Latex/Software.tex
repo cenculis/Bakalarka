@@ -58,7 +58,7 @@ V tomto prípade je AeroShield názov classu, nazovFunkcie hovorí sám za seba.
 
 \begin{table}[!ht]
 	\centering
-	\begin{tabular}{|p{0.25\linewidth} | p{0.25\linewidth} |p{0.25\linewidth} |p{0.25\linewidth} |}
+	\begin{tabular}{|p{0.22\textwidth} | p{0.22\textwidth} |p{0.22\textwidth} |p{0.22\textwidth} |}
 		\hline
 		\thead{dátový typ} & \thead{vlastnosti} & \thead{dátový typ} & \thead{vlastnosti} \\ \hline
 		\textbf{array} & skupina premenných s priradeným indexom. Maximálna veľkosť je obmedzená veľkosťou pamäte RAM & \textbf{short }& 16 bitové celé čísla \\ \hline
@@ -108,9 +108,10 @@ Hodinový pin udáva tempo komunikácie a je ovládaný mastrom. Mení stav v pr
 
 I$^{2}$C funguje na princípe master-slave, kedy master je nadriadený a slave je podriadené zariadenie, s ktorým master komunikuje. Master môže naraz komunikovať s viacerými zariadeniami a to na základe jedinečných adries zariadení, ktoré sa medzi sebou striedajú v komunikácii.   
 
+\subsubsection{Funkcia readOneByte()}
+
 Pre naše účely postačuje vedieť čítať jeden alebo dva bajty informácií. Z toho dôvodu sme vytvorili dve funkcie: \code{int AeroShield::readOneByte()} a \newline\code{word AeroShield::readTwoBytes()}. Funkcia \code{int AeroShield::readOneByte()}, ako jej názov napovedá, získava 1 bajt informácii zo senzoru. Túto funkciu využívame napríklad na čítanie polohy kyvadla. 
 
-\newpage
 \begin{lstlisting}[caption={Zdrojový kód funkcie readOneByte.},captionpos=b]
 int AeroShield::readOneByte(int in_adr)         
 {
@@ -128,6 +129,8 @@ int AeroShield::readOneByte(int in_adr)
 \end{lstlisting}
 
 Ako môžeme vidieť v kóde funkcie, master najskôr osloví zariadenie slave, pomocou jeho adresy. Pri tomto konkrétnom čipe je adresa zariadenia v hexadecimálnej podobe 0x36. Následne zašle od výrobcu predprogramovanú žiadosť, ktorá zaznamená aktuálnu polohu magnetu resp. v našom prípade kyvadla. Následne je komunikácia ukončená a je zaslaná požiadavka na odpoveď zo strany slave zariadenia. Táto odpoveď je zaznamenaná a odoslaná späť, na miesto z ktorého bola funkcia privolaná.
+
+\subsubsection{Funkcia readTwoBytes()}
 
 Funkcia \code{word AeroShield::readTwoBytes()} je podobná predošlej funkcii, s rozdielom, že získané su dva bajty informácií narozdiel od jedného a na konci funkcie prebieha posun bitov\footnote[7]{Bitový posun je operácia vykonávaná so všetkými bitmi binárnej hodnoty, pri ktorej sa posúvajú o určený počet miest doľava alebo doprava\cite{biteShift}.}. 
 
@@ -159,6 +162,8 @@ word AeroShield::readTwoBytes(int in_adr_hi, int in_adr_lo)
 }
 \end{lstlisting}
 
+\subsubsection{Funkcia detectMagnet()}
+
 Ďalšou dôležitou funkciou, je zistiť prítomnosť magnetu na kyvadle. Túto úlohu vykonáva funkcia \code{int AeroShield::detectMagnet()}. Využívame ju vždy pri inicializácii AeroShieldu, na to aby sme zistili či nenastali problémy s magnetom, alebo so senzorom samotným. Funkcia komunikuje so senzorom, a na základe výstupu vieme určiť či bol magnet detegovaný. Funkcia nám vráti na výstupe 1- pokiaľ sa magnet nachádza pri senzore a 0- pokiaľ magnet nie je prítomný, alebo je príliš vzdialený od senzoru. 
 
 \begin{lstlisting}[caption={Zdrojový kód funkcie detectMagnet.},captionpos=b]
@@ -174,6 +179,8 @@ int AeroShield::detectMagnet()
 	return retVal;			// Zaslanie odpovede 
 }
 \end{lstlisting}
+
+\subsubsection{Funkcia getMagnetStrength()}
 
 Pre správnosť fungovania hall senzoru je dôležité dodržať správnu vzdialenosť magnetu od senzoru. Výrobca udáva že najideálnejšia vzdialenosť je 0.5-3mm, v závislosti na sile a veľkosti magnetu. Bolo by nepraktické túto vzdialenosť merať ručne, použijeme preto funkciu \code{int AeroShield::getMagnetStrength()}. Môžeme si všimnúť že táto funkcia používa rovnaký príkaz na komunikáciu so senzorom, ako aj funkcia \code{detectMagnet()} a to síce \verb|_stat|. Z toho vyplýva že \code{detectMagnet()} kontroluje nielen prítomnosť magnetu, ale aj jeho správnu vzdialenosť. Pokiaľ teda dostaneme z funkcie \code{detectMagnet()} ako výsledok 1, vieme že magnet je prítomný a zároveň v ideálnej vzdialenosti. Funkcia \code{getMagnetStrength()} je teda iba doplňujúcou funkciou, ktorá nám určí či je magnet moc blízko senzoru, výsledná hodnota výstupu bude 3, alebo naopak, je magnet moc vzdialený a výstupná hodnota bude 1. 
 
@@ -197,6 +204,8 @@ int AeroShield::getMagnetStrength()
 }
 \end{lstlisting}
 
+\subsubsection{Funkcia getRawAngle()}
+
 Poslednou funkciu komunikácie s hall senzorom je \code{word AeroShield::getRawAngle()}. Funkcia slúži na čítanie samotného uhlu kyvadla. Výsledkom tejto funkcie je číslo s rozsahom 12bitov, teda číslo od 0 do 4096 ktoré udáva momentálnu polohu kyvadla. O tomto senzore, ako aj o jeho fungovaní sme už hovorili bližšie v časti \ref{meruhl}. 
 
 \begin{lstlisting}[caption={Zdrojový kód funkcie getRawAngle.},captionpos=b]
@@ -206,10 +215,11 @@ word AeroShield::getRawAngle()
 }
 \end{lstlisting}
 
+\subsubsection{Funkcia begin()}
 
 Prvou z funkcií mimo komunikácie s hall senzorom je \code{float AeroShield::begin(bool isDetected)}, do ktorej vstupuje výsledok z funkcie \code{detectMagnet()} ako premenná \verb|isDetected|. Funkcia \code{begin()} nastaví pin potrebný na ovládanie akčného člena, pomocou príkazu \verb|pinMode|, ako výstup, teda \verb|OUTPUT|. Zároveň inicializuje sériovú komunikáciu I$^{2}$C. Príkaz na započatie komunikácie I$^{2}$C sa pri rôznych typoch dosiek, resp. architektúr mikroradiča Arduino líši. Použijeme preto podmienku \verb|#ifdef| za ktorou nasleduje typ architektúry daného mikroradiča a príslušný príkaz pre začiatok sériovej komunikácie I$^{2}$C. V prípade Arduino UNO, je to príkaz \verb|Wire.begin()|. 
 
-Zároveň je vo funkcii \code{begin()}, pomocou if podmienky, kontrolovaná premenná \verb|isDetected|. Pokiaľ bol magnet detegovaný, vypíše na sériový port správu "Magnet detected" a while\footnote[8]{Cyklus while sa bude opakovať nepretržite, pokiaľ sa výraz vnútri zátvoriek () nestane nepravdivým.} cyklus sa pomocou príkazu \verb|break| ukončí. Pokiaľ magnet detegovaný nebol, vypíše "Can not detect magnet", no while cyklus pokračuje.  
+Zároveň je vo funkcii \code{begin()}, pomocou if podmienky, kontrolovaná premenná \verb|isDetected|. Pokiaľ bol magnet detegovaný, vypíše na sériový port správu "Magnet detected$"$ a while\footnote[8]{Cyklus while sa bude opakovať nepretržite, pokiaľ sa výraz vnútri zátvoriek () nestane nepravdivým.} cyklus, sa pomocou príkazu \verb|break| ukončí. Pokiaľ magnet detegovaný nebol, vypíše "Can not detect magnet", no while cyklus pokračuje.  
 
 
 \begin{lstlisting}[caption={Zdrojový kód funkcie begin.},captionpos=b]
@@ -238,4 +248,110 @@ float AeroShield::begin(bool isDetected){
 } 
 \end{lstlisting}
 
+\subsubsection{Funkcia calibration()}
+
+Ďalšou v poradí je funkcia \code{calibration()}. Slúži na prepočet a zaznamenanie nulovej polohy kyvadla, teda takej polohy v ktorej sa kyvadlo nachádza, pokiaľ motorček nie je poháňaný. V ideálnom prípade by sa kyvadlo vždy po vypnutí motora vrátilo do rovnakej východzej polohy. Avšak kyvadlo je prepojené s motorom a shieldom pomocou káblov, ktoré tvoria odpor a teda kyvadlo sa vždy zastaví v inej nulovej polohe. Funkcia \code{calibration()} teda slúži na zaznamenanie tejto nulovej polohy a všetky následné výpočty sa odvolávajú práve na túto hodnotu. 
+
+Do funkcie vstupuje hodnota aktuálneho uhlu kyvadla, z funkcie \code{getRawAngle()} ako premenná \verb|RawAngle|. Funkcia na začiatok vypíše text "Calibration running..." a motorček zapneme na štvrť sekundy na výkon 20\%. Kyvadlo sa začne kývať a počkáme štyri sekundy, pokiaľ sa ustáli. Keď je kyvadlo ustálené zaznamenáme jeho hodnotu do premennej \verb|startangle|. Následne prebieha for cyklus ktorý zvukovo informuje o dokončenej kalibrácii pomocou troch pípnutí. Využívame tu jav, pri ktorom motorček vydáva vysoký tón, pokiaľ je do neho privádzaný nízky PWM signál. 
+
+\begin{lstlisting}[caption={Zdrojový kód funkcie calibration.},captionpos=b]
+float AeroShield::calibration(word RawAngle) {  
+	AutomationShield.serialPrint("Calibration running...\n");  
+	startangle=0;              // Vynulovanie premennej 
+	analogWrite(AERO_UPIN,50); // Spustenie motora na vykon 20%
+	delay(250);                // Cakaj 0.25s 
+	analogWrite(AERO_UPIN,0);  // Vypnutie motora
+	delay(4000);               // Cakaj 4s
+	
+	startangle = RawAngle;     // Uloz hodnotu nuloveho uhla
+	analogWrite(AERO_UPIN,0);  // Poistne vypnutie motora 
+	for(int i=0;i<3;i++){      // Funkcia na zvukovu signalizaciu
+		analogWrite(AERO_UPIN,1);     // Zapnutie motora
+		delay(200);                   // Cakaj
+		analogWrite(AERO_UPIN,0);     // Vypnutie motora
+		delay(200);                   // Cakaj
+	}
+	
+	AutomationShield.serialPrint("Calibration done");
+	return startangle;                    // Vrat hodnotu 
+}
+\end{lstlisting}
+
+\subsubsection{Funkcia convertRawAngleToDegrees()}
+
+Ako sme už spomínali v sekcii \ref{meruhl}, zaznamenávaná hodnota uhlu kyvadla je v rozmedzí od 0 do 4096 a tieto hodnoty priamo korešpondujú zo stupňami od 0\textdegree  do 360\textdegree. 1\textdegree  predstavuje hodnotu približne 11.77 vo formáte raw. Funkcia \code{convertRawAngleToDegrees()} teda len zoberie raw hodnotu uhlu a vynásobí ju hodnotou $\dfrac{360\textdegree}{4096}$ =0.087\textdegree. Funkcia teda naspäť vráti prepočítanú hodnotu uhla kyvadla v stupňoch. 
+
+\begin{lstlisting}[caption={Zdrojový kód funkcie convertRawAngleToDegrees.},captionpos=b]
+float AeroShield::convertRawAngleToDegrees(word newAngle) {  
+	float ang = newAngle * 0.087;    // 360/4096=0.087 x rawHodnota                             
+	return ang;                      // Vrat hodnotu
+}
+\end{lstlisting}
+
+
+\subsubsection{Funkcia referenceRead()}
+
+Funkcia \code{referenceRead()} slúži na čítanie hodnoty z potenciometra, ktorý sa nachádza na shielde, a jeho následne premapovanie do percentuálnej podoby. Potenciometer využívame na manuálne ovládanie AeroShieldu a v ďalších funkciách, sa využíva hlavne jeho percentuálna hodnota. Vrátená hodnota je typu float, v škále od 0.0\% do 100.0\%. 
+
+\begin{lstlisting}[caption={Zdrojový kód funkcie referenceRead.},captionpos=b]
+	  float AeroShield::referenceRead(void) {      
+		referencePercent = AutomationShield.mapFloat(analogRead(AERO_RPIN), 0.0, 1024.0, 0.0, 100.0);  
+		 // Premapovanie originalnej hodnoty 0.0-1023 na percentualny rozsah 0.0-100.0
+		return referencePercent;      // Vrat percentualnu hodnotu 
+	}
+\end{lstlisting}
+	
+\subsubsection{Funkcia actuatorWrite()}	
+	
+Na ovládanie motora resp. jeho otáčok, používame funkciu \code{actuatorWrite()}. Do funkcie vstupuje percentuálna hodnota výkonu motora, táto hodnota je premapovaná na PWM signál, potrebný na správne ovládanie motora. Tento signál následne vstupuje do ochrannej funkcie \code{constrainFloat()}, ktorá zabezpečí aby sa hodnota PWM signálu mohla pohybovať len v rozmedzí od 0.0 do 255.0. Táto hodnota je potom zapísaná na príslušný pin motora, v našom prípade je to \verb|AERO_UPIN|. 
+	
+	
+\begin{lstlisting}[caption={Zdrojový kód funkcie actuatorWrite.},captionpos=b]
+	void AeroShield::actuatorWrite(float PotPercent) {   
+		float mappedValue = AutomationShield.mapFloat(PotPercent, 0.0, 100.0, 0.0, 255.0);       
+		// Vstupna percentualna hodnota 0.0-100.0 premapovana na hodnoty 0.0-255.0
+		mappedValue = AutomationShield.constrainFloat(mappedValue, 0.0, 255.0);  
+		// Bezpecnostna funkcia obmedzenia premapovanej hodnoty
+		analogWrite(AERO_UPIN, (int)mappedValue);  // Zapisanie hodnoty na pin
+	}
+\end{lstlisting}
+	
+	
+\subsubsection{Funkcia currentMeasure()}	
+	
+Poslednou funkciou AeroShieldu je \code{currentMeasure()}. Funkcia slúži na zaznamenávanie prúdu, ktorý odoberá motor kyvadla. Fungovanie snímača je opísané v sekcii \ref{merprud}. Funkcia slúži na prepočítanie zaznamenanej hodnoty napätia na prúd. Funkcia beží vo for cykle, ktorý sa opakuje \verb|repeatTimes|-krát, z dôvodu presnejšieho merania, keďže meraná hodnota sa priveľa mení, čo skresľuje výslednú hodnotu. Vďaka for cyklu získame priemernú hodnotu prúdu. 
+
+Výsledná hodnota prídu prechádza úpravami, pomocou dvoch korekčných premenných, ktoré sme získali vďaka meraniam prúdu pomocou multimetra, a následným porovnaním hodnôt zo senzora. Porovnaním hodnôt sme získali veľkosti korekčných premenných, vďaka čomu sa naše merania zhodujú s meraniami pomocou multimetra, na dve desatinné miesta. 
+
+Prevod z napätia na prúd robíme podľa pokynov uvedených v zdrojovom dokumente senzoru. Pri tomto prevode využívame hodnotu shunt rezistora \verb|RS|, ako aj hodnotu rezistora \verb|RL|, ktorý priamo premieňa prúd na napätie. 
+
+Kedže prúd nemôže vykazovať záporné hodnoty(iba pokiaľ prúdi opačným smerom, ako sme zamýšľali), na záver funkcie ešte prechádza if podmienkou, ktorá zmení záporné hodnoty prúdu na hodnotu 0.000A.  
+	
+\begin{lstlisting}[caption={Zdrojový kód funkcie currentMeasure.},captionpos=b]	
+float AeroShield::currentMeasure(void){  
+	for(int i=0 ; i<repeatTimes ; i++){     // For cyklus
+	voltageValue= analogRead(VOLTAGE_SENSOR_PIN);     
+	// Citanie hodnoty zo senzoru INA169 
+	voltageValue= (voltageValue * voltageReference) / 1024;    
+	// Mapovanie hodnoty zo senzoru, na realnu hodnotu napatia(referencne napatie je 5V)
+	current= current + correction1-(voltageValue / (10 * ShuntRes));    
+                // Vzorec na vypocet prudu
+                // Is = (Vout x 1k) / (RS x RL)
+}                                                                         	
+	float currentMean= current/repeatTimes;   
+	// Vypocet priemernej hodnoty  
+	currentMean= currentMean-correction2;       // Korekcia
+	if(currentMean < 0.000) currentMean= 0.000;                 
+	                    // Korekcia nulovej hodnoty
+	current= 0;         // Vynulovanie pomocnych premennych   
+	voltageValue= 0;    // Vynulovanie pomocnych premennych   
+	return currentMean; // Vrat hodnotu prudu v amperoch
+}
+\end{lstlisting}
+	
+	
+	
+	
+	
+	
 píš aj o samplingu

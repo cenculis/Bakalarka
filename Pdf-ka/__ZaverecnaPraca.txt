@@ -1,0 +1,1354 @@
+﻿SLOVENSKÁ TECHNICKÁ UNIVERZITA V BRATISLAVE
+STROJNÍCKA FAKULTA
+AeroShield: Miniatúrny experimentálny modul
+aerokyvadla
+Bakalárska práca
+SjF-£íslo b. práce
+2022
+Peter Tibenský
+SLOVENSKÁ TECHNICKÁ UNIVERZITA V BRATISLAVE
+STROJNÍCKA FAKULTA
+AeroShield: Miniatúrny experimentálny modul
+aerokyvadla
+Bakalárska práca
+SjF-12345-67890
+tudijný odbor:
+Automatizácia a informatizácia strojov a procesov
+tudijný program:
+5.2.14 automatizácia
+koliace pracovisko:
+Ústav automatizácie, merania a aplikovanej informatiky
+Vedúci závere£nej práce:
+Ing. Mgr. Anna Vargová.
+Konzultant:
+Ing. Erik Mikulá²
+Bratislava, 2022
+Peter Tibenský
+Úlohou ²tudenta je navrhnú´, realizova´ a sériovo vyrobi´ roz²irovací modul pre pro-
+totypiza£nú platformu Arduino v rámci open-source projektu ?AutomationShield?. Jedná
+sa o návrh miniaturizovaného laboratórneho experimentu so spätnoväzobným riadením
+tzv. aerokyvadla, spolu s ovládacím softvérom a in²truktáºnymi príkladmi. tudent na-
+vrhne plo²ný spoj v CAD prostredí DipTrace, vytvorí programátorské rozhranie (API)
+v jazyku C/C++ pre Arduino IDE, ¤alej pre MATLAB a Simulink. tudent manaºuje
+verzie projektu v Git pre GitHub a pí²e úplnú dokumentáciu v MarkDown.
+estné prehlásenie
+Vyhlasujem, ºe predloºenú závere£nú prácu som vypracoval samostatne pod vedením
+vedúceho závere£nej práce, s pouºitím odbornej literatúry a ¤al²ích informa£ných zdrojov,
+ktoré sú citované v práci a uvedené v zozname pouºitej literatúry. Ako autor závere£nej
+práce ¤alej prehlasujem, ºe som v súvislosti s jej vytvorením neporu²il autorské práva
+tretích osôb.
+Bratislava, 23. máj 2022
+..................................
+Vlastnoru£ný podpis
+V prvom rade by som rád po¤akoval vedúcej mojej bakalárskej práce, Ing. Mgr. Anne
+Vargovej, za odbornú pomoc,©udský prístup a cenné rady pri vypracovávaní práce. alej
+chcem po¤akova´ aj konzultantovi bakalárskej práce, Ing. Erikovi Mikulá²ovi, za pomoc
+a pripomienky pri tvorbe dosky plo²ných spojov a návrhu 3D modelov.
+Bratislava, 20. mája 2018
+Peter Tibenský
+Názov práce: AeroShield: Miniatúrny experimentálny modul aerokyvadla
+K©ú£ové slová: Arduino, AutomationShield, PID, AeroShield, AeroPendulum
+Abstrakt: Cie©om bakalárskej práce je návrh experimentálneho modulu pre platformu
+Arduino. Tento modul má podobu externého shieldu, ktorý sa dá jednoducho pripoji´ ku
+doskám Arduino a slúºi na výu£bu základov riadenia. Ich sú£as´ou je hardwareova a soft-
+waerova £as´. V rámci bakalárskej práce bol navrhnutý jeden modul s názvom AeorShield.
+Title:AeroShield: Miniature experimental module of aeropendulum
+Keywords: Arduino, AutomationShield, PID, AeroShield, AeroPendulum
+Abstract: The aim of the bachelor's thesis is to design an experimental module for the
+Arduino platform. This module takes the form of an external shield that can be easily
+connected to Arduino boards and is used to teach the basics of control. Each module
+consist of hardware and a software part. As a part of this bachelor thesis, one module was
+designed, the AeroShield.
+Obsah
+Úvod
+1
+1
+Motivácia
+2
+2
+AeroShield
+5
+2.1
+Hardware
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7
+2.1.1
+Popis sú£iastok . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7
+2.1.2
+Schéma zapojenia . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+10
+2.1.3
+Doska plo²ných spojov . . . . . . . . . . . . . . . . . . . . . . . . .
+11
+2.1.4
+Model drºiaku kyvadla . . . . . . . . . . . . . . . . . . . . . . . . .
+13
+2.2
+Software . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+14
+2.2.1
+Header . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+14
+2.2.2
+Source . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+16
+3
+Didaktické príklady
+25
+4
+Záver
+26
+Literatúra
+27
+Zoznam obrázkov
+1.1
+do£asný obrázok pokia© nebude hotovec ?nal.
+. . . . . . . . . . . . . . . .
+2
+1.2
+Aeropendulum zna£ky Real Sim[1].
+. . . . . . . . . . . . . . . . . . . . . .
+3
+1.3
+Arduino UNO.
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4
+2.1
+(a) Prvá verzia AeroShieldu. (b) Schéma zapojenia prvej verzie AeroShieldu.
+5
+2.2
+meranie uhla kyvadla . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+6
+2.3
+buck converter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7
+2.4
+ak£ný £len . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+8
+2.5
+meranie prúdu . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+9
+2.6
+meranie uhla kyvadla . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+9
+2.7
+Schéma zapojenia AeroShieldu . . . . . . . . . . . . . . . . . . . . . . . . .
+10
+2.8
+Ved©aj²ia doska AeroShieldu- breakout board . . . . . . . . . . . . . . . . .
+11
+2.9
+(a) Vrchná strana AeroShieldu (b) Spodná strana AeroShieldu . . . . . . .
+12
+2.10 Dosky plo²ných spojov AeroShieldu . . . . . . . . . . . . . . . . . . . . . .
+13
+vi
+Listings
+2.1
+Ukáºka zdrojového kódu headeru. . . . . . . . . . . . . . . . . . . . . . . .
+15
+2.2
+Triedy a objekty. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+15
+2.3
+Source volanie funkcie. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+16
+2.4
+Zdrojový kód funkcie mapFloat. . . . . . . . . . . . . . . . . . . . . . . . .
+17
+2.5
+Zdrojový kód funkcie serialPrint.
+. . . . . . . . . . . . . . . . . . . . . . .
+17
+2.6
+Zdrojový kód funkcie readOneByte. . . . . . . . . . . . . . . . . . . . . . .
+18
+2.7
+Zdrojový kód funkcie readTwoBytes.
+. . . . . . . . . . . . . . . . . . . . .
+18
+2.8
+Zdrojový kód funkcie detectMagnet. . . . . . . . . . . . . . . . . . . . . . .
+19
+2.9
+Zdrojový kód funkcie getMagnetStrength.
+. . . . . . . . . . . . . . . . . .
+19
+2.10 Zdrojový kód funkcie getRawAngle. . . . . . . . . . . . . . . . . . . . . . .
+20
+2.11 Zdrojový kód funkcie begin. . . . . . . . . . . . . . . . . . . . . . . . . . .
+21
+2.12 Zdrojový kód funkcie calibration.
+. . . . . . . . . . . . . . . . . . . . . . .
+21
+2.13 Zdrojový kód funkcie convertRawAngleToDegrees. . . . . . . . . . . . . . .
+22
+2.14 Zdrojový kód funkcie referenceRead.
+. . . . . . . . . . . . . . . . . . . . .
+22
+2.15 Zdrojový kód funkcie actuatorWrite.
+. . . . . . . . . . . . . . . . . . . . .
+23
+2.16 Zdrojový kód funkcie currentMeasure. . . . . . . . . . . . . . . . . . . . . .
+23
+vii
+Zoznam tabuliek
+2.1
+Dátové typy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+16
+viii
+Úvod
+Cie©om tejto bakalárskej práce je návrh, výroba a naprogramovanie modernej u£ebnej
+pomôcky AeroShieldu (¤alej len ?shield?), ktorý slúºi na výuku základov teórie riadenia
+a elektrotechniky.
+U£ebné pomôcky sú nevyhnutnou, no £asto zanedbávanou sú£as´ou výuky. tudenti
+si v¤aka nim môºu lep²ie predstavi´ a pochopi´ problematiku daného u£iva, ke¤ºe môºe
+pracova´ nie len s po£íta£ovými modelmi sústavy, ale aj s jej fyzickou reprezentáciou.
+Av²ak, takéto pomôcky bývajú £astokrát príli² zloºité na pouºívanie a drahé [2]. Z toho
+dôvodu, je ich pouºitie pri výu£be nepraktické.
+Za cie©om sprístupnenia experimentálnych modulov ²irokej verejnosti bol zaloºený
+projekt AutomationShield, ktorý ponúka pomerne jednoduché a cenovo dostupné experi-
+mentálne moduly ako open-source1 ²tudentské projekty.
+Vhodnou platformou na implementáciu týchto modulov sú napríklad prototypiza£né
+dosky Arduino ktoré sú taktieº open-source. Ich nízka cena a celosvetová popularita, spo-
+jená s obrovským mnoºstvom návodov, informácii a pomôcok, vytvára ideálnu platformu
+pre za£ínajúcich, ako aj pokro£ilých, programátorov, elektrotechnikov alebo hobby nad-
+²encov.
+V bakalárskej práci je opísaný postup výroby a fungovania shieldu s dôrazom na zro-
+zumite©nos´ jednotlivých aspektov aj £itate©om, ktorý o danej téme nie sú dokonale obo-
+známený. Na za£iatku bakalárskej práce, v £asti hardware, je opísaný základný princíp
+fungovania shieldu a následne jeho jednotlivé sú£iastky. Pochopenie fungovania jednotli-
+vých sú£iastok shieldu je kritické pre správnu manipuláciu uºívate©a s jeho jednotlivými
+£as´ami. Poslednú £as´ tvorí tvorba dosky plo²ných spojov pre shield v programe Dip-
+Trace.
+V softvérovej £asti sú bliº²ie predstavené jednotlivé charakteristické funkcie shieldu.
+Funkcie sú usporiadané do logických celkov pre ©ah²iu prácu uºívate©a s kódom.
+1Open-source je zo v²eobecného poh©adu akáko©vek informácia ktorá je dostupná verejnosti bez po-
+platku(s vo©ným prístupom), s oh©adom na fakt, ºe jej vo©né ²írenie zostane zachované.
+1
+1
+Motivácia
+Cie©om tejto bakalárskej práce je návrh u£ebnej pomôcky AeroShield, na ²týl expe-
+rimentu celosvetovo známeho ako Aeropendulum, £o v doslovnom preklade znamená
+vzdu²né kyvadlo. Jedná sa o pomerne jednoduché zariadenie pozostávajúce z nieko©kých
+£astí. Ak£ným £lenom tohoto zariadenia je motor£ek na jednosmerný prúd, ktorý má na
+rotor pripojené lopatky ktoré v¤aka otá£aniu produkujú ´ah. Motor£ek je zvy£ajne upev-
+nený na koniec ©ahkej ty£ky, ktorá je v mieste otá£ania pripevnená k zariadeniu na meranie
+uhlu pooto£enia ty£ky. Zariadenie na meranie pooto£enia môºe by´ potenciometer, senzor
+hallovho javu (¤alej len ?hall efekt ?) alebo iné [3]. V na²om prípade budeme pouºíva´
+senzor hall efektu ktorého fungovanie je opísané v £asti hardware 2.1.1. Zariadenie na
+meranie uhlu je následne upevnené na podstavec aby sa motor mohol vo©ne pohybova´.
+Podobu modelu Aeropendulum, môºete vidie´ na obr. 1.1
+Obr. 1.1: do£asný obrázok pokia© nebude hotovec ?nal.
+Open-source projekt AutomationShield vyvíjaný na ústave Automatizácie, merania a
+aplikovanej informatiky SJF STU, je zameraný na vývoj hardwarových a softwarových
+nástrojov ur£ených na vzdelávanie a doplnenie vzdelávacieho procesu. Jadrom celého pro-
+2
+jektu je tvorba roz²irujúcich dosiek (shieldov) vyvíjaných pre populárny typ prototypi-
+za£ných dosiek s mikrokontrolérmi Arduino, ktoré majú za ciel lep²iu výu£bu strojného
+inºinierstva, mechatroniky a riadenia [4].
+Zdrojový kód k AeroShieldu, ako aj ku v²etkým modulom AutomationShield, nájdeme
+na platforme GitHub [5], ktorá slúºi ako obrovská kniºnica kódov, návodov a postupov
+pre kohoko©vek. Na samostatnej stránke AutomationShield nájdeme zoznam jednotlivých
+shieldov a to v akom procese výroby sa nachádzajú. Ku kaºdému shieldu nájdeme jeho
+podrobnú dokumentáciu, kniºnice, zdrojové kódy ako aj pred programované ukáºky fun-
+govania. Tým ºe GitHub je open-source platforma, dokumenty na stránke môºe ktoko©vek
+upravova´ alebo vylep²ova´ £o tvorí ideálny priestor pre rozvoj my²lienok a tvorivý proces.
+Na dokumentoch môºe naraz pracova´ nieko©ko desiatok ©udí, £ím sa £astokrát mnoho-
+násobne urých©uje proces tvorby a h©adania chýb.
+Ako uº bolo spomenuté, hlavnou motiváciou tohoto projektu je nízka dostupnos´ a
+vysoká cena podobných u£ebných pomôcok. Výu£ba je preto £astokrát aº príli² zameraná
+na memorovanie faktov a teórie, namiesto praktických experimentov a skúseností typu
+pokus-omyl. Jediný podobný dostupný produkt na kúpu nie ako kit, je Aeropendulum
+od neznámej perzskej zna£ky Real Sim ktoré je na obr. 1.2. tudenti si omnoho rýchlej²ie
+osvoja metódy programovania a automatizácie, pokia© majú moºnos´ experimenty sami
+tvori´ a skúma´ vplyv reálnych výstupov na zvolené vstupy. S úmyslom prinies´ ²irokej
+verejnosti lacnej²iu a výkonnej²iu alternatívu vtedaj²ím mnohonásobne drah²ím a menej
+výkonným prototypiza£ným doskám [6], pri²la na trh v roku 2005 prototypiza£ná do-
+ska Arduino. Projekt vznikol v Taliansku ako kolaborácia medzi viacerými nad²encami
+elektrotechniky a programovania, na ktorých £ele bol Massimo Banzi.
+Obr. 1.2: Aeropendulum zna£ky Real Sim[1].
+Ve©kou výhodou dosiek Arduino a ich nadstavbových shieldov je fakt, ºe sú pomerne
+lacné a majú malé rozmery (Arduino UNO: 68.6*53.4mm [7] ). Tieto fakty umoº¬ujú
+²tudentom pracova´ na experimentoch nielen na pôde ²koly, ale experimenty si môºu
+zobra´ domov a pracova´ na nich aj mimo vyu£ovacieho procesu. Na správne fungovanie a
+3
+programovanie dosky nám posta£uje len USB kábel a samotná doska. Vzh©adom na nízky
+po£et potrebných sú£iastok a fakt, ºe mikro£ip arduina je v prípade poruchy jednoducho
+vymenite©ný 2, je ich pouºívanie na ²kolách príjemné a jednoduché. Pre na²e ú£ely je
+vhodná doska Arduino UNO ktorú môºeme vidie´ na obr. 1.3. Na doske sa nachádza 14
+digitálnych a 6 analógových pinov. Niektoré piny sú ozna£ené ²peciálnym symbolom ∼,
+tieto piny sú schopné produkova´ PWM3 signál ktorý potrebujeme na správne ovládanie
+motoru kyvadla.
+Obr. 1.3: Arduino UNO.
+2Tento fakt platí pri mikro£ipoch typu DIP(Dual in-line package) ktoré sta£í jednoducho vytiahnu´ z
+konektora bez pouºitia spájkovania.
+3írková modulácia impulzov alebo PWM je technika na dosiahnutie analógových výsledkov pomocou
+digitálnych prostriedkov a to, za pomoci striedania d¨ºok medzi High a Low stavom resp. zapnutý a
+vypnutý stav.
+4
+2
+AeroShield
+Téma tejto bakalárskej práce vznikla ako pokra£ovanie, na uº zapo£atom projekte.
+Prvá verzia dosky a samotného kyvadla vznikla ako závere£ný projekt na predmet Mikro-
+procesorová technika. Na projekte pracovala pätica ²tudentov: . Schému zapojenia hlavnej
+dosky, ako aj fotogra?u naspájkovanej verzie môºeme vidie´ na obr.2.1.
+(a)
+(b)
+Obr. 2.1: (a) Prvá verzia AeroShieldu. (b) Schéma zapojenia prvej verzie AeroShieldu.
+5
+Prvá verzia dosky mala nieko©ko nedostatkov, v¤aka ktorým bola prakticky nepouºi-
+te©ná. Hlavnými nedostatkami boli:
+ neprepojenie pinov komunikácie I2C tj. piny SDA a SCL senzoru hall efektu, ktorý
+slúºi na meranie uhlu nato£enia kyvadla,
+ nesprávne zapojenie mosfetu PMW45EN, ktorý ovláda PWM signál idúci do ak£-
+ného £lena,
+ nesprávne umiestnená ochranná dióda na konektoroch ak£ného £lena,
+ nesprávne zapojený obvod s £ipom INA169, ktorý slúºi na meranie prúdu,
+ neprepojenie nulového konektora shieldu s nulovým konektorom arduina.
+Základom tejto bakalárskej práce teda bolo najskôr pochopi´ jednotlivé £asti zapoje-
+nia, analyzova´ chyby a ich následná oprava. V rámci ²kolského projektu bola vytvorená
+hlavná doska na ktorej sa nachádza vä£²ina elektroniky, av²ak bola vytvorená aj verzia
+men²ej dosky ktorá slúºi na fungovanie senzoru hall efektu. Táto doska fungovala bezprob-
+lémovo a teda nebolo potrebné nijakým spôsobom meni´ jej schému zapojenia vidite©nú
+na obr.2.2.a. Tejto men²ej doske sa budeme bliº²ie venova´ v £asti2.1.3, no jej podoba je
+vidite©ná na obr.2.2.b.
+(a) Schéma zapojenia externej dosky.
+(b) Doska slúºiaca na fungovanie
+senzoru hall efektu
+Obr. 2.2: meranie uhla kyvadla
+6
+2.1
+Hardware
+2.1.1
+Popis sú£iastok
+V tejto £asti sa bliº²ie pozrieme na jednotlivé nevyhnutné sú£asti zapojenia AeroS-
+hieldu. Konkrétne sa jedná o tieto prvky:
+ napájanie
+ ovládanie ak£ného £lena
+ meranie uhla nato£enia kyvadla
+ meranie prúdu
+Zniºovací meni£
+Na správne napájanie ak£ného £lena, motor£eka, potrebujeme napätie v rozmedzí 0-
+3,7V. Na shield je v²ak privádzané, pomocou koaxiálneho napájacieho konektora, napätie
+12V ,2A, ktoré by motor v priebehu chvíle zni£ilo. Na zníºenie napätia preto pouºijeme
+zniºovací meni£ tzv. buck converter.
+Hlavnou £as´ou konvertora je £ip TPS56339 od výrobcu Texas Instruments obr.2.3.b.
+Zniºovanie napätia funguje za pomoci dvoch integrovaných N-kanálových 70-mΩ a 35-
+mΩ high-side mosfetov4 a ¤al²ích komponentov. Celkový prevádzkový prúd zariadenia
+je pribliºne 98µA, ke¤ funguje bez spínania a bez zá´aºe. Ke¤ je zariadenie vypnuté,
+napájací prúd je pribliºne 3µA a zariadenie umoº¬uje nepretrºitý výstupný prúd do 3
+A[8].
+(a) Schéma zapojenia konvertora napätia.
+(b) £ip TPS56339[8]
+Obr. 2.3: buck converter
+Na £ip je privádzané napätie 12V ktoré sa pomocou zapojenia vidite©ného na schéme
+obr.2.3.a, zniºuje na napätie 3,7V. Napájanie motora musí by´ realizované externe pomo-
+cou koaxiálneho napájacieho konektora, z dôvodu vysokého prúdu odoberaného motorom
+po£as vysokého za´aºenia. Rovnaký konektor sa síce nachádza aj na doske Arduino UNO
+a pomocou VIN pinu sa dajú napája´ napätím 0-12V aj iné zariadenia, av²ak tento pin
+je napojený na diódu obmedzujúcu prúd na 1A[9][10].
+4N-kanálový mosfet je typ mosfetu, v ktorom tok prúdu nastáva kvôli pohybujúcim sa, záporne nabitým
+elektrónom. "High-side"znamená, ºe prúd prechádza z napájania, cez mosfet do zá´aºe a potom do zeme
+7
+ak£ný £len
+Ako ak£ný £len AeroShieldu je pouºitý 7mm, 3,7V motor£ek na jednosmerný prúd,
+bez jadra, pouºívaný hlavne pre pohon dronov. ?Coreless motor? alebo motor bez jadra
+je motor s cievkou navinutou samou na sebe a nie na ºeleze[11]. Takéto jadro ale samé o
+sebe nie je ve©mi pevné a nedrºí dobre tvar, preto sa £astokrát zalieva epoxidom. Stator
+je vyrobený z magnetov na báze vzácnych zemín, ako je neodým alebo SmCo(samárium-
+kobalt), ktoré sa nachádzajú vo vnútri bezjadrového rotora.
+Takýto motor ponúka mnoho výhod oproti motoru so ºelezným jadrom. Tým ºe jadro
+v sebe nemá ºelezo, výrazne sa zniºuje hmotnos´ a tým aj zotrva£nos´ rotora, £o je dô-
+leºité pre na²e pouºitie kedy potrebujeme dosahova´ vysokú akceleráciu a rýchle spoma-
+lenie rotora. al²ou výhodou je fakt ºe nedochádza k stratám na ºeleze a tým pádom sa
+ú£innos´ takýchto motorov blíºi aº ku 90%-[12]. Motor resp. otá£ky motora sú riadené
+pomocou impulzovej ²írkovej modulácie(PWM) a tieto impulzy do motoru prechádzajú
+cez N-kanálový mosfet PMV45EN2 od výrobcu Nexperia[13].
+(a) Schéma zapojenia motor£eka.
+(b) Motor£ek[14]
+Obr. 2.4: ak£ný £len
+meranie prúdu
+Z dôvodu merania prúdu odoberaného motorom, bol do schémy pridaný monitor
+prúdu, takzvaný "current shunt monitor". V AeroShielde je pouºitý sníma£ INA169NA/250
+od výrobcu Texas Instruments obr.2.5.b.
+INA169 funguje na základe zaznamenávania zmien napätia na stranách shunt rezistora
+obr.2.5.a. Na základe nameraného úbytku napätia, vysiela senzor pod©a nami zvoleného
+stup¬a zosilnenia, prúd, ktorý je ¤alej pomocou rezistoru Rl premenený na napätie s
+maximálnou hodnotou VOUTMAX = VIN− − 0.5V .
+Prúd Is odoberaný motorom, vypo£ítame pomocou vzorca Is = VOUT x 1kΩ
+Rs x Rl
+kde VOUT
+je napätie namerané na výstupe, 1kΩ je kon²tanta vnútorných odporov senzoru, Rs je
+hodnota shunt rezistora v Ω a Rl je hodnota rezistora na výstupe, taktieº v Ω[15].
+8
+(a) Schéma zapojenia sníma£a prúdu.
+(b) Senzor INA169NA/250[16]
+Obr. 2.5: meranie prúdu
+meranie uhla kyvadla
+Na správne fungovanie AeroShieldu je dôleºité vedie´ s vysokou presnos´ou mera´ uhol
+naklonenia kyvadla. Na tento ú£el sme si zvolili meranie uhlu bezkontaktnou formou, po-
+mocou sníma£a hall efektu. Hall efekt vieme opísa´ ako vznik prie£neho elektrického po©a
+v pevnom materiáli, ke¤ ním preteká elektrický prúd a tento materiál je umiestnený v
+magnetickom poli, ktoré je kolmé na prúd[17]. Toto elektrické pole resp. vznik elektric-
+kého potenciálu vieme detegova´ a na základe jeho zmeny vieme ur£it rotáciu kyvadla. V
+kyvadle je na konci horizontálneho ramena umiestnený ²peciálny magnet kruhového tvaru
+ktorý je polarizovaný naprie£ prierezom magnetu.
+Ako senzor na meranie hall efektu je pouºitý AS5600 od výrobcu OSRAM obr.2.6.b.
+Signály prichádzajúce zo sníma£a sa najprv zosilnia, následne sú ?ltrované a prechádzajú
+konverziou pomocou analógovo-digitálneho prevodníkom (ADC). Snímaná je aj intenzita
+magnetického po©a, ktorá sa ¤alej pouºíva na automatické riadenie zosilnenia(AGC), ktoré
+slúºi na kompenzáciu teploty a ve©kosti magnetického po©a.
+Na výber sú dva typy výstupu a to analógový výstup alebo digitálny výstup s kódo-
+vaním PWM. Senzor má taktieº aj moºnosti interného programovania pomocou rozhra-
+nia I2C. V na²om prípade pouºívame 12-bitový analógový výstup s rozlí²ením 0°5'16".
+Toto rozlí²enie nám umoº¬uje s vysokou presnos´ou kontrolova´ naklonenie kyvadla a
+na základe získaných informácii ovplyv¬ova´ fungovanie ak£ného £lenu sústavy. Schéma
+zapojenia £ipu na meranie uhlu môºeme vidie´ na obr.2.6.a.
+(a) Schéma zapojenia £ipu na meranie uhlu.
+(b) £ip AS5600[18]
+Obr. 2.6: meranie uhla kyvadla
+9
+2.1.2
+Schéma zapojenia
+V²etky schémy zapojenia boli tvorené v bezplatnej verzii programu DipTrace. Dip-
+Trace slúºi ako prostredie na tvorbu elektrotechnických schém, potrebných pre výrobu
+dosiek plo²ných spojov, ako aj pre ú£ely preh©adnosti zapojenia komponentov na týchto
+doskách. Program v sebe zah¯¬a £as´ pre tvorbu samotných komponentov, pokia© sa tieto
+uº nenachádzajú v niektorej z kniºníc programu, £as´ kde sa tvoria schémy zapojenia a
+£as´ na tvorbu dosiek plo²ných spojov.
+Nie v²etky komponenty potrebné na tvorbu AeroShieldu boli zahrnuté v kniºniciach
+DipTracu, av²ak tieto komponenty sa nachádzali na stiahnutie na stránkach výrobcov
+odkia© boli importované do novej kniºnice, slúºiacej na ú£ely tvorby schémy AeroShieldu.
+Do programu bola taktieº vloºená kniºnica AutomationShieldu ktorá má v sebe naj£as-
+tej²ie pouºívané komponenty. Pri tvorbe schémy zapojenia sa najskôr v²etky potrebné
+komponenty umiestnia na ²tvor£ekovú plochu a pribliºne sa ur£í ích poloha. Jednotlivé
+komponenty majú podobu elektrotechnických zna£iek a kaºdý komponent má ku sebe
+priradené reálne vlastnosti daného dielu(ve©kos´, zapojenie, d¨ºka pinov a iné).
+Polohu volíme takú, aby schéma bola £o najpreh©adnej²ia a komponenty ktoré sú
+medzi sebou prepojené, boli £o najbliº²ie pri sebe. Akonáhle máme v²etky komponenty
+uloºené za£neme s ich postupným prepájaním. Pri zapájaní jednotlivých komponentov sa
+riadime katalógovými listami jednotlivých komponentov, v ktorých býva zvä£²a aj návrh
+ich zapojenia.
+Ve©mi dobrou vlastnos´ou programu DipTrace je moºnos´ zafarbovania jednotlivých
+elektrických spojení, rozli£nými farbami a názvami. Tento fakt nám ve©mi u©ah£uje na
+prvý poh©ad rozozna´ napríklad elektrické spojenia zeme- 0V zelená, fázové spojenia- 3,3V
+£ervená obr.2.7. Na schéme zapojenia môºeme vidie´ v²etky komponenty, potrebné na
+správne fungovanie AeroShieldu. Názvy komponentov sú uvádzané základnými zna£kami
+ R- Rezistor
+ C- Kapacitor
+ J- Konektor
+ U- Mikro£ip
+ L- Cievka
+ D- Dióda
+ M- Motor
+Obr. 2.7: Schéma zapojenia AeroShieldu
+10
+2.1.3
+Doska plo²ných spojov
+Po návrhu a kontrole schém zapojenia sa schémy ¤alej spracovávajú do podoby dosky
+plo²ných spojov. Schémy exportujeme do programu DipTrace PCB v ktorom máme ná-
+sledne nieko©ko moºností postupu. Jednotlivé komponenty sa nám uº zobrazujú v reálnej
+podobe, takºe vidíme ich ve©kos´ a rozmiestnenie pinov na spájkovanie. Dosky plo²ných
+spojov majú nieko©ko nevýhod, ale aj výhod oproti ponúkaným alternatívam[19].
+Výhodou je fakt, ºe vodivé spojenia medzi jednotlivými sú£iastkami zapojenia, sú rea-
+lizované vrstvou medi ktorá je ukrytá pod ochrannými vrstvami povrchu dosky, na rozdiel
+od typických káblových spojení. Káble majú nieko©ko nedostatkov ako to ºe sa vedia ©ahko
+vypoji´, ©ahko dochádza k ich poru²eniu a v neposlednom rade, nepôsobia ve©mi esteticky.
+V prípade nesprávneho prepojenia pinov má jednozna£nú výhodu spoj realizovaný káb-
+lami, ke¤ºe pri doskách plo²ných spojov sa s uº hotovými cestami manipuluje obtiaºne.
+al²ou výhodou dosiek plo²ných spojov je skuto£nos´, ºe sú ve©mi odolné a kompaktné.
+Tým ºe vodivé cesty môºu ma´ ve©mi malé rozmery, ovplyv¬ujúcim faktorom ve©kosti
+dosky plo²ných spojov je samotná ve©kos´ jej komponentov.
+Po prenesení schém do DipTrace PCB, sú jednotlivé komponenty rozhádzané a nemajú
+ºiadne logické rozloºenie. Program ponúka moºnos´ automatického zoradenia komponen-
+tov na vyhradenej ploche, av²ak táto funkcia komponenty uloºila nie pod©a na²ich potrieb
+a teda, vyuºili sme moºnos´ manuálneho umiestnenia jednotlivých komponentov. Pri po-
+hybovaní jednotlivými komponentami môºeme vidie´ £iary, ktoré symbolizujú prepojenia
+s ostatnými komponentami a v¤aka tomu vieme komponenty logicky pouklada´.
+(a) Vrchná strana breakout boardu
+(b) Spodná strana breakout boardu
+Obr. 2.8: Ved©aj²ia doska AeroShieldu- breakout board
+Po zvolení optimálneho rozmiestnenia komponentov treba jednotlivé piny poprepája´
+vodivými cestami, ktoré nám nahrádzajú funkciu káblov. Máme moºnos´ zvoli´ automa-
+tické rozmiestnenie ciest alebo ich manuálnu tvorbu. V na²om prípade sme zvolili ma-
+nuálnu tvorbu ciest, pretoºe ich vieme £o najlep²ie optimalizova´. Ako je vidite©né aj na
+obr.2.9.a, nie v²etky cesty majú rovnakú ²írku. Je to z toho titulu ºe niektorými cestami
+prúdi vy²²í prúd a to aº do 1A. V zásade sa pouºíva pravidlo, £ím vy²²í prú preteká
+11
+(a)
+(b)
+Obr. 2.9: (a) Vrchná strana AeroShieldu (b) Spodná strana AeroShieldu
+vodi£om, tým vä£²iu plochu prierezu by mal ma´. Prúdy pretekajúce vodi£mi tieto vodi£e
+zahrievajú a pokia© je toto zahrievanie nadmerné, môºe dôjs´ k po²kodeniu vodi£a.
+Tvorba ciest má nieko©ko pravidiel, av²ak najdôleºitej²ie z nich je ºe jednotlivé cesty
+ktoré v schéme zapojenia nie sú prepojené, sa nemôºu kriºova´ inak dôjde k ich vzájom-
+nému vyskratovaniu. Z toho dôvodu treba niekedy cestu privies´ na druhú stranu dosky
+plo²ných spojov kde v jej pokra£ovaní neprekáºa iná cesta. Na tento ú£el sa pouºívajú
+vodivé diery, takzvané via, spájajúce obe strany dosky.
+Pri výroby dosky sa taktieº myslelo na montáº drºiaku kyvadla, pre ktoré boli vytvo-
+rené 4 diery na jeho následné prichytenie pomocou skrutiek. Finálna verzia hlavnej dosky
+je na obr.2.9. Zhotovená bola aj men²ia doska tzv. breakout board, slúºiaca na meranie
+uhlu kyvadla, ktorá je na obr.2.8.
+Po ?nálnej kontrole zapojenia komponentov na doske plo²ných spojov môºeme tieto
+dosky uloºi´ do formátu gerber. Súbory typu gerber v sebe ukladajú presné zloºenie ?-
+nálnej dosky plo²ných spojov a to po jej jednotlivých vrstvách. Nachádza sa tu teda
+vrstva zobrazujúca vodivé cesty, vrstva pre konektory via, vrstva pre farebné popisy a
+12
+(a) Hlavná doska AeroShieldu
+(b) Ved©aj²ia doska AeroShieldu
+Obr. 2.10: Dosky plo²ných spojov AeroShieldu
+mnoho ¤al²ích. Pri tvorbe súboru máme ve©a moºností aké parametre jednotlivých vrs-
+tiev chceme zvoli´. Môºeme meni´ hrúbky jednotlivých vrstiev, ve©kostí dier a priestoru
+okolo dier, ve©kosti konektorov via a iné. Gerber súbor ¤alej posielame výrobcovi PCB
+dosiek kde si môºeme zvoli´ ¤al²ie parametre dosky, ako jej farbu, moºnosti spájkovacích
+do²ti£iek, dokonca nám môºe výrobca posla´ uº naspájkovanú dosku, ktorá je tak hne¤
+pripravená na pouºitie. Podobu ?nálnej dosky AeroShieldu môºeme vidie´ na obr.2.10.a
+a dosky breakout boardu na obr.2.10.b.
+2.1.4
+Model drºiaku kyvadla
+Tu e²te poviem £o to a designovaní drºiaku pendulum
+13
+2.2
+Software
+Programovacie rozhranie pre platformy arduino sa nazýva Arduino IDE5 a vyuºíva
+programovací jazyk C++ resp. jeho podobu, s pridanými ²pecializovanými príkazmi a
+funkciami priamo pre arduino IDE. Príkazy sú na prvý poh©ad zrozumite©nej²ie ako ich
+skompilovaná6 podoba v jazyku C++, no funkcie resp. schopnosti príkazu sú rovnaké.
+Preto je arduino vhodným prostriedkom na programovanie ako pre za£iato£níkov, tak aj
+pre skúsenej²ích programátorov.
+Pri tvorbe programovej £asti AeroShieldu je dôleºité uvedomi´ si fakt ºe doska vzniká
+v rámci projektu AutomationShield. Tým ºe je tento projekt opensource, ktoko©vek môºe
+kód upravova´ a vylep²ova´, je preto dôleºité aby funkcie navádzali pouºívate©ov na ich
+správne pouºitie a aby boli £o najviac preh©adné. Z tohoto dôvodu bola vytvorená kniºnica
+AutomationShield ktorá v sebe zah¯¬a najviac pouºívané funkcie. Predstavme si situáciu
+kedy v programe ktorý pí²eme potrebujeme premenu jednotiek z metrov na centimetre.
+Pokia© takúto funkciu pouºijeme v kóde jeden krát, môºeme túto funkciu napísa´ priamo
+do kódu. Av²ak pokia© túto funkciu vyuºívame £astej²ie, dáva zmysel uloºi´ ju mimo kód a
+následne túto funkciu zavola´ naspä´ v prípade jej potreby. Spreh©ad¬uje sa tak vzniknutý
+kód a zniºuje sa moºnos´ chýb v¤aka monotónnym kopírovaniam tej istej funkcie.
+Takúto moºnos´ externých predde?novaných funkcií prístupných na zavolanie ponúka
+objektovo orientované programovanie(OOP) v jazyku C++[20]. Zvy£ajne sa vytvárajú
+dva súbory resp. kniºnice, z ktorých jedna sa nazýva headers alebo hlavi£ka s koncovkou
+.h a druhá, source alebo zdrojový dokument s koncovkou .cpp. Header slúºi ako akýsi na-
+vádza£ a sklad pre premenné a funkcie, ktorý následne komunikuje so source dokumentom
+v ktorom sú uloºené samotné funkcie.
+2.2.1
+Header
+Header súbor má nieko©ko náleºitostí ktoré obsahuje. Na za£iatok deklarujeme súbor
+samotný. Robíme to pomocou príkazu #define. Av²ak, ak by sa takáto deklarácia nachá-
+dzala vo viacerých súboroch, a teda header súbor by sa na£ítal nieko©ko krát, spôsobovalo
+by to problém pri kompilácii kódu. Z toho dôvodu pouºívame funkciu Include guard
+ktorá zamedzuje nieko©konásobne na£ítanie rovnakých súborov.
+Hne¤ za de?novaním kniºnice AeroShild.h môºeme vklada´ ¤al²ie kniºnice, ktoré sú
+potrebné pre funkcie danej kniºnice, a to pomocou príkazu #include. Môºeme si v²imnú´
+ºe za príkazom #include sa nachádzajú dva typy zátvoriek resp. znakov. Konvencia je
+taká ºe na predde?nované kniºnice sa pouºívajú hranaté zátvorky <nazovKniznice.h> a
+na kniºnice tvorené programátormi sa pouºívajú úvodzovky "nazovDalsejKniznice.h".
+Za kniºnicami následne ur£ujeme premenné, ktoré majú priradené fyzické £ísla pinov
+na arduine. Tieto premenné potom vyuºívame bu¤ na posielanie, alebo na prijímanie
+signálov z daných pinov. Názvy týchto premenných sa snaºíme voli´ tak, aby bola na
+prvý poh©ad jasná ich funkcia, alebo pod©a v²eobecne zauºívaných pravidiel. V teórii
+riadenia sa na ozna£enie vstupov pouºíva písmeno R a na ozna£enie výstupov U,Y. Príkaz
+#endif vkladáme aº na úplný záver header súboru.
+5Arduino Integrated Development Environment.
+6Kompilácia je preklad zdrojového kódu do podoby ktorú vie procesor pre£íta´ a spracova´.
+14
+#ifndef AEROSHIELD_H
+// Pokial
+nie
+je
+definovana AEROSHIELD_H
+#define AEROSHIELD_H
+// Definuj
+kniznicu AEROSHIELD_H
+#include "AutomationShield . h"
+// Hlavna
+kniznica
+AutomationShieldu
+#include <Wire . h>
+// Kniznica
+potrebna
+pre komunikaciu I2C
+#include <Arduino . h>
+// Zakladna arduino
+kniznica
+#define AERO_RPIN A3
+// Vstup z potenciometra
+#define VOLTAGE_SENSOR_PIN A2
+// Vstup pre meranie prudu
+#define AERO_UPIN 5
+// Aktuator
+======================Zdrojovy kod======================
+#endif
+// Koniec
+i f
+podmienky
+Listing 2.1: Ukáºka zdrojového kódu headeru.
+V £asti Zdrojovy kod, vytvárame class alebo triedu ktorá v sebe zah¯¬a funkcie a
+premenné ktoré sa nazývajú objects, teda objekty. Class obsahuje podmnoºinu objectov
+ktoré vieme prepája´ a spája´ vo vä£²ie celky, v¤aka £omu vieme dosiahnu´ ve©mi kom-
+plexné funkcie. Tieto funkcie a premenné môºu by´ bu¤ public, teda verejné a prístupné
+aj mimo súbor, alebo privat, teda súkromné ktoré su prístupné len v kniºniciach hea-
+der a source. V header súbore sa môºe nachádza´ jedna, alebo viacero tried, záleºí to od
+logicky delite©ných úsekov kódu, alebo od preferencie programátora. Deklarácia triedy s
+objektami vyzerá nasledovne:
+class
+AeroShield {
+// Deklaracia
+triedy
+public
+:
+// Verejna
+cast
+void FirstObject () ;
+// Deklaracia
+funkcie
+private
+:
+// Sukromna cast
+float
+FirstVariable ;
+// Deklaracia
+premennej
+};
+// Koniec
+triedy
+Listing 2.2: Triedy a objekty.
+V tomto prípade sa trieda nazýva AeroShield a má v sebe jednu funkciu s názvom
+FirstObject() v £asti public a jednu premennú FirstVariable, typu ?oat, v £asti pivate.
+Rozdelenie na public a privat má zmysel hlavne v prípade ak chceme ma´ zade?nované
+isté premenné, pri ktorých nechceme aby sa dala externe zmeni´ ich hodnota alebo typ.
+V prípade privat, takáto zmena nie je moºná, jediná moºnos´ ako premennú zmeni´, je jej
+ru£né prepísanie v súbore. V £asti private deklarujeme funkcie ktoré následne vyuºívame
+v rámci triedy a slúºia ako pomocné funkcie pri tvorbe komplexnej²ích £astí kódu. V
+£asti public sú funkcie vidite©né a schopné interagova´ s inými triedami ako aj s inými
+kniºnicami.
+15
+2.2.2
+Source
+Ako sme uº spomínali, v kniºnici source sa nachádzajú v²etky funkcie vyuºívané v
+AeroShielde. Ke¤ºe kniºnice sa uº de?novali a na£ítavali v súbore header, sta£í nám
+na£íta´ len tento jeden súbor a to pomocou príkazu #include " AeroShield . h", ktorý
+vloºíme na za£iatok súboru. alej v súbore deklarujeme jednotlivé samostatné funkcie.
+Funkcie zapisujeme pomocou uº spomínaného classu, dátového typu a názvu funkcie v
+podobe:
+typFunkcie
+AeroShield : : nazovFunkcie ()
+Listing 2.3: Source volanie funkcie.
+V tomto prípade je AeroShield názov classu, nazovFunkcie hovorí sám za seba. Dátové
+typy funkcií poznáme rôzne. Vyberáme si ich na základe potreby ako chceme aby fun-
+kcia reagovala resp. aké hodnoty by mala prená²a´. Dátové typy poznáme nasledovné[21]
+(v²etky hodnoty sú platné pre arduino UNO, pre iné typy arduina sa hodnoty môºu lí²i´):
+dátový typ
+vlastnosti
+dátový typ
+vlastnosti
+array
+skupina
+premen-
+ných s priradeným
+indexom.
+Maxi-
+málna
+ve©kos´
+je
+obmedzená ve©kos-
+´ou pamäte RAM
+short
+16 bitové celé £ísla
+boolean
+má bu¤ hodnotu 0-
+nepravda, alebo 1-
+pravda
+char array
+spojenie
+viacerých
+dát typu char ukon-
+£ené hodnotou null
+byte
+8 bitové £ísla od 0
+do 255
+string-object
+podobná
+funkcia
+ako object v header
+súbore
+double
+rovnaké ako ?oat
+unsigned char
+8-bit znaky od 0 do
+255
+?oat
+32
+bitové
+de-
+satinne
+£ísla
+±3.4028235E+38
+unsigned int
+16
+bitové
+kladné
+celé £ísla od 0 do
+216-1
+char
+8 bit ascii tabulka
+unsigned long
+32
+bitové
+kladné
+celé £ísla od 0 do
+232-1
+int
+16 bitové celé £ísla
+void
+nevracia
+naspä´
+ºiadne informácie
+long
+32 bitové celé £ísla
+word
+16-bit £íslo bez zna-
+mienka
+Tabu©ka 2.1: Dátové typy
+16
+Popis pouºitých funkcií z kniºnice AutomationShield
+Ako uº bolo spomenuté, kniºnica AutomationShield ponúka najviac pouºívané fun-
+kcie, ktoré sa vyuºívajú takmer na kaºdom shielde. Pri rôznych ve©kostiach a rozsahoch
+£íselných stupníc, je dobré vyjadrova´ hodnoty v percentách, namiesto ich absolútnej hod-
+noty. Arduino ponúka funkciu map(), ktorá v²ak pracuje len s dátovým typom integer.
+Aby sme docielili vy²²iu presnos´, potrebujeme mapova´ dátový typ ?oat. Na tento ú£el
+nám slúºi funkcia mapFloat do ktorej vstupuje veli£ina x, ktorej priradíme poºadované
+hodnoty. Funkcie funguje na základe princípu lineárneho mapovania[22].
+float
+AutomationShieldClass : : mapFloat ( float x ,
+float in_min ,
+float in_max ,
+float out_min ,
+float out_max)
+{
+return (x = in_min ) * (out_max = out_min) / (in_max = in_min ) + out_min ;
+}
+Listing 2.4: Zdrojový kód funkcie mapFloat.
+al²ou z funkcií pouºitých z kniºnice AutomationShield je serialPrint. Funkcia vypisuje
+zvolený text na sériový monitor arduina.
+void AutomationShieldClass : : s e r i a l P r i n t ( const char * s t r ) {
+#i f ECHO_TO_SERIAL
+// Pokial
+je
+tato
+funkcia
+povolena
+S e r i a l . print ( s t r ) ;
+// Vypis na seriovy
+monitor
+#endif
+// Koniec
+}
+Listing 2.5: Zdrojový kód funkcie serialPrint.
+Popis pouºitých funkcií z kniºnice AeroShield
+Ke¤ºe na AeroShielde vyuºívame senzor hall efektu, musíme s ním v prvom rade
+nadviaza´ komunikáciu pomocou sériovej komunikácie I2C. Protokol I2C vyuºíva na odo-
+sielanie a prijímanie údajov dva vodi£e resp. dve linky:
+ sériovú dátovú linku (SDA-serial data), cez ktorú sa posielajú údaje,
+ sériovú hodinovú linku (SCL-serial clock), na ktorú arduino v pravidelných interva-
+loch posiela impulzy.
+Hodinový pin udáva tempo komunikácie a je ovládaný mastrom. Mení stav v pra-
+videlných impulzoch z low-nízkeho na high-vysoký stav. Pri kaºdej takejto zmene je na
+dátový pin poslaný jeden bit informácie. Tieto bity najskôr obsahujú adresu zariadenia
+slave s ktorým chce master komunikova´, následne sa odosielajú bity príkazov. Ke¤ sa
+táto informácia celá odo²le, slave vykoná poºiadavku a ak je to vyºadované, môºe spätne
+mastrovi posla´ údaje. V²etky tieto bity informácií sa posielajú na linke SDA[23].
+I2C funguje na princípe master-slave, kedy master je nadriadený a slave je podriadené
+zariadenie, s ktorým master komunikuje. Master môºe naraz komunikova´ s viacerými
+zariadeniami a to na základe jedine£ných adries zariadení, ktoré sa medzi sebou striedajú
+v komunikácii.
+17
+Funkcia readOneByte()
+Pre na²e ú£ely posta£uje vedie´ £íta´ jeden alebo dva bajty informácií. Z toho dôvodu
+sme vytvorili dve funkcie: int
+AeroShield : : readOneByte () a
+word AeroShield : : readTwoBytes (). Funkcia int
+AeroShield : : readOneByte (), ako jej
+názov napovedá, získava 1 bajt informácii zo senzoru. Túto funkciu vyuºívame napríklad
+na £ítanie polohy kyvadla.
+int
+AeroShield : : readOneByte ( int in_adr )
+{
+int
+retVal = =1;
+// Zadefinovanie pomocnej premennej
+Wire . beginTransmission ( _ams5600_Address ) ; // Zaciatok
+komunikacie
+Wire . write ( in_adr ) ;
+// Poziadavka na zaznamenianie uhlu kyvadla
+Wire . endTransmission () ;
+// Koniec komunikacie zo
+strany
+mastra
+Wire . requestFrom ( _ams5600_Address ,
+1) ;
+// Ziadost na odpoved
+while ( Wire . a v a i l a b l e () == 0) ;
+// Cakaj
+pokial
+odpoved nepride
+retVal = Wire . read () ;
+// Zaznamenanie odpovede
+return retVal ;
+//
+Zaslanie
+odpovede
+}
+Listing 2.6: Zdrojový kód funkcie readOneByte.
+Ako môºeme vidie´ v kóde funkcie, master najskôr osloví zariadenie slave, pomocou
+jeho adresy. Pri tomto konkrétnom £ipe je adresa zariadenia v hexadecimálnej podobe
+0x36. Následne za²le od výrobcu predprogramovanú ºiados´, ktorá zaznamená aktuálnu
+polohu magnetu resp. v na²om prípade kyvadla. Následne je komunikácia ukon£ená a je
+zaslaná poºiadavka na odpove¤ zo strany slave zariadenia. Táto odpove¤ je zaznamenaná
+a odoslaná spä´, na miesto z ktorého bola funkcia privolaná.
+Funkcia readTwoBytes()
+Funkcia word AeroShield : : readTwoBytes () je podobná predo²lej funkcii, s rozdie-
+lom, ºe získané su dva bajty informácií narozdiel od jedného a na konci funkcie prebieha
+posun bitov7.
+word AeroShield : : readTwoBytes ( int in_adr_hi ,
+int in_adr_lo )
+{
+word retVal = =1;
+// Zadefinovanie pomocnej premennej
+/*
+c i t a n i e
+"Low" bajtu */
+Wire . beginTransmission ( _ams5600_Address ) ; // Zaciatok
+komunikacie
+Wire . write ( in_adr ) ;
+// Poziadavka na zaznamenianie uhlu kyvadla
+Wire . endTransmission () ;
+// Koniec komunikacie zo
+strany
+mastra
+Wire . requestFrom ( _ams5600_Address ,
+1) ;
+// Ziadost na odpoved
+while ( Wire . a v a i l a b l e () == 0) ;
+// Cakaj
+pokial
+odpoved nepride
+int low = Wire . read () ;
+// Ulozenie
+prveho
+bajtu
+/*
+c i t a n i e
+"High" bajtu */
+Wire . beginTransmission ( _ams5600_Address ) ; // Zaciatok
+komunikacie
+Wire . write ( in_adr ) ;
+// Poziadavka na zaznamenianie uhlu kyvadla
+Wire . endTransmission () ;
+// Koniec komunikacie zo
+strany
+mastra
+7Bitový posun je operácia vykonávaná so v²etkými bitmi binárnej hodnoty, pri ktorej sa posúvajú o
+ur£ený po£et miest do©ava alebo doprava[24].
+18
+Wire . requestFrom ( _ams5600_Address ,
+1) ;
+// Ziadost na odpoved
+while ( Wire . a v a i l a b l e () == 0) ;
+// Cakaj
+pokial
+odpoved nepride
+word high = Wire . read () ;
+// Ulozenie
+druheho bajtu
+high = high << 8;
+// Posun bitov
+retVal = high
+|
+low ;
+return retVal ;
+//
+Zaslanie
+odpovede
+}
+Listing 2.7: Zdrojový kód funkcie readTwoBytes.
+Funkcia detectMagnet()
+al²ou dôleºitou funkciou, je zisti´ prítomnos´ magnetu na kyvadle. Túto úlohu vy-
+konáva funkcia int
+AeroShield : : detectMagnet (). Vyuºívame ju vºdy pri inicializácii
+AeroShieldu, na to aby sme zistili £i nenastali problémy s magnetom, alebo so senzo-
+rom samotným. Funkcia komunikuje so senzorom, a na základe výstupu vieme ur£i´ £i
+bol magnet detegovaný. Funkcia nám vráti na výstupe 1- pokia© sa magnet nachádza pri
+senzore a 0- pokia© magnet nie je prítomný, alebo je príli² vzdialený od senzoru.
+int
+AeroShield : : detectMagnet ()
+{
+int magStatus ;
+// Pomocna premenna
+int
+retVal = 0;
+// Pomocna premenna
+magStatus = readOneByte ( _stat ) ;
+// Prebieha komunikacia so senzorom
+i f
+( magStatus & 0x20 )
+// Pokial
+je
+podmeinka splnena
+vrat
+1 ,
+pokial
+nie
+je
+splnena
+vrat 0
+retVal = 1;
+return retVal ;
+//
+Zaslanie
+odpovede
+}
+Listing 2.8: Zdrojový kód funkcie detectMagnet.
+Funkcia getMagnetStrength()
+Pre správnos´ fungovania hall senzoru je dôleºité dodrºa´ správnu vzdialenos´ mag-
+netu od senzoru. Výrobca udáva ºe najideálnej²ia vzdialenos´ je 0.5-3mm, v závislosti
+na sile a ve©kosti magnetu. Bolo by nepraktické túto vzdialenos´ mera´ ru£ne, pouºijeme
+preto funkciu int
+AeroShield : : getMagnetStrength (). Môºeme si v²imnú´ ºe táto fun-
+kcia pouºíva rovnaký príkaz na komunikáciu so senzorom, ako aj funkcia detectMagnet ()
+a to síce _stat. Z toho vyplýva ºe detectMagnet () kontroluje nielen prítomnos´ mag-
+netu, ale aj jeho správnu vzdialenos´. Pokia© teda dostaneme z funkcie detectMagnet ()
+ako výsledok 1, vieme ºe magnet je prítomný a zárove¬ v ideálnej vzdialenosti. Funkcia
+getMagnetStrength () je teda iba dopl¬ujúcou funkciou, ktorá nám ur£í £i je magnet moc
+blízko senzoru, výsledná hodnota výstupu bude 3, alebo naopak, je magnet moc vzdialený
+a výstupná hodnota bude 1.
+int
+AeroShield : : getMagnetStrength ()
+19
+{
+int magStatus ;
+// Pomocna premenna
+int
+retVal = 0;
+// Pomocna premenna
+magStatus = readOneByte ( _stat ) ;
+// Prebieha komunikacia so senzorom
+i f
+( detectMagnet () == 1)
+// Pokial
+je
+splnena podmienka
+detectMagnet ()
+{
+retVal = 2;
+// Vrat 2 , magnet
+je v
+i d e l n e j
+v z d i a l e n o s t i
+i f
+( magStatus & 0x10 )
+retVal = 1;
+// Vrat 1 , magnet
+je v
+p r i l i s
+daleko
+else
+i f
+( magStatus & 0x08 )
+retVal = 3;
+// Vrat 3 , magnet
+je v
+p r i l i s
+blizko
+}
+return retVal ;
+//
+Zaslanie
+odpovede
+}
+Listing 2.9: Zdrojový kód funkcie getMagnetStrength.
+Funkcia getRawAngle()
+Poslednou funkciu komunikácie s hall senzorom je word AeroShield : : getRawAngle
+(). Funkcia slúºi na £ítanie samotného uhlu kyvadla. Výsledkom tejto funkcie je £íslo s
+rozsahom 12bitov, teda £íslo od 0 do 4096 ktoré udáva momentálnu polohu kyvadla. O
+tomto senzore, ako aj o jeho fungovaní sme uº hovorili bliº²ie v £asti 2.1.1.
+word AeroShield : : getRawAngle ()
+{
+return readTwoBytes (_raw_ang_hi , _raw_ang_lo) ;
+// Prebieha
+komunikacia so senzorom ,
+ktory rovno
+v r a t i
+vysledok pomocou
+prikazu
+return
+}
+Listing 2.10: Zdrojový kód funkcie getRawAngle.
+Funkcia begin()
+Prvou z funkcií mimo komunikácie s hall senzorom je float
+AeroShield : : begin (
+bool isDetected ), do ktorej vstupuje výsledok z funkcie detectMagnet () ako premenná
+isDetected. Funkcia begin () nastaví pin potrebný na ovládanie ak£ného £lena, pomo-
+cou príkazu pinMode, ako výstup, teda OUTPUT. Zárove¬ inicializuje sériovú komunikáciu
+I2C. Príkaz na zapo£atie komunikácie I2C sa pri rôznych typoch dosiek, resp. architektúr
+mikroradi£a Arduino lí²i. Pouºijeme preto podmienku #ifdef za ktorou nasleduje typ ar-
+chitektúry daného mikroradi£a a príslu²ný príkaz pre za£iatok sériovej komunikácie I2C.
+V prípade Arduino UNO, je to príkaz Wire.begin().
+Zárove¬ je vo funkcii begin (), pomocou if podmienky, kontrolovaná premenná isDetected.
+Pokia© bol magnet detegovaný, vypí²e na sériový port správu "Magnet detected” a while8
+cyklus, sa pomocou príkazu break ukon£í. Pokia© magnet detegovaný nebol, vypí²e "Can
+not detect magnet", no while cyklus pokra£uje.
+8Cyklus while sa bude opakova´ nepretrºite, pokia© sa výraz vnútri zátvoriek () nestane nepravdivým.
+20
+float
+AeroShield : : begin ( bool isDetected ) {
+pinMode (AERO_UPIN,OUTPUT) ;
+// Pin aktuatora
+#i f d e f ARDUINO_ARCH_AVR
+// Pre dosky s
+architekturov AVR
+Wire . begin () ;
+// Pouzi
+objekt Wire
+#e l i f ARDUINO_ARCH_SAM
+// Pre dosky s
+architekturov SAM
+Wire1 . begin () ;
+// Pouzi
+objekt Wire1
+#e l i f ARDUINO_ARCH_SAMD
+// Pre dosky s
+architekturov SAMD
+Wire . begin () ;
+// Pouzi
+objekt Wire
+#endif
+i f ( isDetected == 0 ) {
+// Pokial magnet nie
+je
+detegovany
+while (1) {
+// While podmienka
+i f ( isDetected == 1 ) {
+// Pokial
+sa magnet deteguje
+AutomationShield . s e r i a l P r i n t ( "Magnet detected \n" ) ;
+break ;
+// Koniec
+while podmienky
+}
+else {
+// Pokial magnet nie
+je
+detegovany
+AutomationShield . s e r i a l P r i n t ( "Can not detect magnet \n" ) ;
+}
+}
+}
+}
+Listing 2.11: Zdrojový kód funkcie begin.
+Funkcia calibration()
+al²ou v poradí je funkcia c a l i b r a t i o n (). Slúºi na prepo£et a zaznamenanie nulo-
+vej polohy kyvadla, teda takej polohy v ktorej sa kyvadlo nachádza, pokia© motor£ek
+nie je pohá¬aný. V ideálnom prípade by sa kyvadlo vºdy po vypnutí motora vrátilo do
+rovnakej východzej polohy. Av²ak kyvadlo je prepojené s motorom a shieldom pomocou
+káblov, ktoré tvoria odpor a teda kyvadlo sa vºdy zastaví v inej nulovej polohe. Fun-
+kcia c a l i b r a t i o n () teda slúºi na zaznamenanie tejto nulovej polohy a v²etky následné
+výpo£ty sa odvolávajú práve na túto hodnotu.
+Do funkcie vstupuje hodnota aktuálneho uhlu kyvadla, z funkcie getRawAngle () ako
+premenná RawAngle. Funkcia na za£iatok vypí²e text "Calibration running...ä motor£ek
+zapneme na ²tvr´ sekundy na výkon 20%. Kyvadlo sa za£ne kýva´ a po£káme ²tyri se-
+kundy, pokia© sa ustáli. Ke¤ je kyvadlo ustálené zaznamenáme jeho hodnotu do premennej
+startangle. Následne prebieha for cyklus ktorý zvukovo informuje o dokon£enej kalibrá-
+cii pomocou troch pípnutí. Vyuºívame tu jav, pri ktorom motor£ek vydáva vysoký tón,
+pokia© je do neho privádzaný nízky PWM signál.
+float
+AeroShield : : c a l i b r a t i o n ( word RawAngle) {
+AutomationShield . s e r i a l P r i n t ( " Calibration running . . . \ n" ) ;
+s t ar t an g l e =0;
+// Vynulovanie premennej
+analogWrite (AERO_UPIN,50) ;
+// Spustenie motora na vykon 20%
+delay (250) ;
+// Cakaj 0.25 s
+analogWrite (AERO_UPIN, 0 ) ;
+// Vypnutie motora
+delay (4000) ;
+// Cakaj 4 s
+s t ar t an g l e = RawAngle ;
+// Uloz hodnotu nuloveho uhla
+analogWrite (AERO_UPIN, 0 ) ;
+// Poistne
+vypnutie motora
+21
+for ( int
+i =0; i <3; i++){
+// Funkcia na zvukovu
+s i g n a l i z a c i u
+analogWrite (AERO_UPIN, 1 ) ;
+// Zapnutie motora
+delay (200) ;
+// Cakaj
+analogWrite (AERO_UPIN, 0 ) ;
+// Vypnutie motora
+delay (200) ;
+// Cakaj
+}
+AutomationShield . s e r i a l P r i n t ( " Calibration done" ) ;
+return
+s t ar t an g l e ;
+// Vrat hodnotu
+}
+Listing 2.12: Zdrojový kód funkcie calibration.
+Funkcia convertRawAngleToDegrees()
+Ako sme uº spomínali v sekcii 2.1.1, zaznamenávaná hodnota uhlu kyvadla je v roz-
+medzí od 0 do 4096 a tieto hodnoty priamo kore²pondujú zo stup¬ami od 0°do 360°.
+1°predstavuje hodnotu pribliºne 11.77 vo formáte raw. Funkcia convertRawAngleToDegrees
+() teda len zoberie raw hodnotu uhlu a vynásobí ju hodnotou 360
+4096 =0.087°. Funkcia teda
+naspä´ vráti prepo£ítanú hodnotu uhla kyvadla v stup¬och.
+float
+AeroShield : : convertRawAngleToDegrees ( word newAngle ) {
+float ang = newAngle * 0.087;
+// 360/4096=0.087 x rawHodnota
+return ang ;
+// Vrat hodnotu
+}
+Listing 2.13: Zdrojový kód funkcie convertRawAngleToDegrees.
+Funkcia referenceRead()
+Funkcia referenceRead () slúºi na £ítanie hodnoty z potenciometra, ktorý sa nachá-
+dza na shielde, a jeho následne premapovanie do percentuálnej podoby. Potenciometer
+vyuºívame na manuálne ovládanie AeroShieldu a v ¤al²ích funkciách, sa vyuºíva hlavne
+jeho percentuálna hodnota. Vrátená hodnota je typu ?oat, v ²kále od 0.0% do 100.0%.
+float
+AeroShield : : referenceRead ( void ) {
+referencePercent = AutomationShield . mapFloat ( analogRead (
+AERO_RPIN) ,
+0.0 ,
+1024.0 ,
+0.0 ,
+100.0) ;
+// Premapovanie
+o r i g i n a l n e j
+hodnoty 0.0 =1023 na
+percentualny
+rozsah
+0.0 =100.0
+return
+referencePercent ;
+// Vrat percentualnu hodnotu
+}
+Listing 2.14: Zdrojový kód funkcie referenceRead.
+Funkcia actuatorWrite()
+Na ovládanie motora resp. jeho otá£ok, pouºívame funkciu actuatorWrite (). Do fun-
+kcie vstupuje percentuálna hodnota výkonu motora, táto hodnota je premapovaná na
+PWM signál, potrebný na správne ovládanie motora. Tento signál následne vstupuje
+do ochrannej funkcie constrainFloat (), ktorá zabezpe£í aby sa hodnota PWM signálu
+mohla pohybova´ len v rozmedzí od 0.0 do 255.0. Táto hodnota je potom zapísaná na
+príslu²ný pin motora, v na²om prípade je to AERO_UPIN.
+22
+void AeroShield : : actuatorWrite ( float
+PotPercent ) {
+float mappedValue = AutomationShield . mapFloat ( PotPercent ,
+0.0 ,
+100.0 ,
+0.0 ,
+255.0) ;
+// Vstupna percentualna
+hodnota 0.0 =100.0 premapovana na
+hodnoty 0.0 =255.0
+mappedValue = AutomationShield . constrainFloat ( mappedValue ,
+0.0 ,
+255.0) ;
+// Bezpecnostna
+funkcia
+obmedzenia premapovanej hodnoty
+analogWrite (AERO_UPIN,
+( int ) mappedValue ) ;
+// Zapisanie
+hodnoty na pin
+}
+Listing 2.15: Zdrojový kód funkcie actuatorWrite.
+Funkcia currentMeasure()
+Poslednou funkciou AeroShieldu je currentMeasure (). Funkcia slúºi na zaznamená-
+vanie prúdu, ktorý odoberá motor kyvadla. Fungovanie sníma£a je opísané v sekcii 2.1.1.
+Funkcia slúºi na prepo£ítanie zaznamenanej hodnoty napätia na prúd. Funkcia beºí vo
+for cykle, ktorý sa opakuje repeatTimes-krát, z dôvodu presnej²ieho merania, ke¤ºe me-
+raná hodnota sa prive©a mení, £o skres©uje výslednú hodnotu. V¤aka for cyklu získame
+priemernú hodnotu prúdu.
+Výsledná hodnota prídu prechádza úpravami, pomocou dvoch korek£ných premen-
+ných, ktoré sme získali v¤aka meraniam prúdu pomocou multimetra, a následným porov-
+naním hodnôt zo senzora. Porovnaním hodnôt sme získali ve©kosti korek£ných premen-
+ných, v¤aka £omu sa na²e merania zhodujú s meraniami pomocou multimetra, na dve
+desatinné miesta.
+Prevod z napätia na prúd robíme pod©a pokynov uvedených v zdrojovom dokumente
+senzoru. Pri tomto prevode vyuºívame hodnotu shunt rezistora RS, ako aj hodnotu rezis-
+tora RL, ktorý priamo premie¬a prúd na napätie.
+Kedºe prúd nemôºe vykazova´ záporné hodnoty(iba pokia© prúdi opa£ným smerom,
+ako sme zamý²©ali), na záver funkcie e²te prechádza if podmienkou, ktorá zmení záporné
+hodnoty prúdu na hodnotu 0.000A.
+float
+AeroShield : : currentMeasure ( void ) {
+for ( int
+i=0 ;
+i<repeatTimes
+;
+i++){
+// For cyklus
+voltageValue= analogRead (VOLTAGE_SENSOR_PIN) ;
+// Citanie
+hodnoty zo senzoru INA169
+voltageValue= ( voltageValue * voltageReference ) / 1024;
+// Mapovanie hodnoty zo senzoru ,
+na realnu hodnotu napatia (
+referencne
+napatie
+je 5V)
+current= current + correction1 =(voltageValue / (10 * ShuntRes ) ) ;
+// Vzorec na vypocet prudu
+//
+Is = (Vout x 1k) / (RS x RL)
+}
+float
+currentMean= current /repeatTimes ;
+// Vypocet priemernej hodnoty
+currentMean= currentMean=correction2 ;
+// Korekcia
+i f ( currentMean < 0.000)
+currentMean= 0.000;
+// Korekcia
+nulovej
+hodnoty
+23
+current= 0;
+// Vynulovanie pomocnych premennych
+voltageValue= 0;
+// Vynulovanie pomocnych premennych
+return currentMean ;
+// Vrat hodnotu prudu v amperoch
+}
+Listing 2.16: Zdrojový kód funkcie currentMeasure.
+pí² aj o samplingu
+24
+3
+Didaktické príklady
+25
+4
+Záver
+Táto £as´ diplomovej práce je povinná. Autor práce uvedie zhodnotenie rie²enia, jeho
+výhody resp. nevýhody, pouºitie výsledkov, ¤al²ie moºnosti a podobne. Môºe aj na£rtnú´
+iný spôsob rie²enia úloh, resp. uvedie, pre£o postupoval uvedeným spôsobom.
+26
+Literatúra
+[1] Fanavaran Sharif.
+Aero pendulum control system (pr22).
+Store. Online., 2021.
+2021, https://www.zoodel.com/en/product/ZP22344/Aero-Pendulum-Control-
+System-PR22.
+[2] Petr Horá£ek. Laboratory experiments for control theory courses: A survey. Annual
+Reviews in Control, 24:151?162, 2000.
+[3] Ed Edwards.
+All about position sensors.
+article. Online.
+2021, https:
+//www.thomasnet.com/articles/instruments-controls/all-about-position-
+sensors.
+[4] Gergely Takacs. Automationshield. Wiki. Online., 2021. 13.7.2021, https://github.
+com/gergelytakacs/AutomationShield/wiki.
+[5] Gergely Takacs.
+Automationshield.
+Code. Online., 2021.
+23.12.2021, https://
+github.com/gergelytakacs/AutomationShield.
+[6] Harry Baggen. The javelin stamp. Elector Electronics, 1(1):0, 2003.
+[7] Arduino uno rev3.
+Info. Online., 2021.
+2021, https://store.arduino.cc/
+products/arduino-uno-rev3.
+[8] Texas instruments tps56339 buck converters.
+store. Online., 2021.
+2021, https:
+//www.mouser.ee/new/texas-instruments/ti-tps56339-buck-converters/.
+[9] Arduino. Overview of the arduino uno components. article. Online., 2021. 2021,
+https://docs.arduino.cc/tutorials/uno-rev3/intro-to-board.
+[10] Arduino uno r3 - schematic with ch340.
+article. Online., 2021.
+2021, http:
+//electronoobs.com/eng_arduino_tut31_sch3.php.
+[11] DANIELLE
+COLLINS.
+What
+are
+coreless
+dc
+motors?
+article.
+Online.,
+2018. 09.10.2021, https://www.motioncontroltips.com/what-are-coreless-dc-
+motors/.
+[12] Komatsu Yasuhiro, Tur-Amgalan Amarsanaa, Yoshihiko Araki, Syed Abdul Kadir
+Zawawi, and Takamura Keita. Design of the unidirectional current type coreless dc
+brushless motor for electrical vehicle with low cost and high e?ciency. In SPEEDAM
+2010, pages 1036?1039, 2010.
+27
+[13] Pmv45en2.
+shop. Online., 2021.
+2021, https://www.nexperia.com/products/
+mosfets/small-signal-mosfets/PMV45EN2.html.
+[14] 7mm
+diameter
+720
+coreless
+motor
+for
+quadcopter.
+shop.
+Online.,
+2021.
+2021,
+https://www.elecrow.com/7mm-diameter-720-coreless-motor-for-
+quadcopter.html.
+[15] SHAWN HYMEL.
+Ina169 breakout board hookup guide.
+article. Online.,
+2021. 2021, https://learn.sparkfun.com/tutorials/ina169-breakout-board-
+hookup-guide/all.
+[16] Ina169na/250. store. Online., 2021. 2021, https://www.ti.com/store/ti/en/p/
+product/?p=INA169NA/250.
+[17] The Editors of Encyclopaedia Britannica. Hall e?ect. article. Online., 2021. 2021,
+https://www.britannica.com/science/Hall-effect.
+[18] Hall·v sníma£ as5600-asom. store. Online., 2021. 2021, https://sk.rsdelivers.
+com/product/ams/as5600-asom/halluv-snimac-as5600-asom-pocet-koliku-8-
+soic-typ/2006337.
+[19] Prototyping circuit boards: Everything you need to know before you start. article. On-
+line., 2020. 2020, https://www.pcbnet.com/blog/prototyping-circuit-boards-
+everything-you-need-to-know-before-you-start/.
+[20] Writing a library for arduino. article. Online., 2022. 2022, https://docs.arduino.
+cc/hacking/software/LibraryTutorial.
+[21] Arduino - data types. article. Online., -. 2022, https://www.tutorialspoint.com/
+arduino/arduino_data_types.htm.
+[22] Michael
+Dellnitz
+Martin
+Golubitsky.
+Linear
+mappings
+and
+bases.
+ar-
+ticle.
+Online.,
+-.
+2022,
+https://ximera.osu.edu/laode/linearAlgebra/
+linearMapsAndChangesOfCoordinates/linearMappingsAndBases.
+[23] Nicholas Zambetti. A guide to arduino & the i2c protocol (two wire). article. Online.,
+2022. 2022, https://docs.arduino.cc/learn/communication/wire.
+[24] Bit shifting.
+article. Online., 2017.
+2022, https://www.techopedia.com/
+definition/26846/bit-shifting.
+28

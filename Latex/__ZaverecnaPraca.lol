@@ -8,4 +8,9 @@
 \contentsline {lstlisting}{\numberline {2.8}Zdrojový kód funkcie detectMagnet.}{19}{}%
 \contentsline {lstlisting}{\numberline {2.9}Zdrojový kód funkcie getMagnetStrength.}{19}{}%
 \contentsline {lstlisting}{\numberline {2.10}Zdrojový kód funkcie getRawAngle.}{20}{}%
-\contentsline {lstlisting}{\numberline {2.11}Zdrojový kód funkcie begin.}{20}{}%
+\contentsline {lstlisting}{\numberline {2.11}Zdrojový kód funkcie begin.}{21}{}%
+\contentsline {lstlisting}{\numberline {2.12}Zdrojový kód funkcie calibration.}{21}{}%
+\contentsline {lstlisting}{\numberline {2.13}Zdrojový kód funkcie convertRawAngleToDegrees.}{22}{}%
+\contentsline {lstlisting}{\numberline {2.14}Zdrojový kód funkcie referenceRead.}{22}{}%
+\contentsline {lstlisting}{\numberline {2.15}Zdrojový kód funkcie actuatorWrite.}{23}{}%
+\contentsline {lstlisting}{\numberline {2.16}Zdrojový kód funkcie currentMeasure.}{23}{}%
