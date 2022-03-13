@@ -82,8 +82,7 @@ float AeroShield::calibration(word RawAngle) {                          // Calib
 
 
   float AeroShield::referenceRead(void) {                                                  // Reference read
-  referenceValue = (float)analogRead(AERO_RPIN);                                           // Reads the actual analog value of potentiometer runner
-  referencePercent = AutomationShield.mapFloat(referenceValue, 0.0, 1024.0, 0.0, 100.0);   // Remapps the analog value from original range 0.0-1023 to percentual range 0.0-100.0
+  referencePercent = AutomationShield.mapFloat(analogRead(AERO_RPIN), 0.0, 1024.0, 0.0, 100.0);   // Remapps the analog value from original range 0.0-1023 to percentual range 0.0-100.0
   return referencePercent;                                                                 // Returns the percentual position of potentiometer runner
 }
 
@@ -102,7 +101,7 @@ float AeroShield::currentMeasure(void){                                         
      }                                                                                     // Is = (Vout x 1k) / (RS x RL)
 
    float currentMean= current/repeatTimes;                                                 // Callculating mean current value 
-   currentMean= currentMean-correction2;                                                   // Small correction of current value(determined by ampermeter)
+   currentMean= currentMean-correction2;                                                   // Small correction of current value(determined by multimeter)
    if(currentMean < 0.000){                                                                // Correction for occasional bug causing the value to be negative. 
       currentMean= 0.000;                                                                  // When it so happens, zero out the value. 
       }
