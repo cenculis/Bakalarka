@@ -17,16 +17,8 @@
 
 #include "AeroShield.h"         // Include header file
 
-// Initializes adreeses needed for communication with as5600
-AeroShield::AeroShield()
-{
- 
-}
-
-
-
 // Initializes hardware pins
-float AeroShield::begin(bool isDetected){                             // Board initialisation
+float AeroClass::begin(bool isDetected){                             // Board initialisation
     pinMode(AERO_UPIN,OUTPUT);  		                                  // Actuator pin
 
   #ifdef ARDUINO_ARCH_AVR                                             // For AVR architecture boards
@@ -52,14 +44,14 @@ float AeroShield::begin(bool isDetected){                             // Board i
 } 
 
 
-float AeroShield::convertRawAngleToDegrees(word newAngle) {             // Function for converting raw angle(0-4096) to degrees(0-360°) 
+float AeroClass::convertRawAngleToDegrees(word newAngle) {             // Function for converting raw angle(0-4096) to degrees(0-360°) 
   float retVal = newAngle * 0.087;                                      // 360°/4096=0.087° times the raw value
   ang = retVal;                               
   return ang;                                                           // Return angle value in degrees 
 }
 
 
-float AeroShield::calibration(word RawAngle) {                          // Calibration 
+float AeroClass::calibration(word RawAngle) {                          // Calibration 
   AutomationShield.serialPrint("Calibration running...\n");             // Print info 
   startangle=0;                                                         // Zero out Variable(precaution)
   analogWrite(AERO_UPIN,50);                                            // Power the actuator, swing the pendulum 
@@ -81,18 +73,18 @@ float AeroShield::calibration(word RawAngle) {                          // Calib
 }
 
 
-  float AeroShield::referenceRead(void) {                                                  // Reference read
+  float AeroClass::referenceRead(void) {                                                  // Reference read
   referencePercent = AutomationShield.mapFloat(analogRead(AERO_RPIN), 0.0, 1024.0, 0.0, 100.0);   // Remapps the analog value from original range 0.0-1023 to percentual range 0.0-100.0
   return referencePercent;                                                                 // Returns the percentual position of potentiometer runner
 }
 
-void AeroShield::actuatorWrite(float PotPercent) {                                         // Actuator write
+void AeroClass::actuatorWrite(float PotPercent) {                                         // Actuator write
   float mappedValue = AutomationShield.mapFloat(PotPercent, 0.0, 100.0, 0.0, 255.0);       // Takes the float type percentual value 0.0-100.0 and remapps it to range 0.0-255.0
   mappedValue = AutomationShield.constrainFloat(mappedValue, 0.0, 255.0);                  // Constrains the remapped value to fit the range 0.0-255.0 - safety precaution
   analogWrite(AERO_UPIN, (int)mappedValue);                                                // Write remapped value to actuator pin 
 }
 
-float AeroShield::currentMeasure(void){                                                    // Measuring current drawn by DC motor 
+float AeroClass::currentMeasure(void){                                                    // Measuring current drawn by DC motor 
   for(int i=0 ; i<repeatTimes ; i++){                                                      // Function for callculating mean current value 
      voltageValue= analogRead(VOLTAGE_SENSOR_PIN);                                         // Read a value from the INA169 
      voltageValue= (voltageValue * voltageReference) / 1024;                               // Remap the ADC value into a voltage number (5V reference)
@@ -112,13 +104,13 @@ float AeroShield::currentMeasure(void){                                         
 
 }
 
-word AeroShield::getRawAngle()                                                             // Function for getting raw pendulum angle data 0-4096
+word AeroClass::getRawAngle()                                                             // Function for getting raw pendulum angle data 0-4096
 {
   return readTwoBytes(_raw_ang_hi, _raw_ang_lo);                                           // Another function for communication with senzor, called from this library 
 }
 
 
-int AeroShield::detectMagnet()                                                             // Function for detecting presence of magnet 
+int AeroClass::detectMagnet()                                                             // Function for detecting presence of magnet 
 {
   int magStatus;                                                                           // Auxiliary variable
   int retVal = 0;                                                                          // Auxiliary variable
@@ -131,7 +123,7 @@ int AeroShield::detectMagnet()                                                  
 }
 
 
-int AeroShield::getMagnetStrength()                 // Function for getting the strength of magnet 
+int AeroClass::getMagnetStrength()                 // Function for getting the strength of magnet 
 {
   int magStatus;                                    // Auxiliary variable
   int retVal = 0;                                   // Auxiliary variable
@@ -150,7 +142,7 @@ int AeroShield::getMagnetStrength()                 // Function for getting the 
 }
 
 
-int AeroShield::readOneByte(int in_adr)             // Function for communicating with the senzor using 1 Byte 
+int AeroClass::readOneByte(int in_adr)             // Function for communicating with the senzor using 1 Byte 
 {
   int retVal = -1;
   Wire.beginTransmission(_ams5600_Address);         // Initialise wire transmission 
@@ -165,7 +157,7 @@ int AeroShield::readOneByte(int in_adr)             // Function for communicatin
 }
 
 
-word AeroShield::readTwoBytes(int in_adr_hi, int in_adr_lo)          // Function for communicating with the senzor using 2 Bytes 
+word AeroClass::readTwoBytes(int in_adr_hi, int in_adr_lo)          // Function for communicating with the senzor using 2 Bytes 
 {
   word retVal = -1;
 
@@ -192,3 +184,5 @@ word AeroShield::readTwoBytes(int in_adr_hi, int in_adr_lo)          // Function
 
   return retVal;                                   // Return stored bits 
 }
+
+AeroClass AeroShield; 
