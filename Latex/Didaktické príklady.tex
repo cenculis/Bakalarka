@@ -1,3 +1,61 @@
 \chapter{Didaktické príklady}
-pid cislicovom riadeni 
-grafy vystupov 
+
+Pre AeroShield bolo v prostredí Arduino IDE, MATLAB a Simulink vytvorených niekoľko vzorových programov, ktoré demonštrujú všetky jeho funkcie a možnosti operácie. Programy sú rozdelené do dvoch veľkých skupín, konkrétne programy v otvorenej slučke bez spätnej väzby a programy v uzavretej slučke so spätnou väzbou. 
+
+Ich rozdiel spočíva v tom že pri riadení bez spätnej väzby, hovoríme o ovládaní systému, kedy sa snažíme dosiahnuť žiadané hodnoty výstupov bez spätnej informácie o vykonaní procesu, alebo o jeho hodnote. V prípade riadenia so spätnou väzbou sa jedná o reguláciu. Pri regulácii sa kontroluje bezprostredný účinok riadenia, ktorý sa porovnáva so žiadanou hodnotou výstupu a na vyrovnanie ich vzájomnej chyby, sa okamžite vykonáva zásah do vstupných veličín. 
+
+\section{Programy v otvorenej slučke, bez spätnej väzby}
+\subsection{$AeroShield_OpenLoop.ino$}
+
+Ako prvý príklad si ukážeme program s názvom \verb|AeroShield_OpenLoop.ino| napísaný v prostredí Arduino IDE. Hlavnou ideou tohoto programu je jednoduché ovládanie otáčok motorčeka kyvadla, pomocou potenciometra. Na začiatku programu inicializujeme hlavnú knižnicu AeroShieldu pomocou príkazu \verb|#include "AeroShield.h"|. Následne deklarujeme premenné, ktorých hodnoty budú vypisované na sériový monitor. 
+
+\begin{lstlisting}[caption={AeroShield open loop dekleracia.},captionpos=b]
+#include "AeroShield.h"       //  Inicializacia hlavnej kniznice
+
+float startangle=0;           //  Premenna pre nulovy uhol
+float lastangle=0;            //  Premenna pre maximalny uhol 
+float pendulumAngle;          //  Uhol natocenia kyvadla
+float referencePercent;       //  Hodnota potenciometra
+float CurrentMean;	      //  Hodnota prudu odoberaneho motorom 
+\end{lstlisting}
+
+Nasleduje časť \verb|setup()|, v ktorej ako prvé, prebehne nastavenie rýchlosti sériovej komunikácie \verb|Serial.begin(115200)|. Číslo 115 200 predstavuje počet zmien, stavu z 0 na 1 resp. zo stavu high na stav low, za sekundu. Nasleduje funkcia \verb|AeroShield.begin()| ktorá sleduje prítomnosť magnetu, a pred nastaví potrebné premenné a funkcie pinov. Poslednou funkciou je kalibrácia kyvadla \verb|AeroShield.calibration()|, spolu s výpočtom začiatočného a koncového uhla. 
+
+\begin{lstlisting}[caption={AeroShield open loop setup().},captionpos=b]
+void setup() {                // Setup prebehne len jeden krat 
+ Serial.begin(115200);       // Zaciatok seriovej komunikacie 
+ AeroShield.begin(AeroShield.detectMagnet());  // Inicializacia AeroShieldu 
+ startangle = AeroShield.calibration(AeroShield.getRawAngle());   // Kalibracia kyvadla
+ lastangle=startangle+1024;  // Kalkulacia uhlu kyvadla pre map function
+}
+\end{lstlisting}
+
+V časti \verb|loop()| sa program opakuje dookola. Ako prvé, prebehne mapovanie uhlu kyvadla pomocou funkcie \verb|AutomationShield.mapFloat()| a získaná hodnota uhlu sa vypíše na sériový monitor, spolu s názvom a premennou danej veličiny. Nasleduje čítanie hodnoty potenciometra, ktorá slúži na ovládanie akčného člena pomocou funkcie \verb|AeroShield.actuatorWrite()|. Na sériový port sa vypíše hodnota potenciometra, za ktorou nasleduje veľkosť prúdu odoberaného motorom \verb| AeroShield.currentMeasure()|. 
+
+\begin{lstlisting}[caption={AeroShield open loop loop().},captionpos=b]
+void loop() {
+	pendulumAngle= AutomationShield.mapFloat(AeroShield.getRawAngle(),startangle,lastangle,0.00,90.00);    //  Mapovanie uhlu kyvadla 
+	Serial.print("pendulum angle is: ");
+	Serial.print(pendulumAngle);    
+	Serial.print("\textdegree || ");
+	
+	referencePercent= AeroShield.referenceRead();  // Citanie potenciometra
+	Serial.print("pot value is: ");
+	Serial.print(referencePercent);  
+	Serial.print("% || ");
+	
+	AeroShield.actuatorWrite(referencePercent); // Pohyb akcneho clenu
+	
+	CurrentMean= AeroShield.currentMeasure();  // Meranie prudu
+	Serial.print("current value is: ");
+	Serial.print(CurrentMean);   
+	Serial.println("A || ");
+}
+\end{lstlisting}
+
+\subsection{$AeroShield_Open_Loop.m$}
+
+
+\section{Programy v uzatvorenej slučke, so spätnou väzbou}
+
+sampling aj

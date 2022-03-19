@@ -225,3 +225,38 @@ Po finálnej kontrole zapojenia komponentov na doske plošných spojov môžeme 
 \subsection{Model držiaku kyvadla}
 
 Tu ešte poviem čo to a designovaní držiaku pendulum
+
+\subsection{Cenová kalkulácia AeroShieldu}
+
+Hlavnou podmienku pri tvorbe AeroShieldu, bola jeho funkcionalita, no zároveň nízka cena. Za účelom predstavy cenovej relácie jedného kusu AeroShieldu, bola zostavená tabuľka\ref{Cenova kalkulacia} s použitými komponentami, ich počtom a reálnou kúpnou cenou v eurách(spolu s DPH). Pri komponentoch ako sú rezistory a kapacitory, bola cena určená ako priemerná hodnota týchto komponentov, keďže pri kúpe zopár kusov(1-20) je ich cena rádovo vyššia, ako cena pri nákupoch viacero kusov. 
+
+\begin{table}[!ht]
+	\begin{tabular}{p{0.25\textwidth} p{0.43\textwidth} p{0.05\textwidth} p{0.07\textwidth} p{0.07\textwidth}}
+		\hline
+		\multicolumn{1}{|l}{\textbf{Názov}} & \textbf{Popis}                                     & \multicolumn{1}{l}{\textbf{Ks.}} & \multicolumn{1}{l}{\textbf{Cena}} & \multicolumn{1}{l|}{\textbf{Spolu}} \\ \hline
+		Kapacitor                           & SMD, sot23                                         & 6                                  & 0,6                                      & 3,6                                        \\
+		Dióda                               & 1N400IG                                            & 1                                  & 0,1                                      & 0,1                                        \\
+		FFC konektor                        & FFC 4pin                                           & 2                                  & 0,2                                      & 0,4                                        \\
+		Cievka                              & IND1210                                            & 1                                  & 0,2                                      & 0,2                                        \\
+		Konektor DC motora                  & JST-XH 2,54                                        & 1                                  & 0,4                                      & 0,4                                        \\
+		Motor                               & Howellp 7x20mm Motor                               & 1                                  & 2,1                                      & 2,1                                        \\
+		Potenciometer                       & CA14                                               & 1                                  & 0,45                                     & 0,45                                       \\
+		Mosfet                              & pmv45en2                                           & 1                                  & 0,04                                     & 0,04                                       \\
+		Rezistor                            & SMD, sot23                                         & 9                                  & 0,4                                      & 3,6                                        \\
+		Buck converter                      & TPS56339                                           & 1                                  & 2,78                                     & 2,78                                       \\
+		Shunt monitor                       & INA169/NA                                          & 1                                  & 0,98                                     & 0,98                                       \\
+		Hall senzor                         & AS5600                                             & 1                                  & 1,48                                     & 1,48                                       \\
+		3D komponenty                       & model kyvadla a spojovacie prvky                   & 4                                  & 2,2                                      & 2,2                                        \\
+		Gulôčkové ložiská                   & BB-694-B180-30-ES IGUS                             & 2                                  & 2,75                                     & 5,5                                        \\
+		Prepájacie káble FFC                & akékoľvek 4 pin, dĺžka min 15cm                    & 1                                  & 0,52                                     & 0,52                                       \\
+		Prepajací kábel motor               & akékoľvek, dĺžka min 35cm                          & 1                                  & 0,3                                      & 0,3                                        \\
+		Šróby                               & 4x M3x40 4x M4x15                                  & 8                                  & 0,25                                     & 2                                          \\
+		Karbónové trubičky                  & 1x kruhový prierez 10cm, 1x štvorcový prierez 10cm & 2                                  & 1,9                                      & 3,8                                        \\
+		PCB shield                          & Výroba JLCPCB                                      & 1                                  & 0,35                                     & 0,35                                       \\
+		PCB brakout                         & Výroba JLCPCB                                      & 1                                  & 0,35                                     & 0,35                                       \\
+		Matice                              & M4                                                 & 4                                  & 0,2                                      & 0,8                                        \\ \hline
+		\multicolumn{1}{|l}{}               &                                                    & \multicolumn{1}{l}{}               & \textbf{Spolu}                           & \multicolumn{1}{c|}{\textbf{31,95}}        \\ \hline
+	\end{tabular}
+\caption{Cenová kalkulácia AeroShieldu.}
+\label{Cenova kalkulacia}
+\end{table}
