@@ -14,8 +14,16 @@
 \contentsline {lstlisting}{\numberline {2.14}Zdrojový kód funkcie referenceRead.}{23}{}%
 \contentsline {lstlisting}{\numberline {2.15}Zdrojový kód funkcie actuatorWrite.}{24}{}%
 \contentsline {lstlisting}{\numberline {2.16}Zdrojový kód funkcie currentMeasure.}{24}{}%
-\contentsline {lstlisting}{\numberline {3.1}AeroShield open loop dekleracia.}{26}{}%
-\contentsline {lstlisting}{\numberline {3.2}AeroShield open loop setup().}{26}{}%
-\contentsline {lstlisting}{\numberline {3.3}AeroShield open loop loop().}{27}{}%
+\contentsline {lstlisting}{\numberline {2.17}Knižnica AeroShield.m properties.}{25}{}%
+\contentsline {lstlisting}{\numberline {2.18}Knižnica AeroShield.m properties.}{26}{}%
+\contentsline {lstlisting}{\numberline {3.1}AeroShield open loop dekleracia.}{27}{}%
+\contentsline {lstlisting}{\numberline {3.2}AeroShield open loop setup().}{27}{}%
+\contentsline {lstlisting}{\numberline {3.3}AeroShield open loop loop().}{28}{}%
+\contentsline {lstlisting}{\numberline {3.4}AeroShield open loop inicializacia.}{28}{}%
+\contentsline {lstlisting}{\numberline {3.5}AeroShield open loop grafy.}{29}{}%
+\contentsline {lstlisting}{\numberline {3.6}AeroShield open loop, while cyklus.}{30}{}%
 \contentsline {lstlisting}{\numberline {4.1}Zdrojový kód súboru AeroShield.h.}{iv}{}%
 \contentsline {lstlisting}{\numberline {4.2}Zdrojový kód súboru AeroShield.cpp.}{v}{}%
+\contentsline {lstlisting}{\numberline {4.3}Zdrojový kód súboru AeroShieldOpenLoop.ino.}{vii}{}%
+\contentsline {lstlisting}{\numberline {4.4}Zdrojový kód súboru AeroShield.m.}{viii}{}%
+\contentsline {lstlisting}{\numberline {4.5}Zdrojový kód súboru AeroShieldOpenLoop.m.}{ix}{}%

@@ -51,25 +51,28 @@
 \AtEndEnvironment{exmp}{\null\hfill\qedsymbol}
 
 \usepackage{listings,color} 			    %To list Matlab code
-\definecolor{mygrey}{gray}{0.5}	        %Define a gray color
-\lstset{
-basicstyle=\ttfamily,
-numbers=none,
-commentstyle=\color{mygrey},
-breaklines=true,
-}
-%extended Matlab language
-\lstdefinelanguage{exMatlab}[]{Matlab}      %Defining expanded Matlab
-{morekeywords={rng,pyulear,plot,hold,randn,filter,length,abs,periodogram,fft,sin,randn,xcorr,fminsearch,dlqr,predmodelqp,dlyap,ones,linprog,quadprog,optimset,qpOASES,qpOASES_sequence,sysStruct,probStruct,mpt_control,volume,hull,extreme,mpt_exportc,mpt_getInput,sdpvar,blkdiag,sdpsettings,solvesdp,geomean,double},
-sensitive=true,
-alsoletter={_}
-}
+
 
 \usepackage{xcolor}
-\lstset { %
-	language=C++,
+
+\definecolor{Myblack}{RGB}{48, 55, 54}
+\definecolor{Mybrown}{RGB}{15, 153, 117}
+\definecolor{Mygreen}{RGB}{160, 82, 131}
+\definecolor{Myyellow}{RGB}{208, 170, 91}
+\definecolor{Myblue}{RGB}{4, 118, 249}
+
+\lstset{language=C++,
+	basicstyle=\ttfamily,
+	keywordstyle=\color{Myblue}\ttfamily,
+	stringstyle=\color{Myyellow}\ttfamily,
+	commentstyle=\color{Mygreen}\ttfamily,
+	numbers=none,
+	breaklines=true,
+	showspaces=false,
+	showstringspaces=false
 	backgroundcolor=\color{white}, % set backgroundcolor
 	basicstyle=\footnotesize,% basic font setting
+	morecomment=[l][\color{Mybrown}]{\#}
 }
 
 \renewcommand\lstlistingname{Zdrojový kód}
@@ -129,8 +132,17 @@ alsoletter={_}
 \pagenumbering{roman}\setcounter{page}{4}
 \cleardoublepage
 % \phantomsection
-\addcontentsline{toc}{chapter}{Zdrojový kód AeroShield.h}
-\include{Zdrojovy kod headeru}
-\addcontentsline{toc}{chapter}{Zdrojový kód AeroShield.cpp}
-\include{Zdrojovy kod sourcu}
+\addcontentsline{toc}{chapter}{Arduino IDE}
+\addcontentsline{toc}{section}{Zdrojový kód AeroShield.h}
+\include{Zdrojovy kod AeroShield.h}
+\addcontentsline{toc}{section}{Zdrojový kód AeroShield.cpp}
+\include{Zdrojovy kod AeroShield.cpp}
+\addcontentsline{toc}{section}{Zdrojový kód AeroShieldOpenLoop.ino}
+\include{Zdrojovy kod AeroShieldOpenLoop.ino}
+\addcontentsline{toc}{chapter}{MATLAB}
+\addcontentsline{toc}{section}{Zdrojový kód AeroShield.m}
+\include{Zdrojovy kod AeroShield.m}
+\addcontentsline{toc}{section}{Zdrojový kód AeroShieldOpenLoop.m}
+\include{Zdrojovy kod AeroShieldOpenLoop.m}
+\addcontentsline{toc}{chapter}{Simulink}
 \end{document}

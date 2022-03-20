@@ -1,0 +1,48 @@
+\LARGE\bf{Zdrojový kód súboru AeroShield.h}
+\label{AeroShield.h}
+\vspace{1cm}
+\begin{lstlisting}[numbers=left,basicstyle=\scriptsize,caption={Zdrojový kód súboru AeroShield.h.},captionpos=b,]	
+	#ifndef AEROSHIELD_H			 
+	#define AEROSHIELD_H	
+	
+	#include "AutomationShield.h" 
+	#include <Wire.h>              
+	#include <Arduino.h>			 
+	#define AERO_RPIN A3        
+	#define VOLTAGE_SENSOR_PIN A2   
+	#define AERO_UPIN 5   
+	
+	class AeroShield{		    	               
+		public:
+		AeroShield(void);
+		float begin(bool isDetected);                                       
+		void actuatorWrite(float PotPercent);          
+		float calibration(word RawAngle);          
+		float convertRawAngleToDegrees(word newAngle);  
+		float referenceRead(void);
+		float currentMeasure(void);
+		int detectMagnet();	
+		int getMagnetStrength();
+		word getRawAngle();
+		
+		private:
+		int ang;                                        
+		float startangle;                              
+		float referenceValue;               
+		float referencePercent;              
+		float correction1= 4.1220;			
+		float correction2= 0.33;			
+		int repeatTimes= 100;				
+		float voltageReference= 5.0;		
+		float ShuntRes= 0.1;				
+		float current;						
+		float voltageValue;				
+		int _ams5600_Address = 0x36;	
+		int _stat = 0x0b;				
+		int _raw_ang_hi = 0x0c;		
+		int _raw_ang_lo = 0x0d;		
+		int readOneByte(int in_adr);	
+		word readTwoBytes(int in_adr_hi, int in_adr_lo); 
+	};
+	#endif
+\end{lstlisting}

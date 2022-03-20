@@ -1,0 +1,57 @@
+\LARGE\bf{Zdrojový kód súboru AeroShieldOpenLoop.m}
+\label{AeroShieldOpenLoop.m}
+\vspace{1cm}
+\begin{lstlisting}[numbers=left,basicstyle=\scriptsize,caption={Zdrojový kód súboru AeroShieldOpenLoop.m.},captionpos=b]	
+clear all;
+clear a;
+clc 
+
+AeroShield=AeroShield;
+AeroShield.begin();
+startangle= AeroShield.calibration(); 
+lastangle=startangle+2048;
+
+time = 0;
+count = 0;
+angle = 0;
+potentiometer = 0;
+
+yyaxis right  
+plotGraph = plot(time,angle,'-r' )
+ylabel('Angle (degree)','FontSize',15);
+xlabel('Time (s)','FontSize',15); 
+hold on  
+
+yyaxis left 
+plotGraph1 = plot(time,potentiometer,'-b')
+title('Pendulum plot','FontSize',15);
+ylabel('Percent','FontSize',15)  
+legend('Potentiometer value','Pendulum angle')
+grid('on');
+
+tic    
+
+while ishandle(plotGraph)  
+pwm = AeroShield.referenceRead();
+AeroShield.actuatorWrite(pwm);
+
+RAW= AeroShield.getRawAngle();  
+angle_ = mapped(RAW, startangle, lastangle, 0, 180);
+count = count + 1;  
+time(count) = toc;      
+angle(count) = angle_(1);   
+percenta= mapped(pwm, 0.0, 5.0, 0.0, 100.0); 
+potentiometer(count) = percenta(1);          
+set(plotGraph,'XData',time,'YData',angle);   
+set(plotGraph1,'XData',time,'YData',potentiometer);
+axis([time(count)-5 time(count) 0 100]);  
+
+if (angle_ > 110)                         
+AeroShield.actuatorWrite(0.0);    
+disp('Angle of pendulum too high. AeroShield is turned off')
+break                              
+end
+end             
+
+clear AeroShield.arduino;
+\end{lstlisting}

@@ -1,0 +1,146 @@
+\LARGE\bf{Zdrojový kód súboru AeroShield.cpp}
+\label{AeroShield.cpp}
+\vspace{1cm}
+\begin{lstlisting}[numbers=left,basicstyle=\tiny,caption={Zdrojový kód súboru AeroShield.cpp.},captionpos=b]	
+#include "AeroShield.h"     
+	
+float AeroShield::begin(bool isDetected){   
+	pinMode(AERO_UPIN,OUTPUT);  		   
+	#ifdef ARDUINO_ARCH_AVR      
+	Wire.begin();                            
+	#elif ARDUINO_ARCH_SAM                            
+	Wire1.begin();                
+	#elif ARDUINO_ARCH_SAMD         
+	Wire.begin();                            
+	#endif
+		
+	if(isDetected == 0 ){                
+	while(1){                                    
+		if(isDetected == 1 ){                          
+			AutomationShield.serialPrint("Magnet detected \n");
+		break;
+		}
+		else{                                                 
+		AutomationShield.serialPrint("Can not detect magnet \n"); 
+			}
+			}
+		}       
+} 
+
+float AeroShield::convertRawAngleToDegrees(word newAngle) {
+	float retVal = newAngle * 0.087;      
+	ang = retVal;                               
+	return ang;                  
+}
+
+float AeroShield::calibration(word RawAngle) {      
+	AutomationShield.serialPrint("Calibration running...\n");  
+	startangle=0;                                
+	analogWrite(AERO_UPIN,50);              
+	delay(250);                              
+	analogWrite(AERO_UPIN,0);              
+	delay(4000);    
+	                       
+	startangle = RawAngle;                                 
+	analogWrite(AERO_UPIN,0);                     
+	for(int i=0;i<3;i++){                  
+		analogWrite(AERO_UPIN,1);                 
+		delay(200);                           
+		analogWrite(AERO_UPIN,0);                                
+		delay(200);                                     
+	}
+	AutomationShield.serialPrint("Calibration done");
+	return startangle;                                         
+}
+	
+float AeroShield::referenceRead(void) {                                                
+	referencePercent = AutomationShield.mapFloat(analogRead(AERO_RPIN), 0.0, 1024.0, 0.0, 100.0);   
+	return referencePercent;                                     
+}
+	
+void AeroShield::actuatorWrite(float PotPercent) {       
+	float mappedValue = AutomationShield.mapFloat(PotPercent, 0.0, 100.0, 0.0, 255.0);  
+	mappedValue = AutomationShield.constrainFloat(mappedValue, 0.0, 255.0);
+	analogWrite(AERO_UPIN, (int)mappedValue);    
+}
+	
+float AeroShield::currentMeasure(void){       
+	for(int i=0 ; i<repeatTimes ; i++){                                            
+		voltageValue= analogRead(VOLTAGE_SENSOR_PIN);                                       
+		voltageValue= (voltageValue * voltageReference) / 1024;                             
+		current= current + correction1-(voltageValue / (10 * ShuntRes));     
+	}                                                              
+	float currentMean= current/repeatTimes;             
+	currentMean= currentMean-correction2;              
+	if(currentMean < 0.000){                           
+		currentMean= 0.000;                             
+	}
+	current= 0;               
+	voltageValue= 0;         
+	return currentMean;  
+}
+	
+word AeroShield::getRawAngle()                                                           
+{
+	return readTwoBytes(_raw_ang_hi, _raw_ang_lo);                                         
+}
+
+int AeroShield::detectMagnet()                                                         
+{
+	int magStatus;                                                                   
+	int retVal = 0;                                                                      
+	magStatus = readOneByte(_stat);                                                                  
+	if (magStatus & 0x20)
+	retVal = 1;
+	return retVal;                                                               
+}
+
+int AeroShield::getMagnetStrength()           
+{
+	int magStatus;                                 
+	int retVal = 0;                             
+	magStatus = readOneByte(_stat);               
+	if (detectMagnet() == 1)                         
+	{	retVal = 2;                               
+		if (magStatus & 0x10)
+		retVal = 1;                               
+		else if (magStatus & 0x08)
+		retVal = 3;                            
+	} return retVal;                          
+}
+
+int AeroShield::readOneByte(int in_adr)       
+{
+	int retVal = -1;
+	Wire.beginTransmission(_ams5600_Address);     
+	Wire.write(in_adr);                            
+	Wire.endTransmission();                         
+	Wire.requestFrom(_ams5600_Address, 1);          
+	while (Wire.available() == 0);                   
+	retVal = Wire.read();                         
+	return retVal;                                   
+}
+
+word AeroShield::readTwoBytes(int in_adr_hi, int in_adr_lo)     
+{
+	word retVal = -1;
+	/* Read Low Byte */
+	Wire.beginTransmission(_ams5600_Address);     
+	Wire.write(in_adr_lo);                        
+	Wire.endTransmission();                        
+	Wire.requestFrom(_ams5600_Address, 1);          
+	while (Wire.available() == 0);                  
+	int low = Wire.read();                    
+	
+	/* Read High Byte */
+	Wire.beginTransmission(_ams5600_Address);       
+	Wire.write(in_adr_hi);                    
+	Wire.endTransmission();                       
+	Wire.requestFrom(_ams5600_Address, 1);        
+	while (Wire.available() == 0);               
+	word high = Wire.read();                    
+	high = high << 8;                             
+	retVal = high | low;
+	return retVal;                                
+}	
+\end{lstlisting}
