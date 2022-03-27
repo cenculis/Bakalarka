@@ -30,7 +30,7 @@ void setup() {                // Setup prebehne len jeden krat
 }
 \end{lstlisting}
 
-V časti \verb|loop()| sa program opakuje dookola. Ako prvé, prebehne mapovanie uhlu kyvadla pomocou funkcie \verb|AutomationShield.mapFloat()| a získaná hodnota uhlu sa vypíše na sériový monitor, spolu s názvom a premennou danej veličiny. Nasleduje čítanie hodnoty potenciometra, ktorá slúži na ovládanie akčného člena pomocou funkcie \verb|AeroShield.actuatorWrite()|. Na sériový port sa vypíše hodnota potenciometra, za ktorou nasleduje veľkosť prúdu odoberaného motorom \verb| AeroShield.currentMeasure()|. 
+V časti \verb|loop()| sa program opakuje dookola. Ako prvé, prebehne mapovanie uhlu kyvadla pomocou funkcie \verb|AutomationShield.mapFloat()| a získaná hodnota uhlu sa vypíše na sériový monitor, spolu s názvom a premennou danej veličiny. Nasleduje čítanie hodnoty potenciometra, ktorá slúži na ovládanie akčného člena pomocou funkcie \verb|AeroShield.actuatorWrite()|. Na sériový port sa vypíše hodnota potenciometra obr.\ref{OBRAZOK 3.1}, za ktorou nasleduje veľkosť prúdu odoberaného motorom \verb| AeroShield.currentMeasure()|. 
 
 \begin{lstlisting}[caption={AeroShield open loop loop().},captionpos=b]
 void loop() {
@@ -53,6 +53,12 @@ void loop() {
 }
 \end{lstlisting}
 
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=120mm]{obr/VystupOLIDE.png}
+	\caption{Výstup z programu AeroShieldOpenLoop.ino.}\label{OBRAZOK 3.1}
+\end{figure}
+
 \subsection{$AeroShieldOpenLoop.m$}
 
 V príklade \verb|AeroShieldOpenLoop.m| si ukážeme výhody a možnosti zobrazovania výstupov, v prostredí MATLAB. Výstupy vieme zobrazovať nielen na sériovom monitore alebo zapisovači, ale máme možnosť tvoriť grafy, tabuľky... a všetky tieto výstupy upravovať a ukladať podľa vlastných predstáv a požiadaviek. 
@@ -68,10 +74,8 @@ clc
 
 % nacitanie kniznice AeroShieldu  
 AeroShield=AeroShield;
-
 % vytvorenie objektov arduino, as5600
 AeroShield.begin();
-
 % kalibracia
 startangle= AeroShield.calibration(); 
 lastangle=startangle+2048; 
@@ -79,7 +83,6 @@ lastangle=startangle+2048;
 % premenne na pocitanie casu
 time = 0;
 count = 0;
-
 angle = 0;          % uhol kyvadla
 potentiometer = 0;  % hodnota potenciometra
 \end{lstlisting}
@@ -103,7 +106,7 @@ potentiometer = 0;  % hodnota potenciometra
 	tic                              % time keeping
 \end{lstlisting}
 
-Nasleduje while cyklus ktorý má podmienku ukončenia zatvorenie vykresľovaného grafu tj. v momente kedy zatvoríme graf, podmienka prestane byť splnená a program sa ukončí. V cykle najskôr čítame hodnotu potenciometra pomocou \verb|AeroShield.referenceRead()| a túto hodnotu zapisujeme na akčný člen vďaka príkazu \verb| AeroShield.actuatorWrite()|. Nasleduje čítanie uhlu kyvadla \verb|AeroShield.getRawAngle()|, za ktorím prebehne mapovanie premennej z hodnoty raw na stupne. Premenná \verb|count| slúži na počítanie počtu prejdených cyklov, ako aj na tvorbu usporiadaného radu premenných, a využívame ju aj na vykresľovanie pohyblivej x-ovej osi grafu. Na konci programu ešte nájdeme if podmienku, ktorá kontroluje uhol kyvadla. Ak ten nadobudne hodnotu väčšiu ako 110°, proces sa automaticky ukončí a vypíše sa upozornenie. Posledný príkaz \verb|clear AeroShield.arduino| vymaže objekt \verb|arduino| a pripraví MATLAB na spustenie ďalšieho programu. 
+Nasleduje while cyklus ktorý má podmienku ukončenia zatvorenie vykresľovaného grafu tj. v momente kedy zatvoríme graf, podmienka prestane byť splnená a program sa ukončí. V cykle najskôr čítame hodnotu potenciometra pomocou \verb|AeroShield.referenceRead()| a túto hodnotu zapisujeme na akčný člen vďaka príkazu \verb| AeroShield.actuatorWrite()|. Nasleduje čítanie uhlu kyvadla \verb|AeroShield.getRawAngle()|, za ktorím prebehne mapovanie premennej z hodnoty raw na stupne. Premenná \verb|count| slúži na počítanie počtu prejdených cyklov, ako aj na tvorbu usporiadaného radu premenných, a využívame ju aj na vykresľovanie pohyblivej x-ovej osi grafu obr.\ref{OBRAZOK 3.2}. Ľavá stupnica grafu je stacionárna a zobrazuje hodnotu potenciometra, pravá stupnica zobrazuje uhol kyvadla v stupňoch a svoje rozpätie zväčšuje alebo zmenšuje v závislosti na výchylke kyvadla. Na konci programu ešte nájdeme if podmienku, ktorá kontroluje uhol kyvadla. Ak ten nadobudne hodnotu väčšiu ako 110°, proces sa automaticky ukončí a vypíše sa upozornenie. Posledný príkaz \verb|clear AeroShield.arduino| vymaže objekt \verb|arduino| a pripraví MATLAB na spustenie ďalšieho programu. 
 
 \begin{lstlisting}[caption={AeroShield open loop, while cyklus.},captionpos=b]
 while ishandle(plotGraph)           % loop will run until plot is closed
@@ -131,6 +134,12 @@ end
 
 clear AeroShield.arduino;           
 \end{lstlisting}
+
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=\textwidth]{obr/ASOLmat.png}
+	\caption{Výstup z programu AeroShieldOpenLoop.m.}\label{OBRAZOK 3.2}
+\end{figure}
 
 \section{Programy v uzatvorenej slučke, so spätnou väzbou}
 

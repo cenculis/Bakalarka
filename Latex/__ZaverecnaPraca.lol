@@ -19,7 +19,7 @@
 \contentsline {lstlisting}{\numberline {3.1}AeroShield open loop dekleracia.}{27}{}%
 \contentsline {lstlisting}{\numberline {3.2}AeroShield open loop setup().}{27}{}%
 \contentsline {lstlisting}{\numberline {3.3}AeroShield open loop loop().}{28}{}%
-\contentsline {lstlisting}{\numberline {3.4}AeroShield open loop inicializacia.}{28}{}%
+\contentsline {lstlisting}{\numberline {3.4}AeroShield open loop inicializacia.}{29}{}%
 \contentsline {lstlisting}{\numberline {3.5}AeroShield open loop grafy.}{29}{}%
 \contentsline {lstlisting}{\numberline {3.6}AeroShield open loop, while cyklus.}{30}{}%
 \contentsline {lstlisting}{\numberline {4.1}Zdrojový kód súboru AeroShield.h.}{iv}{}%
