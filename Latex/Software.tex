@@ -1,12 +1,13 @@
-\section{Software}
+\section{Softvér}
+\subsection{Arduino API}
 
-Programovacie rozhranie pre platformy arduino sa nazýva Arduino IDE\footnote[5]{Arduino Integrated Development Environment.} a využíva programovací jazyk C++ resp. jeho podobu, s pridanými špecializovanými príkazmi a funkciami priamo pre arduino IDE. Príkazy sú na prvý pohľad zrozumiteľnejšie ako ich skompilovaná\footnote[6]{Kompilácia je preklad zdrojového kódu do podoby ktorú vie procesor prečítať a spracovať.} podoba v jazyku C++, no funkcie resp. schopnosti príkazu sú rovnaké. Preto je arduino vhodným prostriedkom na programovanie ako pre začiatočníkov, tak aj pre skúsenejších programátorov. 
+Vývojové prostredie pre platformy arduino sa nazýva Arduino IDE\footnote[5]{Arduino Integrated Development Environment.} a využíva programovací jazyk C++ resp. jeho nadstavbu, s pridanými špecializovanými príkazmi a funkciami. 
 
-Pri tvorbe programovej časti AeroShieldu je dôležité uvedomiť si fakt že doska vzniká v rámci projektu AutomationShield. Tým že je tento projekt opensource, ktokoľvek môže kód upravovať a vylepšovať, je preto dôležité aby funkcie navádzali používateľov na ich správne použitie a aby boli čo najviac prehľadné. Z tohoto dôvodu bola vytvorená knižnica AutomationShield ktorá v sebe zahŕňa najviac používané funkcie. Predstavme si situáciu kedy v programe ktorý píšeme potrebujeme premenu jednotiek z metrov na centimetre. Pokiaľ takúto funkciu použijeme v kóde jeden krát, môžeme túto funkciu napísať priamo do kódu. Avšak pokiaľ túto funkciu využívame častejšie, dáva zmysel uložiť ju mimo kód a následne túto funkciu zavolať naspäť v prípade jej potreby. Sprehľadňuje sa tak vzniknutý kód a znižuje sa možnosť chýb vďaka monotónnym kopírovaniam tej istej funkcie. 
+Z tohoto dôvodu bola vytvorená knižnica AutomationShield ktorá v sebe zahŕňa najviac používané funkcie. Predstavme si situáciu kedy v programe ktorý píšeme potrebujeme premenu jednotiek z metrov na centimetre. Pokiaľ takúto funkciu použijeme v kóde jeden krát, môžeme túto funkciu napísať priamo do kódu. Avšak pokiaľ túto funkciu využívame častejšie, dáva zmysel uložiť ju mimo kód a následne túto funkciu zavolať naspäť v prípade jej potreby. Sprehľadňuje sa tak vzniknutý kód a znižuje sa možnosť chýb vďaka monotónnym kopírovaniam tej istej funkcie. 
 
 Takúto možnosť externých preddefinovaných funkcií prístupných na zavolanie ponúka objektovo orientované programovanie(OOP) v jazyku C++\cite{oop}. Zvyčajne sa vytvárajú dva súbory resp. knižnice, z ktorých jedna sa nazýva \verb|headers| alebo hlavička s koncovkou .h a druhá, \verb|source| alebo zdrojový dokument s koncovkou .cpp. Header slúži ako akýsi navádzač a sklad pre premenné a funkcie, ktorý následne komunikuje so source dokumentom v ktorom sú uložené samotné funkcie. 
 
-\subsection{Header}
+\subsubsection{Header}
 
 Header súbor má niekoľko náležitostí ktoré obsahuje. Na začiatok deklarujeme súbor samotný. Robíme to pomocou príkazu \verb|#define|. Avšak, ak by sa takáto deklarácia nachádzala vo viacerých súboroch, a teda header súbor by sa načítal niekoľko krát, spôsobovalo by to problém pri kompilácii kódu. Z toho dôvodu používame funkciu \verb|Include guard| ktorá zamedzuje niekoľkonásobne načítanie rovnakých súborov. 
 
@@ -33,7 +34,10 @@ Za knižnicami následne určujeme premenné, ktoré majú priradené fyzické �
 
 
 
-V časti \verb|Zdrojovy kod|, vytvárame \verb|class| alebo triedu ktorá v sebe zahŕňa funkcie a premenné ktoré sa nazývajú \verb|objects|, teda objekty. Class obsahuje podmnožinu objectov ktoré vieme prepájať a spájať vo väčšie celky, vďaka čomu vieme dosiahnuť veľmi komplexné funkcie. Tieto funkcie a premenné môžu byť buď \verb|public|, teda verejné a prístupné aj mimo súbor, alebo \verb|privat|, teda súkromné ktoré su prístupné len v knižniciach header a source. V header súbore sa môže nachádzať jedna, alebo viacero tried, záleží to od logicky deliteľných úsekov kódu, alebo od preferencie programátora. Deklarácia triedy s objektami vyzerá nasledovne: 
+V časti \verb|Zdrojovy kod|, vytvárame \verb|class| alebo triedu ktorá v sebe zahŕňa funkcie a premenné ktoré sa nazývajú \verb|objects|, teda objekty. Class obsahuje podmnožinu objectov ktoré vieme prepájať a spájať vo väčšie celky, vďaka čomu vieme dosiahnuť veľmi komplexné funkcie. Tieto funkcie a premenné môžu byť buď \verb|public|, teda verejné a prístupné aj mimo triedu, alebo \verb|privat|, teda súkromné ktoré su prístupné len v danej triede.
+este protected a default.
+
+ V header súbore sa môže nachádzať jedna, alebo viacero tried, záleží to od logicky deliteľných úsekov kódu, alebo od preferencie programátora. Deklarácia triedy s objektami vyzerá nasledovne: 
 
 \begin{lstlisting}[caption={Triedy a objekty.},captionpos=b]
 	class AeroShield{		// Deklaracia triedy
@@ -48,9 +52,9 @@ V časti \verb|Zdrojovy kod|, vytvárame \verb|class| alebo triedu ktorá v sebe
 V tomto prípade sa trieda nazýva AeroShield a má v sebe jednu funkciu s názvom \verb|FirstObject()| v časti public a jednu premennú \verb|FirstVariable|, typu float, v časti pivate. Rozdelenie na public a privat má zmysel hlavne v prípade ak chceme mať zadefinované isté premenné, pri ktorých nechceme aby sa dala externe zmeniť ich hodnota alebo typ. V prípade privat, takáto zmena nie je možná, jediná možnosť ako premennú zmeniť, je jej ručné prepísanie v súbore. V časti private deklarujeme funkcie ktoré následne využívame v rámci triedy a slúžia ako pomocné funkcie pri tvorbe komplexnejších častí kódu. V časti public sú funkcie viditeľné a schopné interagovať s inými triedami ako aj s inými knižnicami. 
 
 \newpage
-\subsection{Source}
+\subsubsection{Source}
 
-Ako sme už spomínali, v knižnici source sa nachádzajú všetky funkcie využívané v AeroShielde. Keďže knižnice sa už definovali a načítavali v súbore header, stačí nám načítať len tento jeden súbor a to pomocou príkazu \code{#include "AeroShield.h"}, ktorý vložíme na začiatok súboru. Ďalej v súbore deklarujeme jednotlivé samostatné funkcie. Funkcie zapisujeme pomocou už spomínaného classu, dátového typu a názvu funkcie v podobe:
+Keďže všetky potrebné knižnice sa už definovali a načítavali v súbore header, stačí nám už len source a header prepojiť pomocou príkazu \code{#include "AeroShield.h"}, ktorý vložíme na začiatok súboru. Ďalej v súbore deklarujeme jednotlivé funkcie. Funkcie zapisujeme pomocou už spomínaného classu, dátového typu a názvu funkcie v podobe:
 \begin{lstlisting}[caption={Source volanie funkcie.},captionpos=b]
 typFunkcie AeroShield::nazovFunkcie()
 \end{lstlisting}
@@ -398,3 +402,5 @@ end
 \end{lstlisting}
 
 Zostávajúce funkcie, ako aj celý zdrojový kód \verb|AeroShield.m| sa nachádza v prílohe na strane \pageref{AeroShield.m}. 
+
+\subsection{Simulink}	

@@ -1,22 +1,16 @@
 \chapter{AeroShield}
 
-Téma tejto bakalárskej práce vznikla ako pokračovanie, na už započatom projekte. Prvá verzia dosky a samotného kyvadla, vznikla ako záverečný projekt na predmet mikroprocesorová technika. Schému zapojenia hlavnej dosky, ako aj fotografiu zostavenej verzie, môžeme vidieť na obr.\ref{OBRAZOK 2.1.1}.
+Práca je založená na už započatom projekte vzdušného kyvadla. Na jeho tvorbe sa podieľali študenti . Prvá verzia dosky a samotného kyvadla, vznikla ako záverečný projekt na predmet Mikropočítače a mikroprocesorová technika. Fotografiu zostavenej dosky, môžeme vidieť na obr.\ref{OBRAZOK 2.1.1}.
 
 
-\begin{figure}[!tbh]
+\begin{figure}[tbh]
 	\centering
 	\includegraphics[width=80mm]{obr/oldshield.jpg}
-	
-	(a)
-	\includegraphics[width=\linewidth]{obr/oldshieldscheme.png}
-	(b)
-	\caption{(a) Prvá verzia AeroShieldu. (b) Schéma zapojenia prvej verzie AeroShieldu.}
-	\label{OBRAZOK 2.1.1}
+	\caption{Prvá verzia AeroShieldu. }\label{OBRAZOK 2.1.1}
 \end{figure}
 
-\vspace{3cm}
 
-Prvá verzia dosky mala niekoľko nedostatkov, vďaka ktorým bola prakticky nepoužiteľná. Hlavnými nedostatkami boli:
+V novej verzii dosky bolo odstránených niekoľko nedostatkov predchádzajúcej verzie. Jednalo sa o:
 
 \begin{itemize}
 	\item neprepojenie pinov komunikácie I2C tj. piny SDA a SCL senzoru hall efektu, ktorý slúži na meranie uhlu natočenia kyvadla,
@@ -26,24 +20,23 @@ Prvá verzia dosky mala niekoľko nedostatkov, vďaka ktorým bola prakticky nep
 	\item neprepojenie nulového konektora shieldu s nulovým konektorom arduina.
 \end{itemize}
 
-Základom tejto bakalárskej práce teda bolo, pochopiť jednotlivé časti zapojenia, analyzovať chyby a ich následná oprava. V rámci školského projektu bola vytvorená hlavná doska, na ktorej sa nachádza väčšina elektroniky a menšia, vedľajšia doska, ktorá slúži na fungovanie senzoru hall efektu. Táto doska fungovala bezproblémovo a teda nebolo potrebné nijakým spôsobom meniť jej schému zapojenia, viditeľnú na obr.\ref{OBRAZOK 2.1.2}.a. Tejto menšej doske sa budeme bližšie venovať v časti \ref{PCBcka}, no jej podoba je viditeľná na obr.\ref{OBRAZOK 2.1.2}.b.
+Základom tejto bakalárskej práce teda bolo pochopiť jednotlivé časti zapojenia, analyzovať chyby a ich následná oprava. V rámci projektu bola vytvorená hlavná doska, na ktorej sa nachádza väčšina elektroniky a menšia doska tzv. breakout board obr.\ref{OBRAZOK 2.1.2}.b, ktorý je uchytený v hornej časti kyvadla a slúži na fungovanie senzoru hall efektu. Táto doska fungovala bezproblémovo a teda nebolo potrebné nijakým spôsobom meniť jej schému zapojenia obr.\ref{OBRAZOK 2.1.2}.a. Breakout boardu sa budeme bližšie venovať v časti \ref{PCBcka}.
 
 \begin{figure}[!tbh]
 	\hfill
-	\subfigure[Schéma zapojenia externej dosky.]{\includegraphics[width=9cm]{obr/as5600.png}}
+	\subfigure[Schéma zapojenia breakout boardu.]{\includegraphics[width=10cm]{obr/as5600.png}}
 	\hfill
-	\subfigure[Doska slúžiaca na fungovanie senzoru hall efektu.]{\includegraphics[width=5cm]{obr/fotoBreak.png}}
+	\subfigure[Breakout board.]{\includegraphics[width=5cm]{obr/fotoBreak.png}}
 	\hfill
-	\caption{meranie uhla kyvadla}\label{OBRAZOK 2.1.2}
+	\caption{Meranie uhla kyvadla}\label{OBRAZOK 2.1.2}
 \end{figure}
 
 
-
 \newpage
-\section{Hardware}
+\section{Hardvér}
 \subsection{Popis súčiastok}
 
-V tejto časti sa bližšie pozrieme na jednotlivé nevyhnutné súčasti zapojenia AeroShieldu. Konkrétne sa jedná o tieto prvky:
+V tejto časti sa bližšie pozrieme na jednotlivé súčasti zapojenia AeroShieldu. Konkrétne sa jedná o tieto prvky:
 \begin{multicols}{2}
 	\begin{itemize}
 		\item napájanie
@@ -57,7 +50,7 @@ V tejto časti sa bližšie pozrieme na jednotlivé nevyhnutné súčasti zapoje
 \subsubsection{Znižovací menič}
 \label{nap}
 
-Na správne napájanie akčného člena, motorčeka, potrebujeme napätie v rozmedzí 0-3,7V. Na shield je však privádzané, pomocou koaxiálneho napájacieho konektora, napätie 12V, ktoré by motor v priebehu chvíle zničilo. Na zníženie napätia preto použijeme znižovací menič tzv. buck converter. 
+Na napájanie akčného člena, motorčeka, potrebujeme napätie v rozmedzí 0-3,7V. Na shield je však privádzané, pomocou koaxiálneho napájacieho konektora, napätie 12V, ktoré by mohlo motor pri dlhšom používaní zničiť. Na zníženie napätia preto použijeme znižovací menič tzv. buck converter. 
 
 Hlavnou časťou konvertora je čip TPS56339 od výrobcu Texas Instruments obr.\ref{OBRAZOK 2.1}.b. Znižovanie napätia funguje za pomoci dvoch integrovaných N-kanálových 70-m$\Omega$ a 35-m$\Omega$ high-side mosfetov\footnote[4]{N-kanálový mosfet je typ mosfetu, v ktorom tok prúdu nastáva kvôli pohybujúcim sa, záporne nabitým elektrónom. $"High-side"$ znamená, že prúd prechádza z napájania, cez mosfet, do záťaže a potom do zeme.}, v spolupráci s ďalšími komponentami. Celkový prevádzkový prúd zariadenia je približne 98$\upmu$A, keď funguje bez spínania a bez záťaže. Keď je zariadenie vypnuté, napájací prúd je približne 3$\upmu$A a zariadenie umožňuje nepretržitý výstupný prúd do 3 A\cite{buckobr}.
 
@@ -70,14 +63,17 @@ Hlavnou časťou konvertora je čip TPS56339 od výrobcu Texas Instruments obr.\
 	\caption{buck converter}\label{OBRAZOK 2.1}
 \end{figure}
 
-Na čip je privádzané napätie 12V ktoré sa pomocou zapojenia viditeľného na schéme obr.\ref{OBRAZOK 2.1}.a, znižuje na napätie 3,7V. Napájanie motora musí byť realizované externe pomocou koaxiálneho napájacieho konektora, z dôvodu vysokého prúdu odoberaného motorom počas silného zaťaženia. Rovnaký konektor sa síce nachádza aj na doske Arduino UNO a pomocou VIN pinu sa z neho dajú napájať napätím 12V aj iné zariadenia, avšak tento pin je napojený na diódu, obmedzujúcu prúd na 1A\cite{ampere}\cite{ampere2}.
+Na čip je privádzané napätie 12V ktoré sa pomocou zapojenia viditeľného na schéme obr.\ref{OBRAZOK 2.1}.a, znižuje na napätie 3,7V. Domnievali sme sa že napájanie motora musí byť realizované externe, pomocou koaxiálneho napájacieho konektora z dôvodu vysokého prúdu odoberaného motorom počas silného zaťaženia. Rovnaký konektor sa síce nachádza aj na doske Arduino UNO a pomocou VIN pinu sa z neho dajú napájať napätím 6-12V aj iné zariadenia, avšak tento pin je napojený na diódu, obmedzujúcu prúd na 1A\cite{ampere}\cite{ampere2}. 
 
-\subsubsection{akčný člen}
+Pri testovaní prototypov druhej verzie AeroShieldu, sa merané hodnoty prúdu pohybovali nad hodnotu 1A, čo by zničilo spomínanú internú diódu na doske Arduino UNO. 
+Po zostavení druhej verzie shieldu a opätovnom meraní odoberaného prúdu, bola maximálna dosahovaná hodnota menšia ako 0,5A. Z tohoto dôvodu sme sa rozhodli pre zmenu v schéme kyvadla z ktorej sme odobrali externý napájací konektora následne bola vyrobená nová doska plošných spojov. Tretej verzii AeroShieldu sa bližšie venujeme v časti...
+
+\subsubsection{Akčný člen}
 \label{akcclen}
 
-Ako akčný člen AeroShieldu je použitý 7mm, 3,7V motorček na jednosmerný prúd bez jadra, používaný hlavne pre pohon dronov. “Coreless motor“, alebo motor bez jadra, je motor s cievkou navinutou samou na sebe a nie na železe\cite{coreless}. Takéto jadro ale samé o sebe nie je veľmi pevné a nedrží dobre tvar, preto sa častokrát zalieva epoxidom. Stator je vyrobený z magnetov na báze vzácnych zemín, ako je neodým alebo SmCo(samárium-kobalt), ktoré sa nachádzajú vo vnútri bezjadrového rotora.
+Ako akčný člen AeroShieldu je použitý 7mm, 3,7V motorček na jednosmerný prúd bez jadra, používaný hlavne pre pohon dronov. “Coreless motor“, alebo motor bez jadra, je motor s cievkou navinutou samou na sebe a nie na železe\cite{coreless}. Takéto jadro ale nie je veľmi pevné a nedrží dobre tvar, preto sa častokrát zalieva epoxidom, ktoré jadro spevňuje. Stator je vyrobený z magnetov na báze vzácnych zemín, ako je neodým alebo SmCo(samárium-kobalt), ktoré sa nachádzajú vo vnútri bezjadrového rotora.
 
-Takýto motor ponúka mnoho výhod oproti motoru so železným jadrom. Tým že jadro v sebe nemá železo, výrazne sa znižuje hmotnosť a tým aj zotrvačnosť rotora, čo je dôležité pre naše použitie, kedy potrebujeme dosahovať vysokú akceleráciu a rýchle spomalenie rotora. Ďalšou výhodou je fakt, že nedochádza k stratám na železe a tým pádom sa účinnosť takýchto motorov blíži až ku 90\%\cite{5545147}. Motor, resp. otáčky motora sú riadené pomocou impulzovej šírkovej modulácie(PWM) a tieto impulzy do motoru prechádzajú cez N-kanálový mosfet PMV45EN2 od výrobcu Nexperia\cite{pmv}.
+Takýto motor ponúka mnoho výhod oproti motoru so železným jadrom. Tým že jadro v sebe nemá železo, výrazne sa znižuje hmotnosť a tým aj zotrvačnosť rotora, čo je dôležité pre naše použitie, kedy potrebujeme dosahovať vysokú akceleráciu a rýchle spomalenie rotora. Ďalšou výhodou je fakt, že nedochádza k stratám na železe a tým pádom sa účinnosť takýchto motorov blíži až ku 90\%\cite{5545147}. Motor, resp. otáčky motora sú riadené pomocou PWM signálu a ten do motoru prechádza cez N-kanálový mosfet PMV45EN2 od výrobcu Nexperia\cite{pmv}.
 
 
 \begin{figure}[!tbh]
@@ -90,14 +86,14 @@ Takýto motor ponúka mnoho výhod oproti motoru so železným jadrom. Tým že 
 \end{figure}
 
 
-\subsubsection{meranie prúdu}
+\subsubsection{Meranie prúdu}
 \label{merprud}
 
-Z dôvodu merania prúdu odoberaného motorom, bol do schémy pridaný monitor prúdu, takzvaný "current shunt monitor". V AeroShielde je použitý snímač INA169NA/250 od výrobcu Texas Instruments obr.\ref{OBRAZOK 2.3.2}.b.
+Z dôvodu merania prúdu odoberaného motorom, bol do schémy pridaný monitor prúdu, takzvaný "current shunt monitor". Nameraný prúd môžeme využiť na implementácie riadenia motora na základe prúdu, ktorý odoberá. Tejto téme sa bližšie venujeme v časti ....  AeroShield používa snímač INA169NA/250 od výrobcu Texas Instruments obr.\ref{OBRAZOK 2.3.2}.b.
 
 INA169 funguje na základe zaznamenávania zmien napätia na stranách shunt rezistora obr.\ref{OBRAZOK 2.3.2}.a. Na základe nameraného úbytku napätia, vysiela senzor podľa nami zvoleného stupňa zosilnenia, prúd ktorý je ďalej pomocou rezistoru $R_{l}$ premenený na napätie s maximálnou hodnotou $V_{OUTMAX} = V_{IN-} - 0.5V $.
 
-Prúd $I_{s}$ odoberaný motorom, vypočítame pomocou vzorca $I_{s} = \dfrac{V_{OUT}\: x \: 1k\Omega}{R_{s} \: x \: R_{l}} $ kde $V_{OUT}$ je napätie namerané na výstupe, 1k$\Omega$ je konštanta vnútorných odporov senzoru, $R_{s}$ je hodnota shunt rezistora v $\Omega$ a $R_{l}$ je hodnota rezistora na výstupe, taktiež v $\Omega$\cite{INA}.
+Prúd $I_{s}$ odoberaný motorom, vypočítame pomocou vzorca $I_{s} = {(V_{OUT}\: x \: 1k\Omega)}$/${(R_{s} \: x \: R_{l})}$ kde $V_{OUT}$ je napätie namerané na výstupe, 1k$\Omega$ je konštanta vnútorných odporov senzoru, $R_{s}$ je hodnota shunt rezistora v $\Omega$ a $R_{l}$ je hodnota rezistora na výstupe, taktiež v $\Omega$\cite{INA}.
 
 \begin{figure}[!tbh]
 	\hfill
@@ -109,16 +105,22 @@ Prúd $I_{s}$ odoberaný motorom, vypočítame pomocou vzorca $I_{s} = \dfrac{V_
 \end{figure}
 
 
-\label{Hall}
-\pagebreak
 
-\subsubsection{meranie uhla kyvadla}
+
+
+\subsubsection{Meranie uhla kyvadla}
 \label{meruhl}
 
-Na správne fungovanie AeroShieldu je dôležité vedieť s vysokou presnosťou merať uhol naklonenia kyvadla. Na tento účel sme si zvolili meranie uhlu bez kontaktnou formou, pomocou snímača hall efektu. Hall efekt vieme opísať ako vznik priečneho elektrického poľa v pevnom materiáli, keď ním preteká elektrický prúd a tento materiál je umiestnený v magnetickom poli, ktoré je kolmé na prúd\cite{Hall}. Toto elektrické pole resp. vznik elektrického potenciálu vieme detegovať a na základe jeho zmeny vieme určiť rotáciu kyvadla. V kyvadle je na konci horizontálneho ramena umiestnený špeciálny magnet kruhového tvaru, ktorý je polarizovaný naprieč prierezom magnetu.
+Na správne fungovanie AeroShieldu je dôležité vedieť s vysokou presnosťou merať uhol naklonenia kyvadla. Na tento účel sme si zvolili meranie uhlu bez kontaktnou formou, pomocou snímača hall efektu. Hall efekt vieme opísať ako vznik priečneho elektrického poľa v pevnom materiáli, keď ním preteká elektrický prúd a tento materiál je umiestnený v magnetickom poli, ktoré je kolmé na prúd\cite{Hall}. Toto elektrické pole resp. vznik elektrického potenciálu vieme detegovať ako Hallovo napätie a na základe jeho zmeny, vieme určiť rotáciu kyvadla. Fyzikálna podstata tohoto javu je na obr.\ref{OBRAZOK 1.323}, kde V$_H$ je Hallovo napätie, B je magnetické pole, F$_m$ magnetická sila pôsobiaca na negatívne prenášače náboja, F$_e$ elektrická sila z nahromadeného náboja, I je dohodnutý smer elektrického prúdu. 
 
-Ako senzor na meranie hall efektu je použitý AS5600 od výrobcu OSRAM obr.\ref{OBRAZOK 2.2}.b. Signály prichádzajúce zo snímača sa najprv zosilnia, následne sú filtrované a prechádzajú konverziou pomocou analógovo-digitálneho prevodníka(ADC). Snímaná je aj intenzita magnetického poľa, ktorá sa ďalej používa na
-automatické riadenie zosilnenia(AGC), ktoré slúži na kompenzáciu teploty priestoru a magnetu a veľkosti magnetického poľa.
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=100mm]{obr/hallovjav.png}
+	\caption{Schematická reprezentácia hallovho javu.}\label{OBRAZOK 1.323}
+\end{figure}
+
+V kyvadle je na konci horizontálneho ramena umiestnený špeciálny magnet kruhového tvaru, ktorý je polarizovaný naprieč prierezom magnetu. Ako senzor na meranie hall efektu je použitý AS5600 od výrobcu OSRAM obr.\ref{OBRAZOK 2.2}.b. Signály prichádzajúce zo snímača sa najprv zosilnia, následne sú filtrované a prechádzajú konverziou pomocou analógovo-digitálneho prevodníka(ADC). Snímaná je aj intenzita magnetického poľa, ktorou senzor pomocou
+automatického riadenia zosilnenia(AGC), kompenzuje zmeny teploty priestoru a taktiež zmeny sily magnetického poľa.
 
 Na výber sú dva typy výstupu a to analógový výstup alebo digitálny výstup s kódovaním PWM. Senzor má taktiež možnosti interného programovania pomocou rozhrania I2C.
 V našom prípade používame 12-bitový analógový výstup s rozlíšením 0°5'16". Toto rozlíšenie nám umožňuje s vysokou presnosťou kontrolovať naklonenie kyvadla a na základe získaných informácii ovplyvňovať fungovanie akčného členu sústavy. Schéma zapojenia čipu na meranie uhlu môžeme vidieť na obr.\ref{OBRAZOK 2.2}.a.
@@ -139,13 +141,13 @@ V našom prípade používame 12-bitový analógový výstup s rozlíšením 0°
 
 \subsection{Schéma zapojenia}
 
-Všetky schémy zapojenia boli tvorené v bezplatnej verzii programu DipTrace. DipTrace slúži ako prostredie na tvorbu elektrotechnických schém, potrebných pre výrobu dosiek plošných spojov, ako aj pre účely prehľadnosti zapojenia komponentov na týchto doskách. Program v sebe zahŕňa časť pre tvorbu samotných komponentov, pokiaľ sa tieto už nenachádzajú v niektorej z knižníc programu, časť kde sa tvoria schémy zapojenia a časť na tvorbu dosiek plošných spojov.
+Všetky schémy zapojenia boli tvorené v bezplatnej verzii programu DipTrace. DipTrace slúži ako prostredie na tvorbu elektrotechnických schém a dosiek plošných spojov. Program v sebe zahŕňa aj časť pre tvorbu jednotlivých komponentov, pokiaľ sa tieto už nenachádzajú v niektorej z knižníc programu.
 
-Nie všetky komponenty potrebné na tvorbu AeroShieldu boli zahrnuté v knižniciach DipTracu, avšak tieto komponenty sa nachádzali na stiahnutie na stránkach výrobcov odkiaľ boli importované do novej knižnice, slúžiacej na účely tvorby schémy AeroShieldu. Do programu bola taktiež vložená knižnica AutomationShieldu ktorá má v sebe najčastejšie používané komponenty. Pri tvorbe schémy zapojenia sa najskôr všetky potrebné komponenty umiestnia na štvorčekovú plochu a približne sa určí ích poloha. Jednotlivé komponenty majú podobu elektrotechnických značiek a každý komponent má ku sebe priradené reálne vlastnosti daného dielu(veľkosť, zapojenie, dĺžka pinov a iné).
+Nie všetky komponenty potrebné na tvorbu schémy zapojenia boli zahrnuté v knižniciach DipTracu, avšak tieto komponenty sú dostupné na stránkach výrobcov, odkiaľ sa dajú stiahnuť a následne použiť v schéme\cite{AS5600Downl}\cite{TPS56339Downl}\cite{INAobr}. Do programu bola taktiež vložená knižnica AutomationShieldu ktorá má v sebe najčastejšie používané komponenty. Pri tvorbe schémy zapojenia sa najskôr všetky potrebné komponenty umiestnia na štvorčekovú plochu a približne sa určí ích poloha. Jednotlivé komponenty majú podobu elektrotechnických značiek a každý komponent má ku sebe priradené reálne vlastnosti daného dielu(veľkosť, zapojenie, dĺžka pinov a iné).
 
 Polohu volíme takú, aby schéma bola čo najprehľadnejšia a komponenty ktoré sú medzi sebou prepojené, boli čo najbližšie pri sebe. Akonáhle máme všetky komponenty uložené začneme s ich postupným prepájaním. Pri zapájaní jednotlivých komponentov sa riadime katalógovými listami jednotlivých komponentov, v ktorých býva zväčša aj návrh ich zapojenia.
 
-Veľmi dobrou vlastnosťou programu DipTrace je možnosť zafarbovania jednotlivých elektrických spojení, rozličnými farbami a názvami. Tento fakt nám veľmi uľahčuje na prvý pohľad rozoznať napríklad elektrické spojenia zeme- 0V zelená, fázové spojenia- 3,3V červená obr.\ref{OBRAZOK 2.3.5}. Na schéme zapojenia môžeme vidieť všetky komponenty, potrebné na správne fungovanie AeroShieldu. Názvy komponentov sú uvádzané základnými značkami
+DipTrace umožňuje rozdielne zafarbovanie jednotlivých elektrických spojení, rozličnými farbami a názvami. Tento fakt nám veľmi uľahčuje na prvý pohľad rozoznať napríklad elektrické spojenia zeme- 0V zelená, fázové spojenia- 3,3V červená obr.\ref{OBRAZOK 2.3.5}. Na schéme zapojenia sú použité nasledujúce komponenty:
 \begin{multicols}{3}
 	\begin{itemize}
 		\item R- Rezistor
@@ -167,11 +169,11 @@ Veľmi dobrou vlastnosťou programu DipTrace je možnosť zafarbovania jednotliv
 \subsection{Doska plošných spojov}
 \label{PCBcka}
 
-Po návrhu a kontrole schém zapojenia sa schémy ďalej spracovávajú do podoby dosky plošných spojov. Schémy exportujeme do programu DipTrace PCB v ktorom máme následne niekoľko možností postupu. Jednotlivé komponenty sa nám už zobrazujú v reálnej podobe, takže vidíme ich veľkosť a rozmiestnenie pinov na spájkovanie. Dosky plošných spojov majú niekoľko nevýhod, ale aj výhod oproti ponúkaným alternatívam\cite{dosky}. 
+Po návrhu a kontrole schém zapojenia sa schémy ďalej spracovávajú do podoby dosky plošných spojov. Schémy exportujeme do programu DipTrace PCB v ktorom máme následne niekoľko možností postupu. Jednotlivé komponenty sa nám už zobrazujú v reálnej podobe, takže vidíme ich veľkosť a rozmiestnenie konektorov na spájkovanie. Dosky plošných spojov majú niekoľko výhod, ale aj negatív oproti ponúkaným alternatívam\cite{dosky}. 
 
-Výhodou je fakt, že vodivé spojenia medzi jednotlivými súčiastkami zapojenia, sú realizované vrstvou medi ktorá je ukrytá pod ochrannými vrstvami povrchu dosky, na rozdiel od typických káblových spojení. Káble majú niekoľko nedostatkov ako to že sa vedia ľahko vypojiť, ľahko dochádza k ich porušeniu a v neposlednom rade, nepôsobia veľmi esteticky. V prípade nesprávneho prepojenia pinov má jednoznačnú výhodu spoj realizovaný káblami, keďže pri doskách plošných spojov sa s už hotovými cestami manipuluje obtiažne. Ďalšou výhodou dosiek plošných spojov je skutočnosť, že sú veľmi odolné a kompaktné. Tým že vodivé cesty môžu mať veľmi malé rozmery, ovplyvňujúcim faktorom veľkosti dosky plošných spojov je samotná veľkosť jej komponentov. 
+Výhodou je fakt, že vodivé spojenia medzi jednotlivými súčiastkami sú narozdiel od typických káblových spojení, realizované vrstvou medi, ktorá je ukrytá pod ochrannými vrstvami dosky. Ďalšou z výhod dosiek plošných spojov je skutočnosť, že sú odolné a kompaktné\cite{PCBlife}. Tým že vodivé cesty môžu mať veľmi malé rozmery, ovplyvňujúcim faktorom veľkosti dosky plošných spojov je samotná veľkosť použitých komponentov. 
 
-Po prenesení schém do DipTrace PCB, sú jednotlivé komponenty rozhádzané a nemajú žiadne logické rozloženie. Program ponúka možnosť automatického zoradenia komponentov na vyhradenej ploche, avšak táto funkcia komponenty uložila nie podľa našich potrieb a teda, využili sme možnosť manuálneho umiestnenia jednotlivých komponentov. Pri pohybovaní jednotlivými komponentami môžeme vidieť čiary, ktoré symbolizujú prepojenia s ostatnými komponentami a vďaka tomu vieme komponenty logicky poukladať.
+Po prenesení schém do DipTrace PCB, sú jednotlivé komponenty rozhádzané a nemajú žiadne logické rozloženie. Program ponúka možnosť automatického alebo manuálneho rozmiestnenia komponentov. Pri pohybovaní jednotlivými komponentami môžeme vidieť čiary, ktoré symbolizujú prepojenia s ostatnými súčiastkami a vďaka tomu vieme komponenty logicky poukladať.
 
 \begin{figure}[!tbh]
 	\hfill
@@ -182,15 +184,13 @@ Po prenesení schém do DipTrace PCB, sú jednotlivé komponenty rozhádzané a 
 	\caption{Vedľajšia doska AeroShieldu- breakout board}\label{OBRAZOK 2.6}
 \end{figure}
 
-Po zvolení optimálneho rozmiestnenia komponentov treba jednotlivé piny poprepájať vodivými cestami, ktoré nám nahrádzajú funkciu káblov. Máme možnosť zvoliť automatické rozmiestnenie ciest alebo ich manuálnu tvorbu. V našom prípade sme zvolili manuálnu tvorbu ciest, pretože ich vieme čo najlepšie optimalizovať. Ako je viditeľné aj na obr.\ref{OBRAZOK 2.4}.a, nie všetky cesty majú rovnakú šírku. Je to z toho titulu že niektorými cestami prúdi vyšší prúd a to až do 1A. V zásade sa používa pravidlo, čím vyšší prú preteká vodičom, tým väčšiu plochu prierezu by mal mať. Prúdy pretekajúce vodičmi tieto vodiče zahrievajú a pokiaľ je toto zahrievanie nadmerné, môže dôjsť k poškodeniu vodiča.  
+Po zvolení optimálneho rozmiestnenia komponentov treba jednotlivé piny poprepájať vodivými cestami, ktoré nám nahrádzajú funkciu káblov. Máme možnosť zvoliť automatické rozmiestnenie ciest alebo ich manuálnu tvorbu. Ako je vidieť na obr.\ref{OBRAZOK 2.4}.a, nie všetky cesty majú rovnakú šírku. Dôvodom je fakt že niektorými cestami tečie vyšší prúd. V zásade sa používa pravidlo, čím vyšší prúd preteká vodičom, tým väčšiu plochu prierezu by mal mať. Prúdy pretekajúci vodičom tento vodič zahrieva. Pokiaľ je toto zahrievanie nadmerné, môže dôjsť k poškodeniu vodiča.  
 
-Tvorba ciest má niekoľko pravidiel, avšak najdôležitejšie z nich je že jednotlivé cesty ktoré v schéme zapojenia nie sú prepojené, sa nemôžu križovať inak dôjde k ich vzájomnému vyskratovaniu. Z toho dôvodu treba niekedy cestu priviesť na druhú stranu dosky plošných spojov kde v jej pokračovaní neprekáža iná cesta. Na tento účel sa používajú vodivé diery, takzvané via, spájajúce obe strany dosky.
-
-Pri výroby dosky sa taktiež myslelo na montáž držiaku kyvadla, pre ktoré boli vytvorené 4 diery na jeho následné prichytenie pomocou skrutiek. Finálna verzia hlavnej dosky je na obr.\ref{OBRAZOK 2.4}. Zhotovená bola aj menšia doska tzv. breakout board, slúžiaca na meranie uhlu kyvadla, ktorá je na obr.\ref{OBRAZOK 2.6}.
+Tvorba elektrických ciest má niekoľko pravidiel. Najdôležitejšie z nich je, že cesty spájajúce rozdielne vodiče sa nemôžu križovať. Pokiaľ by k takémuto kríženiu došlo, jednotlivé cesty sa vzájomne vyskratujú. Z toho dôvodu treba niekedy cestu priviesť na druhú stranu dosky plošných spojov kde v jej pokračovaní neprekáža iná cesta. Na tento účel sa používajú vodivé diery "via", spájajúce obe strany dosky. Druhá verzia dosky AeroShieldu je na obr.\ref{OBRAZOK 2.4}. 
 
 
 
-\begin{figure}
+\begin{figure}[!tbh]
 	\centering
 	\includegraphics[width=8cm]{obr/AeroShieldTOP.png}
 	
@@ -206,7 +206,7 @@ Pri výroby dosky sa taktiež myslelo na montáž držiaku kyvadla, pre ktoré b
 
 
 
-Po finálnej kontrole zapojenia komponentov na doske plošných spojov môžeme tieto dosky uložiť do formátu gerber. Súbory typu gerber v sebe ukladajú presné zloženie finálnej dosky plošných spojov a to po jej jednotlivých vrstvách. Nachádza sa tu teda vrstva zobrazujúca vodivé cesty, vrstva pre konektory via, vrstva pre farebné popisy a mnoho ďalších. Pri tvorbe súboru máme veľa možností aké parametre jednotlivých vrstiev chceme zvoliť. Môžeme meniť hrúbky jednotlivých vrstiev, veľkostí dier a priestoru okolo dier, veľkosti konektorov via a iné. Gerber súbor ďalej posielame výrobcovi PCB dosiek kde si môžeme zvoliť ďalšie parametre dosky, ako jej farbu, možnosti spájkovacích doštičiek, dokonca nám môže výrobca poslať už naspájkovanú dosku, ktorá je tak hneď pripravená na použitie. Podobu finálnej dosky AeroShieldu môžeme vidieť na obr.\ref{OBRAZOK 2.7}.a a dosky breakout boardu na obr.\ref{OBRAZOK 2.7}.b.
+Po finálnej kontrole zapojenia komponentov na doske plošných spojov, môžeme tieto dosky uložiť do formátu gerber. Súbory typu gerber v sebe ukladajú presné zloženie finálnej dosky plošných spojov a to po jej jednotlivých vrstvách. Nachádza sa tu teda vrstva zobrazujúca vodivé cesty, vrstva pre konektory via, vrstva pre farebné popisy a mnoho ďalších. Pri tvorbe súboru máme veľa možností aké parametre jednotlivých vrstiev chceme zvoliť. Môžeme meniť hrúbky jednotlivých vrstiev, veľkostí dier a priestoru okolo dier, veľkosti konektorov a ďalšie. Gerber súbor zasielame výrobcovi PCB dosiek kde si môžeme navoliť ďalšie parametre dosky, ako jej farbu, typy spájkovacích doštičiek, dokonca nám môže výrobca poslať už naspájkovanú dosku, ktorá je tak hneď pripravená na použitie. Podobu finálnej dosky AeroShieldu môžeme vidieť na obr.\ref{OBRAZOK 2.7}.a a dosky breakout boardu na obr.\ref{OBRAZOK 2.7}.b.
 
 
 \begin{figure}
@@ -220,16 +220,22 @@ Po finálnej kontrole zapojenia komponentov na doske plošných spojov môžeme 
 
 \subsection{Model držiaku kyvadla}
 
-Tu ešte poviem čo to a designovaní držiaku pendulum
+Telo kyvadla ako aj všetky konektory spájajúce jeho jednotlivé časti, boli vytvorené v 3D modelovacom softvéri CATIA obr.\ref{OBRAZOK 1.1}. Zámerom bolo vytvoriť pevný a zároveň estetický držiak, ktorý sa dá následne vytlačiť na 3D tlačiarni. Telo kyvadla stojí na štyroch nožičkách, ktoré sú priskrutkované k hlavnej doske plošných spojov. stred kyvadla je dutý, a sú nim vedené káble napájania motorčeka. V hornej časti držiaku sa nachádzajú diery na priskrutkovanie breakout boardu. 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=80mm]{obr/AeroCatiaa.png}
+	\caption{Model kyvadla, tvorený v programe CATIA.}\label{OBRAZOK 1.1}
+\end{figure}
 
 \subsection{Cenová kalkulácia AeroShieldu}
 
 Hlavnou podmienku pri tvorbe AeroShieldu, bola jeho funkcionalita, no zároveň nízka cena. Za účelom predstavy cenovej relácie jedného kusu AeroShieldu, bola zostavená tabuľka\ref{Cenova kalkulacia} s použitými komponentami, ich počtom a reálnou kúpnou cenou v eurách(spolu s DPH). Pri komponentoch ako sú rezistory a kapacitory, bola cena určená ako priemerná hodnota týchto komponentov, keďže pri kúpe zopár kusov(1-20) je ich cena rádovo vyššia, ako cena pri nákupoch viacero kusov. 
 
-\begin{table}[!ht]
+\begin{table}
 	\begin{tabular}{p{0.25\textwidth} p{0.43\textwidth} p{0.05\textwidth} p{0.07\textwidth} p{0.07\textwidth}}
 		\hline
-		\multicolumn{1}{|l}{\textbf{Názov}} & \textbf{Popis}                                     & \multicolumn{1}{l}{\textbf{Ks.}} & \multicolumn{1}{l}{\textbf{Cena}} & \multicolumn{1}{l|}{\textbf{Spolu}} \\ \hline
+		\multicolumn{1}{|l}{\textbf{Názov}} & \textbf{Popis}                                     & \multicolumn{1}{l}{\textbf{Ks.}} & \multicolumn{1}{l}{\textbf{Cena v \euro}} & \multicolumn{1}{l|}{\textbf{Spolu}} \\ \hline
 		Kapacitor                           & SMD, sot23                                         & 6                                  & 0,6                                      & 3,6                                        \\
 		Dióda                               & 1N400IG                                            & 1                                  & 0,1                                      & 0,1                                        \\
 		FFC konektor                        & FFC 4pin                                           & 2                                  & 0,2                                      & 0,4                                        \\
@@ -251,8 +257,10 @@ Hlavnou podmienku pri tvorbe AeroShieldu, bola jeho funkcionalita, no zároveň 
 		PCB shield                          & Výroba JLCPCB                                      & 1                                  & 0,35                                     & 0,35                                       \\
 		PCB brakout                         & Výroba JLCPCB                                      & 1                                  & 0,35                                     & 0,35                                       \\
 		Matice                              & M4                                                 & 4                                  & 0,2                                      & 0,8                                        \\ \hline
-		\multicolumn{1}{|l}{}               &                                                    & \multicolumn{1}{l}{}               & \textbf{Spolu}                           & \multicolumn{1}{c|}{\textbf{31,95}}        \\ \hline
+		\multicolumn{1}{|l}{}               &                                                    & \multicolumn{1}{l}{}               & \textbf{Spolu}                           & \multicolumn{1}{c|}{\textbf{31,95\euro}}        \\ \hline
 	\end{tabular}
 \caption{Cenová kalkulácia AeroShieldu.}
 \label{Cenova kalkulacia}
 \end{table}
+
+\subsection{Tretia verzia AeroShieldu}

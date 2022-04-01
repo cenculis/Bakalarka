@@ -1,34 +1,37 @@
 \babel@toc {slovak}{}\relax 
+\contentsline {figure}{\numberline {1}{\ignorespaces Experimentálne moduly vzdušného kyvadla.}}{2}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Aeropendulum značky Real Sim\cite {AeroPendulumTeheran}.}}}{2}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Aeropendulum univerzity Arizona\cite {enikov_campa_2012}.}}}{2}{}%
+\contentsline {figure}{\numberline {2}{\ignorespaces {Arduino UNO R3.\cite {UNOFOTO}}}}{3}{}%
+\contentsline {figure}{\numberline {3}{\ignorespaces {Arduino Mega 2560 R3.\cite {megafoto}}}}{4}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1.1}{\ignorespaces Model kyvadla, tvorený v programe CATIA.}}{2}{}%
-\contentsline {figure}{\numberline {1.2}{\ignorespaces {Aeropendulum značky Real Sim\cite {AeroPendulumTeheran}.}}}{3}{}%
-\contentsline {figure}{\numberline {1.3}{\ignorespaces {Arduino UNO.\cite {UNOFOTO}}}}{4}{}%
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces (a) Prvá verzia AeroShieldu. (b) Schéma zapojenia prvej verzie AeroShieldu.}}{5}{}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces meranie uhla kyvadla}}{6}{}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia externej dosky.}}}{6}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Doska slúžiaca na fungovanie senzoru hall efektu.}}}{6}{}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces buck converter}}{7}{}%
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Prvá verzia AeroShieldu. }}{5}{}%
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Meranie uhla kyvadla}}{6}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia breakout boardu.}}}{6}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Breakout board.}}}{6}{}%
+\contentsline {figure}{\numberline {1.3}{\ignorespaces buck converter}}{7}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia znižovacieho meniča.}}}{7}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {čip TPS56339.\cite {buckobr}}}}{7}{}%
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Zapojenie akčného člena a typ motorčeka}}{8}{}%
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Zapojenie akčného člena a typ motorčeka}}{8}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia motorčeka.}}}{8}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Akčný člen sústavy.\cite {corelessMotor}}}}{8}{}%
-\contentsline {figure}{\numberline {2.5}{\ignorespaces meranie prúdu}}{9}{}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia snímača prúdu.}}}{9}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Senzor INA169NA/250\cite {INAobr}}}}{9}{}%
-\contentsline {figure}{\numberline {2.6}{\ignorespaces meranie uhla kyvadla}}{9}{}%
+\contentsline {figure}{\numberline {1.5}{\ignorespaces meranie prúdu}}{8}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia snímača prúdu.}}}{8}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Senzor INA169NA/250\cite {INAobr}}}}{8}{}%
+\contentsline {figure}{\numberline {1.6}{\ignorespaces Schematická reprezentácia hallovho javu.}}{9}{}%
+\contentsline {figure}{\numberline {1.7}{\ignorespaces meranie uhla kyvadla}}{9}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia čipu na meranie uhlu.}}}{9}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {čip AS5600\cite {As5600obr}}}}{9}{}%
-\contentsline {figure}{\numberline {2.7}{\ignorespaces Schéma zapojenia AeroShieldu}}{10}{}%
-\contentsline {figure}{\numberline {2.8}{\ignorespaces Vedľajšia doska AeroShieldu- breakout board}}{11}{}%
+\contentsline {figure}{\numberline {1.8}{\ignorespaces Schéma zapojenia AeroShieldu}}{10}{}%
+\contentsline {figure}{\numberline {1.9}{\ignorespaces Vedľajšia doska AeroShieldu- breakout board}}{11}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Vrchná strana breakout boardu}}}{11}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Spodná strana breakout boardu}}}{11}{}%
-\contentsline {figure}{\numberline {2.9}{\ignorespaces (a) Vrchná strana AeroShieldu (b) Spodná strana AeroShieldu}}{12}{}%
-\contentsline {figure}{\numberline {2.10}{\ignorespaces Dosky plošných spojov AeroShieldu}}{13}{}%
+\contentsline {figure}{\numberline {1.10}{\ignorespaces (a) Vrchná strana AeroShieldu (b) Spodná strana AeroShieldu}}{12}{}%
+\contentsline {figure}{\numberline {1.11}{\ignorespaces Dosky plošných spojov AeroShieldu}}{13}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Hlavná doska AeroShieldu}}}{13}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Vedľajšia doska AeroShieldu}}}{13}{}%
+\contentsline {figure}{\numberline {1.12}{\ignorespaces Model kyvadla, tvorený v programe CATIA.}}{15}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Výstup z programu AeroShieldOpenLoop.ino.}}{28}{}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Výstup z programu AeroShieldOpenLoop.m.}}{31}{}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Výstup z programu AeroShieldOpenLoop.ino.}}{29}{}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Výstup z programu AeroShieldOpenLoop.m.}}{32}{}%
 \addvspace {10\p@ }
