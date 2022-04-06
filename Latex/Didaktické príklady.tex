@@ -1,4 +1,5 @@
 \chapter{Didaktické príklady}
+\label{Didaktické príklady}
 
 Pre AeroShield bolo v prostredí Arduino IDE, MATLAB a Simulink vytvorených niekoľko vzorových programov, ktoré demonštrujú všetky jeho funkcie a možnosti operácie. Programy sú rozdelené do dvoch veľkých skupín, konkrétne programy v otvorenej slučke bez spätnej väzby a programy v uzavretej slučke so spätnou väzbou. 
 
@@ -19,7 +20,7 @@ float referencePercent;       //  Hodnota potenciometra
 float CurrentMean;	      //  Hodnota prudu odoberaneho motorom 
 \end{lstlisting}
 
-Nasleduje časť \verb|setup()|, v ktorej ako prvé, prebehne nastavenie rýchlosti sériovej komunikácie \verb|Serial.begin(115200)|. Číslo 115 200 predstavuje počet zmien, stavu z 0 na 1 resp. zo stavu high na stav low, za sekundu. Nasleduje funkcia \verb|AeroShield.begin()| ktorá sleduje prítomnosť magnetu, a pred nastaví potrebné premenné a funkcie pinov. Poslednou funkciou je kalibrácia kyvadla \verb|AeroShield.calibration()|, spolu s výpočtom začiatočného a koncového uhla. 
+Nasleduje časť \verb|setup()|, v ktorej ako prvé, prebehne nastavenie rýchlosti sériovej komunikácie \verb|Serial.begin(115200)|. Číslo 115 200 predstavuje počet zmien, stavu z 0 na 1 resp. zo stavu high na stav low, za sekundu. Toto tempo signálnej rýchlosti nazývame \verb|baud rate|. Nasleduje funkcia \verb|AeroShield.begin()|, ktorá sleduje prítomnosť magnetu, a pred nastaví potrebné premenné a funkcie pinov. Poslednou funkciou je kalibrácia kyvadla \verb|AeroShield.calibration()|, spolu s výpočtom začiatočného a koncového uhla kyvadla. 
 
 \begin{lstlisting}[caption={AeroShield open loop setup().},captionpos=b]
 void setup() {                // Setup prebehne len jeden krat 
@@ -141,6 +142,79 @@ clear AeroShield.arduino;
 	\caption{Výstup z programu AeroShieldOpenLoop.m.}\label{OBRAZOK 3.2}
 \end{figure}
 
+\newpage
 \section{Programy v uzatvorenej slučke, so spätnou väzbou}
+\subsection{PID regulácia}
 
-sampling aj
+Skôr ako si ukážeme príklady na PID riadenie si musíme vysvetliť ako takéto riadenie funguje. Základom takéhoto riadenia je získavanie informácii o sledovanej resp. riadenej veličine, za pomoci senzoru a jej porovnávanie s hodnotou žiadanou. Vďaka tomu že získavame informácie o výstupe, ktoré aktívne využívame na riadenie akčného člena, môžeme hovoriť o spätnoväzbovom riadení. Spätnoväzbové riadenie, je teda také riadenie, ktoré ovplyvnuje sústavu na základe aktuálne získaných informácii o stave, v ktorom sa sústava práve nachádza. Pri takomto riadení existuje množstvo algoritmov, ktoré ovládajú správanie sa systému. Medzi tieto algoritmy patrí napríklad: Modelové prediktívne riadenie (MPC), Lineárno-kvadratické riadenie (LQ), Lineárne riadenie s premenlivým parametrom (LPV), Proporcionálno-integračno-derivačné riadenie (PID)...
+
+Bližšie sa ideme baviť o PID regulátore obr.\ref{OBRAZOK 3.3}. Je to typ riadenia, ktoré ovplyvňuje akčné zásahy do sústavy \verb|u(t)|, na základe zaznamenaných výstupných informácii zo sústavy \verb|y(t)|. Veľkosť akčného zásahu \verb|u(t)| vypočítame na základe rozdielu medzi požadovanou hodnotou \verb|w(t)| a hodnotou reálnou \verb|y(t)|. Tento rozdiel označujeme tiež ako regulačná odchýlka \verb|e(t)|. Písmeno $"$t$"$ v zátvorkách predstavuje, časovú závislosť premenných. 
+
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=120mm]{obr/pid.jpg}
+	\caption{Schéma riadenia PID regulátorom.}\label{OBRAZOK 3.3}
+\end{figure}
+
+Skratka PID odzrkadľuje zložky, z ktorých sa regulátor skladá: 
+
+\begin{itemize}
+	\item \textbf{P}- označuje tzv. proporcionálnu zložku. Akčný zásah smerujúci do sústavy \verb|u(t)|, je priamo úmerný veľkosti regulačnej odchýlky \verb|e(t)|. K$_p$ predstavuje proporcionálnu konštantu, ktorou násobíme regulačnú odchýlku na získanie požadovaného vstupu rov.\ref{rovnicajedna}. 
+	\begin{align}
+		\label{rovnicajedna}
+		u(t)=K_p e(t)
+	\end{align}
+	Konštanta K$_p$ je veľmi dôležitou pri nastavovaní parametrov PID regulátora, lebo znižuje trvalú regulačnú odchýlku. Zmenou proporcionálnej zložky vieme taktiež urýchliť, alebo spomaliť nábeh na požadovanú hodnotu. Pre malé hodnoty K$_p$ je nábeh pomalí, a regulačná odchýlka veľká. Pri zvyšovaní hodnoty K$_p$ sa regulačná odchýlka zmenšuje, zrýchľuje sa nábeh, no zároveň narastá nežiadúce kmitanie sústavy. Zvyšovanie hodnoty K$_p$ má svoj limit, za ktorým sa sústava dostáva za hranicu stability a ďalšia regulácia nie je možná. 
+	
+	\item \textbf{I}- predstavuje integračnú zložku. Integrálny riadiaci člen je priamo úmerný veľkosti ako aj trvaniu chyby. Pokiaľ má regulovaná veličina menšiu hodnotu ako je požadovaná, integrálna časť PID sa zväčšuje. Naopak pokiaľ je hodnota regulovanej veličiny nižšia ako hodnota požadovaná, integrálna časť PID klesá. Tento údaj sa následne vynásobí integračnou konštantou K$_i$ a je pripočítaný ku hodnote akčného zásahu rov.\ref{rovnicadva}. Príliš veľká hodnota K$_i$ má za následok zvyšovanie nežiadúceho kmitania resp. nad a pod regulovania. 
+	
+	Veľkosť integrálnej zložky PID regulátora teda ovplyvňuje veľkosť regulačnej odchýlky, doba jej trvania ako aj integračná konštanta K$_i$.
+	\begin{align}
+		\label{rovnicadva}
+		u(t)=K_i  \int_{0}^{t} e(\tau)d\tau
+	\end{align}
+
+	\item \textbf{D}- reprezentuje derivačnú zložku. Derivačná zložka predpovedá správanie sa systému, pomocou derivácie regulačnej odchýlky v čase. Toto temto zmeny je následne pre násobené derivačnou konštantou K$_d$. Vstup je teda počítaný podľa rov.\ref{rovnicatri}. Derivačná zložka PID regulátora zmierňuje kmitanie systému, zároveň však spomaľuje rýchlosť odozvy na skokovú zmenu. V praxi sa derivačná zložka veľmi nepoužíva a využívaný je P alebo PI regulátor. 
+	\begin{align}
+		\label{rovnicatri}
+		u(t)=K_d  \dfrac{de(t)}{dt}
+	\end{align}
+\end{itemize}
+
+Pre lepšie chápanie je v tab.\ref{PIDvplyv}\cite{pidcontrol} zhrnutie vplyvu jednotlivých zložiek PID na odozvu systému v uzatvorenej slučke, pri zvyšovaní hodnoty K$_p$, K$_i$ a K$_d$.
+
+\begin{table}[!tbh]
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		 & Regulačná odchýlka & Rýchlosť ustálenia & Prekmit & Rýchlosť odozvy & Stabilita \\ \hline
+		K$_p$                    & znižuje            & malý vplyv         & zvyšuje      & zvyšuje         & znižuje           \\ \hline
+		K$_i$                    & znižuje            & znižuje            & zvyšuje      & zvyšuje         & znižuje           \\ \hline
+		K$_d$                    & malý vplyv         & zvyšuje            & znižuje      & znižuje         & zvyšuje           \\ \hline
+	\end{tabular}
+	\caption{Odozva systému na zmenu konštánt.}
+	\label{PIDvplyv}
+\end{table}
+
+Spojením jednotlivých samostatných zložiek, získame kompletný vzťah pre PID regulátor rov.\ref{rovnicastr}.
+\begin{align}
+	\label{rovnicastr}
+	u(t)=K_p e(t) + K_i  \int_{0}^{t} e(\tau)d\tau + K_d  \dfrac{de(t)}{dt}
+\end{align}
+
+\begin{align}
+	\label{rovnicapat}
+	u(t)=K_p \left(e(t) + \dfrac{1}{T_i}  \int_{0}^{t} e(\tau)d\tau + T_d  \dfrac{de(t)}{dt}\right)
+\end{align}
+Rovnica \ref{rovnicastr} predstavuje jeden z možných tvarov zápisu vzťahu pre PID regulátor. V praxi sa často využíva tvar rov.\ref{rovnicapat}, z dôvodu lepšej interpretácie parametrov ktoré rovnicu tvoria. T$_i$ predstavuje integračnú a T$_d$ derivačnú časovú konštantu, pričom ich vzťah s konštantami K$_i$ a K$_d$ je v tvare T$_i$ = (K$_p$/K$_i$) a T$_d$ = (K$_d$/K$_p$). Jednotlivé zložky v zátvorke tvoria novú a samostatnú regulačnú odchýlku, ktorá je ešte násobená konštantou K$_p$. Derivačná zložka predpovedá hodnotu regulačnej odchýlky T$_d$ sekúnd(vzoriek) do budúcnosti a integračná zložka sa snaží korigovať súčet hodnoty regulačných odchýlok do T$_i$ sekúnd(vzoriek)\cite{pidcontrol}.
+
+Spomenuté vzťahy PID regulátorov fungujú pri spojitých procesoch. Avšak pri implementácii PID pomocou číslicových regulátorov, musíme rovnicu transformovať do jej diskrétnej podoby rov.\ref{diskretna}.
+
+\begin{align}
+	\label{diskretna}
+	u(kT)=K_p \left(e(kT) + \dfrac{T}{T_i} \sum_{i=0}^{k}  e(iT) + \dfrac{T_d}{T} \left[e(kT)-e \left[(k - 1)T\right] \right] \right)
+\end{align}
+
+Diskrétna forma PID regulátora je využívaná z toho dôvodu že Arduino resp. počítače nie sú schopné nepretržito zaznamenávať merané hodnoty. Dáta sú preto spracovávané v diskrétnych okamihoch kT, ktorým hovoríme vzorky. Proces získavania takýchto vzoriek v istej pravidelnom frekvencii, nazývame vzorkovanie. Vzorkovanie môže mať rýchlosť niekoľko minút, pri pomali sa meniacich systémoch, až po mikrosekundy, pri veľmi rýchlych systémoch. Rovnicu v tvare \ref{diskretna} využíva na implementáciu PID regulátora knižnica AutomationShield a teda je aj súčasťou didaktických príkladov pre AeroShield. 
+
+\subsection{$AeroShieldPID.ino$}
+

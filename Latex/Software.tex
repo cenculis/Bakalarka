@@ -1,15 +1,17 @@
 \section{Softvér}
 \subsection{Arduino API}
 
-Vývojové prostredie pre platformy arduino sa nazýva Arduino IDE\footnote[5]{Arduino Integrated Development Environment.} a využíva programovací jazyk C++ resp. jeho nadstavbu, s pridanými špecializovanými príkazmi a funkciami. 
+Vývojové prostredie pre platformy arduino sa nazýva Arduino IDE\footnote[5]{Arduino Integrated Development Environment.} a využíva programovací jazyk C++ resp. jeho nadstavbu, s pridanými špecializovanými príkazmi a funkciami. C++ patrí medzi jeden z najviac používaných programovacích jazykov na svete. Je vhodný ako pre začiatočníkov, tak aj pre profesionálnych programátorov. V rámci projektu AutomationShield existuje niekoľko rôznych shildov, ktoré však často využívajú rovnaké funkcie a príkazy. Z tohoto dôvodu bola vytvorená knižnica $"$AutomationShield$"$, ktorá v sebe zahŕňa niekoľko ďalších, často využívaných knižníc a súborov. Jedná sa napríklad o funkcie potrebné pri riadení pomocou PID regulátora, vzorkovanie programu alebo mapovanie premenných. O jednotlivých funkciách v rámci knižnice $"$AutomationShield$"$ si povieme viacej pri opise didaktických príkladov v časti:\ref{Didaktické príklady}.
 
-Z tohoto dôvodu bola vytvorená knižnica AutomationShield ktorá v sebe zahŕňa najviac používané funkcie. Predstavme si situáciu kedy v programe ktorý píšeme potrebujeme premenu jednotiek z metrov na centimetre. Pokiaľ takúto funkciu použijeme v kóde jeden krát, môžeme túto funkciu napísať priamo do kódu. Avšak pokiaľ túto funkciu využívame častejšie, dáva zmysel uložiť ju mimo kód a následne túto funkciu zavolať naspäť v prípade jej potreby. Sprehľadňuje sa tak vzniknutý kód a znižuje sa možnosť chýb vďaka monotónnym kopírovaniam tej istej funkcie. 
+V rámci programovania knižníc využívame objektovo orientované programovanie \newline (OOP)\cite{oop}. OOP je výhodné z hľadiska prehľadnosti, úpravy funkcií, redukcie nepotrebného alebo duplicitného kódu a mnoho ďalšieho. Pri OOP vytvárame dátové štruktúry nazývané objekty. Objekty majú svoje vlastnosti, metódy a udalosti a pomocou kombinácii týchto vlastností vykonávajú určité naprogramované činnosti. 
 
-Takúto možnosť externých preddefinovaných funkcií prístupných na zavolanie ponúka objektovo orientované programovanie(OOP) v jazyku C++\cite{oop}. Zvyčajne sa vytvárajú dva súbory resp. knižnice, z ktorých jedna sa nazýva \verb|headers| alebo hlavička s koncovkou .h a druhá, \verb|source| alebo zdrojový dokument s koncovkou .cpp. Header slúži ako akýsi navádzač a sklad pre premenné a funkcie, ktorý následne komunikuje so source dokumentom v ktorom sú uložené samotné funkcie. 
+Knižnice väčšinou rozdeľujeme do dvoch súborov. Prvým z nich je \verb|header| teda hlavička s koncovkou .h a druhý \verb|source| alebo zdrojový dokument s koncovkou .cpp. Header slúži ako akýsi navádzač a sklad pre premenné a funkcie, ktorý následne komunikuje so source dokumentom v ktorom sú uložené samotné funkcie.
+Takéto rozdelenie súborov má za ciel zrýchlenie kompilácie programu. Knižnice vytvárame ako pre Arduino API tak aj pre vývojové prostredie MATLAB. 
+
 
 \subsubsection{Header}
 
-Header súbor má niekoľko náležitostí ktoré obsahuje. Na začiatok deklarujeme súbor samotný. Robíme to pomocou príkazu \verb|#define|. Avšak, ak by sa takáto deklarácia nachádzala vo viacerých súboroch, a teda header súbor by sa načítal niekoľko krát, spôsobovalo by to problém pri kompilácii kódu. Z toho dôvodu používame funkciu \verb|Include guard| ktorá zamedzuje niekoľkonásobne načítanie rovnakých súborov. 
+Header súbor má niekoľko náležitostí ktoré obsahuje. Na začiatok deklarujeme súbor samotný. Robíme to pomocou príkazu \verb|#define|. Avšak ak by sa takáto deklarácia nachádzala vo viacerých súboroch, a teda header súbor by sa načítal niekoľko krát, spôsobovalo by to problém pri kompilácii kódu. Z toho dôvodu používame funkciu \verb|Include guard|, ktorá zamedzuje niekoľkonásobnému načítaniu rovnakých súborov. 
 
 Hneď za definovaním knižnice AeroShild.h môžeme vkladať ďalšie knižnice, ktoré sú potrebné pre funkcie danej knižnice, a to pomocou príkazu \verb|#include|. Môžeme si všimnúť že za príkazom \verb|#include| sa nachádzajú dva typy zátvoriek resp. znakov. Konvencia je taká že na preddefinované knižnice sa používajú hranaté zátvorky \verb|<nazovKniznice.h>| a na knižnice tvorené programátormi sa používajú úvodzovky \verb|"nazovDalsejKniznice.h"|.
 
@@ -34,10 +36,7 @@ Za knižnicami následne určujeme premenné, ktoré majú priradené fyzické �
 
 
 
-V časti \verb|Zdrojovy kod|, vytvárame \verb|class| alebo triedu ktorá v sebe zahŕňa funkcie a premenné ktoré sa nazývajú \verb|objects|, teda objekty. Class obsahuje podmnožinu objectov ktoré vieme prepájať a spájať vo väčšie celky, vďaka čomu vieme dosiahnuť veľmi komplexné funkcie. Tieto funkcie a premenné môžu byť buď \verb|public|, teda verejné a prístupné aj mimo triedu, alebo \verb|privat|, teda súkromné ktoré su prístupné len v danej triede.
-este protected a default.
-
- V header súbore sa môže nachádzať jedna, alebo viacero tried, záleží to od logicky deliteľných úsekov kódu, alebo od preferencie programátora. Deklarácia triedy s objektami vyzerá nasledovne: 
+V časti \verb|Zdrojovy kod|, vytvárame \verb|class| v preklade triedu, ktorá v sebe zahŕňa funkcie a premenné, ktoré sa nazývajú \verb|objects|, teda objekty. Class obsahuje podmnožinu objektov, ktoré vieme prepájať a spájať vo väčšie celky, vďaka čomu vieme dosiahnuť veľmi komplexné funkcie. Týmto funkciám a premenným vieme obmedziť prístup resp. ich dosah v rámci programu, pomocou modifikátorov prístupu (access modifiers). Tieto modifikátory delíme do štyroch skupín. Základný modifikátor je \verb|default|, teda akýsi predvolený prístup, ktorý nadobúdajú všetky funkcie a premenné automaticky, pokiaľ nezvolíme iný modifikátor. Ďalšími modifikátormi sú \verb|public|, teda funkcie a premenné verejné, prístupné v triede aj mimo nej a \verb|privat|, teda súkromné, prístupné len v danej triede. Posledným modifikátorom prístupu je \verb|protected| teda prístup chránený. V header súbore sa môže nachádzať jedna, alebo viacero tried, záleží to od logicky deliteľných úsekov kódu, alebo od preferencie programátora. Deklarácia triedy s objektami vyzerá nasledovne: 
 
 \begin{lstlisting}[caption={Triedy a objekty.},captionpos=b]
 	class AeroShield{		// Deklaracia triedy
@@ -54,10 +53,12 @@ V tomto prípade sa trieda nazýva AeroShield a má v sebe jednu funkciu s názv
 \newpage
 \subsubsection{Source}
 
-Keďže všetky potrebné knižnice sa už definovali a načítavali v súbore header, stačí nám už len source a header prepojiť pomocou príkazu \code{#include "AeroShield.h"}, ktorý vložíme na začiatok súboru. Ďalej v súbore deklarujeme jednotlivé funkcie. Funkcie zapisujeme pomocou už spomínaného classu, dátového typu a názvu funkcie v podobe:
+Keďže všetky potrebné knižnice sa už definovali a načítavali v súbore header, stačí nám už len časti source a header prepojiť. Urobíme tak pomocou príkazu \code{#include "AeroShield.h"}, ktorý vložíme na začiatok súboru. Ďalej v súbore deklarujeme jednotlivé funkcie, ktoré zapisujeme pomocou už spomínaného classu, dátového typu a názvu funkcie v podobe:
+
 \begin{lstlisting}[caption={Source volanie funkcie.},captionpos=b]
 typFunkcie AeroShield::nazovFunkcie()
 \end{lstlisting}
+
 V tomto prípade je AeroShield názov classu, nazovFunkcie hovorí sám za seba. Dátové typy funkcií poznáme rôzne. Vyberáme si ich na základe potreby ako chceme aby funkcia reagovala resp. aké hodnoty by mala prenášať. Dátové typy poznáme nasledovné\cite{datovetypy} (všetky hodnoty sú platné pre arduino UNO, pre iné typy arduina sa hodnoty môžu líšiť): 
 
 \begin{table}[!ht]

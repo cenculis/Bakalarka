@@ -1,4 +1,4 @@
-\contentsline {lstlisting}{\numberline {1.1}Ukážka zdrojového kódu headeru.}{16}{}%
+\contentsline {lstlisting}{\numberline {1.1}Ukážka zdrojového kódu headeru.}{17}{}%
 \contentsline {lstlisting}{\numberline {1.2}Triedy a objekty.}{17}{}%
 \contentsline {lstlisting}{\numberline {1.3}Source volanie funkcie.}{18}{}%
 \contentsline {lstlisting}{\numberline {1.4}Zdrojový kód funkcie mapFloat.}{19}{}%
