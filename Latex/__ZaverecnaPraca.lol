@@ -22,8 +22,14 @@
 \contentsline {lstlisting}{\numberline {2.4}AeroShield open loop inicializacia.}{30}{}%
 \contentsline {lstlisting}{\numberline {2.5}AeroShield open loop grafy.}{30}{}%
 \contentsline {lstlisting}{\numberline {2.6}AeroShield open loop, while cyklus.}{31}{}%
+\contentsline {lstlisting}{\numberline {2.7}Načítanie knižníc a premenných do programu.}{35}{}%
+\contentsline {lstlisting}{\numberline {2.8}Organzačná funkcia setup.}{36}{}%
+\contentsline {lstlisting}{\numberline {2.9}Funkcia stepEnable().}{36}{}%
+\contentsline {lstlisting}{\numberline {2.10}Organzačná funkcia loop.}{37}{}%
+\contentsline {lstlisting}{\numberline {2.11}Funkcia step().}{37}{}%
 \contentsline {lstlisting}{\numberline {3.1}Zdrojový kód súboru AeroShield.h.}{iv}{}%
 \contentsline {lstlisting}{\numberline {3.2}Zdrojový kód súboru AeroShield.cpp.}{v}{}%
 \contentsline {lstlisting}{\numberline {3.3}Zdrojový kód súboru AeroShieldOpenLoop.ino.}{vii}{}%
-\contentsline {lstlisting}{\numberline {3.4}Zdrojový kód súboru AeroShield.m.}{viii}{}%
-\contentsline {lstlisting}{\numberline {3.5}Zdrojový kód súboru AeroShieldOpenLoop.m.}{ix}{}%
+\contentsline {lstlisting}{\numberline {3.4}Zdrojový kód súboru AeroShieldPID.ino.}{viii}{}%
+\contentsline {lstlisting}{\numberline {3.5}Zdrojový kód súboru AeroShield.m.}{x}{}%
+\contentsline {lstlisting}{\numberline {3.6}Zdrojový kód súboru AeroShieldOpenLoop.m.}{xi}{}%

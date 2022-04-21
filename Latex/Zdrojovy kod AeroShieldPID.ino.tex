@@ -1,0 +1,86 @@
+\LARGE\bf{Zdrojový kód súboru AeroShieldPID.ino}
+\label{AeroShieldPID.ino}
+\vspace{1cm}
+\begin{lstlisting}[numbers=left,basicstyle=\scriptsize,caption={Zdrojový kód súboru AeroShieldPID.ino.},captionpos=b]	
+#include "AeroShield.h"              
+#include <Sampling.h>   
+
+#define MANUAL 0    
+#define KP 1.7  
+#define TI 3.8  
+#define TD 0.25   
+
+float startangle=0; 
+float lastangle=0; 
+float pendulumAngle;
+
+unsigned long Ts = 3; 
+unsigned long k = 0; 
+bool nextStep = false;  
+bool realTimeViolation = false;
+
+int i=i;          
+int T=1000;           
+float R[]={45.0,23.0,75.0,32.0,58.0,10.0,35.0,19.0,9.0,43.0,23.0,65.0,15.0,80.0}; 
+float r=0.0;          
+float y = 0.0;        
+float u = 0.0;         
+
+void setup() {           
+	Serial.begin(250000);                         
+	AeroShield.begin(AeroShield.detectMagnet());
+	startangle = AeroShield.calibration(AeroShield.getRawAngle()); 
+	lastangle=startangle+1024;                                  
+	Sampling.period(Ts*1000);      
+	PIDAbs.setKp(KP);       
+	PIDAbs.setTi(TI);    
+	PIDAbs.setTd(TD);     
+	PIDAbs.setTs(Sampling.samplingPeriod); 
+	Sampling.interrupt(stepEnable); 
+}
+
+void loop() {
+	if(pendulumAngle>120){
+		AeroShield.actuatorWrite(0);
+		while(1);
+	} 
+	if (nextStep) {    
+		step();          
+		nextStep = false;  
+	}
+}
+
+void stepEnable() {             
+	if(nextStep == true) {         
+		realTimeViolation = true;   
+		Serial.println("Real-time samples violated."); 
+		analogWrite(5,0);  
+		while(1);    
+	}
+	nextStep = true; 
+}
+
+void step() {  
+	#if MANUAL                       
+	r = AeroShield.referenceRead(); 
+	#else        
+	if(i>(sizeof(R)/sizeof(R[0]))) {  
+		analogWrite(5,0); 
+		while(1); 
+	} else if (k % (T*i) == 0) {
+		r = R[i];
+		i++; 
+	}
+	#endif
+	y= AutomationShield.mapFloat(AeroShield.getRawAngle(),startangle,lastangle,0.00,100.00);
+	u = PIDAbs.compute(r-y,0,100,0,100);
+	AeroShield.actuatorWrite(u);
+	
+	Serial.print(r);
+	Serial.print(", ");
+	Serial.print(y); 
+	Serial.print(", ");
+	Serial.println(u); 
+	k++; 
+}
+\end{lstlisting}
