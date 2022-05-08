@@ -397,16 +397,55 @@ Pri manuálnej trajektórii bola trikrát vnesená veľká regulačná odchýlka
 
 \subsection{Simulink}
 
-Simulink, narozdiel od MATLABU alebo Arduino IDE, využíva grafické programátorské prostredie, ktoré je založené na prepájaní funkčných blokov, vyberaných z prostredia knižnice. Pre prácu s Arduinom v rámci Simulinku existuje knižnica \textit{Simulink Support Package for Arduino Hardware}, ako aj knižnica AeroLibrary obr.\ref{OBRAZOK 2.6.4}, ktorú využívame priamo pre funkcie AeroShieldu. V knižnici AeroLibrary sa nachádzajú tieto hlavné funkcie: 
+Simulink, narozdiel od MATLABU alebo Arduino IDE, využíva grafické programátorské prostredie, ktoré je založené na prepájaní funkčných blokov, vyberaných z prostredia knižnice. Pre prácu s Arduinom, v rámci Simulinku, existuje knižnica \textit{Simulink Support Package for Arduino Hardware}, ako aj knižnica AeroLibrary obr.\ref{OBRAZOK 2.6.4}, ktorú využívame priamo pre funkcie AeroShieldu. V knižnici AeroLibrary sa nachádzajú tieto bloky: 
 \begin{itemize}
-\item Reference read- čítanie referenčnej hodnoty 
-\item Actuator write- ovládanie akčného členu 
-\item Angle read- meranie výstupu 
-\item AeroShield- súhrn blokov na zapisovanie akčného zásahu ako aj meranie regulovanej veličiny
+\item Reference read- čítanie referenčnej hodnoty, 
+\item Actuator write- ovládanie akčného členu, 
+\item Angle read- meranie výstupu, 
+\item AeroShield- súhrn blokov na zapisovanie akčného zásahu ako aj meranie regulovanej veličiny.
 \end{itemize}
+Jednotlivé bloky majú svoju vlastnú vnútornú štruktúru a nastavenia, ktoré sa dajú meniť priamo v bloku, alebo pomocou masky bloku. Maska je akési grafické okno, ktoré sa zobrazí po kliknutí na blok. Toto okno zobrazuje informácie o funkcionalite bloku, ako aj prvky, pomocou ktorých sa dá nastaviť vnútorná štruktúra bloku. Pre lepšiu orientáciu medzi blokmi, má každý priradený vlastný ilustračný obrázok. Bližšie si o tvorbe masky povieme v časti \ref{label}. 
 
 \begin{figure}[!tbh]
 	\centering
 	\includegraphics[width=125mm]{obr/AeroLib.png}
 	\caption{Knižnica AeroLibrary.}\label{OBRAZOK 2.6.4}
 \end{figure}
+
+Blok \verb|Actuator Write| má najjednoduchšiu vnútornú štruktúru. Skladá sa z funkcie \verb*|Constrain|, ktorá prepočíta percentuálnu hodnotu vstupu na výstupný 8-bitový PWM signál. Tento signál posiela na Shield blok \verb*|PWM|, z knižnice \textit{Simulink Support Package for Arduino Hardware}. 
+
+\subsubsection{Reference read}
+
+V časti \verb|Reference read| máme na výber možnosť manuálnej, alebo automatickej trajektórie. Používateľ si z týchto možností vyberie pomocou tlačidiel v maske bloku. Vnútorná štruktúra sa ďalej skladá z troch podsystémov, z ktorých dva pre manuálnu trajektóriu obr.\ref{OBRAZOK 2.6.5} sú takmer totožné. Rozdiel medzi nimi je taký, že pri použití niektorých druhov Arduina\footnote[11]{Due, MKR1000, MKR1010, MKRZero, Nano 33IoT.} je pri použitý bloku \verb|Analog input|, výstup v tvare 12-bitového čísla, narozdiel od 10-bitového, ako je tomu pri ostatných podporovaných modeloch Arduina. Načítaná hodnota je ďalej upravovaná do percentuálnej podoby pomocou pre násobenia konštantou v bloku \verb*|gain|. 
+
+Podsystém pre automatickú trajektóriu obr.\ref{} má v sebe prednastavené pole referenčných hodnôt. 
+
+\begin{figure}[!tbh]
+	\hfill
+	\subfigure[Tri podsystémy bloku Reference read.]{\includegraphics[width=6cm]{obr/Subsystem.png}}
+	\hfill
+	\subfigure[Podsystém pre 10-bitovú logiku.]{\includegraphics[width=9cm]{obr/10bit.png}}
+	\hfill
+	\caption{Reference read Simulink.}\label{OBRAZOK 2.6.5}
+\end{figure}
+
+\subsubsection{Angle read}
+
+Tento blok obr.\ref{OBRAZOK 2.6.6} slúži na čítanie uhlu kyvadla, ako aj pre bezpečnostnú kontrolu uhlu kyvadla. Jeho vnútorná štruktúra sa dá rozdeliť na štyri menšie celky. 
+\begin{itemize}
+	\item Kalibrácia nulového uhlu kyvadla,
+	\item zapisovanie príkazov na senzor,  
+	\item čítanie uhlu kyvadla zo senzoru, 
+	\item kontrola uhlu kyvadla. 
+\end{itemize}
+
+ \begin{figure}[!tbh]
+ 	\centering
+ 	\includegraphics[width=\textwidth]{obr/AngleRead.png}
+ 	\caption{Angle read Simulink.}\label{OBRAZOK 2.6.6}
+ \end{figure}
+ 
+ \paragraph{Kalibrácia} 
+ \paragraph{I2C zápis}
+ \paragraph{I2C čítanie}
+ \paragraph{Kontrola uhlu}

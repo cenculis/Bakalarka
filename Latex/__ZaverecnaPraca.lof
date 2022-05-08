@@ -43,4 +43,8 @@
 \contentsline {figure}{\numberline {2.9}{\ignorespaces Automatická trajektória.}}{43}{}%
 \contentsline {figure}{\numberline {2.10}{\ignorespaces Manuálna trajektória.}}{43}{}%
 \contentsline {figure}{\numberline {2.11}{\ignorespaces Knižnica AeroLibrary.}}{44}{}%
+\contentsline {figure}{\numberline {2.12}{\ignorespaces Reference read Simulink.}}{45}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Tri podsystémy bloku Reference read.}}}{45}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Podsystém pre 10-bitovú logiku.}}}{45}{}%
+\contentsline {figure}{\numberline {2.13}{\ignorespaces Angle read Simulink.}}{46}{}%
 \addvspace {10\p@ }
