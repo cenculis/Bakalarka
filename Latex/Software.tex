@@ -228,7 +228,9 @@ Zároveň je vo funkcii \code{begin()}, pomocou if podmienky, kontrolovaná prem
 
 
 \begin{lstlisting}[caption={Zdrojový kód funkcie begin.},captionpos=b]
-float AeroShield::begin(bool isDetected){ 
+float AeroClass::begin(void){                       
+	bool isDetected = AeroShield.detectMagnet(); 
+	// Detekcia magnetu 
 	pinMode(AERO_UPIN,OUTPUT);	// Pin aktuatora
 	
 	#ifdef ARDUINO_ARCH_AVR		// Pre dosky s architekturov AVR
@@ -328,11 +330,11 @@ Poslednou funkciou AeroShieldu je \code{currentMeasure()}. Funkcia slúži na za
 
 Výsledná hodnota prídu prechádza úpravami, pomocou dvoch korekčných premenných, ktoré sme získali vďaka meraniam prúdu pomocou multimetra, a následným porovnaním hodnôt zo senzora. Porovnaním hodnôt sme získali veľkosti korekčných premenných, vďaka čomu sa naše merania zhodujú s meraniami pomocou multimetra, na dve desatinné miesta. 
 
-TOTOTOTOTOTO ZMEN ZMEN 
+Nepresnosť vzniká v dôsledku ovládania motora PWM signálom. Prúd je teda prerušovaný a jeho meraná hodnota v čase skáče medzi hodnotou skutočnou a nulovou. Musíme preto vykonávať viacero meraní, ktoré sú sčítavaní. Z tejto sčítanej hodnoty nameraných prúdov získame priemernú hodnotu prúdu, na ktorú sú následne aplikované korekčné premenné.  
 
 Prevod z napätia na prúd robíme podľa pokynov uvedených v zdrojovom dokumente senzoru. Pri tomto prevode využívame hodnotu shunt rezistora \verb|RS|, ako aj hodnotu rezistora \verb|RL|, ktorý priamo premieňa prúd na napätie. 
 
-Kedže prúd nemôže vykazovať záporné hodnoty(iba pokiaľ prúdi opačným smerom, ako sme zamýšľali), na záver funkcie ešte prechádza if podmienkou, ktorá zmení záporné hodnoty prúdu na hodnotu 0.000A.  
+Kedže prúd nemôže vykazovať záporné hodnoty(iba pokiaľ prúdi opačným smerom, ako sme zamýšľali), na záver funkcie ešte prechádza if podmienkou, ktorá zmení záporné hodnoty prúdu na hodnotu 0.0A.  
 	
 \begin{lstlisting}[caption={Zdrojový kód funkcie currentMeasure.},captionpos=b]	
 float AeroShield::currentMeasure(void){  
@@ -348,7 +350,7 @@ float AeroShield::currentMeasure(void){
 	float currentMean= current/repeatTimes;   
 	// Vypocet priemernej hodnoty  
 	currentMean= currentMean-correction2;       // Korekcia
-	if(currentMean < 0.000) currentMean= 0.000;                 
+	if(currentMean < 0.000) currentMean= 0.0;                 
 	                    // Korekcia nulovej hodnoty
 	current= 0;         // Vynulovanie pomocnych premennych   
 	voltageValue= 0;    // Vynulovanie pomocnych premennych   

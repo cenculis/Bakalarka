@@ -25,7 +25,7 @@ Nasleduje časť \verb|setup()|, v ktorej ako prvé, prebehne nastavenie rýchlo
 \begin{lstlisting}[caption={AeroShield open loop setup().},captionpos=b]
 void setup() {                // Setup prebehne len jeden krat 
  Serial.begin(115200);       // Zaciatok seriovej komunikacie 
- AeroShield.begin(AeroShield.detectMagnet());  // Inicializacia AeroShieldu 
+ AeroShield.begin();  // Inicializacia AeroShieldu 
  startangle = AeroShield.calibration(AeroShield.getRawAngle());   // Kalibracia kyvadla
  lastangle=startangle+1024;  // Kalkulacia uhlu kyvadla pre map function
 }
@@ -218,16 +218,17 @@ Diskrétna forma PID regulátora je využívaná z toho dôvodu že Arduino resp
 
 \section{Príklady riadenia pomocou PID regulátora}
 \subsection{Arduino IDE}
+\label{Arduino IDE PID}
 
-V tomto príklade využívame na riadenie PID regulátora, vopred pripravenú knižnicu \verb|PIDAbs|, ktorá je volaná z knižnice \verb|AeroShield|. Za účelom vzorkovania, využívame knižnicu \verb|Sampling|, ktorú načítame do príkladu príkazom \code{#include <Sampling.h>}. Pri voľbe referenčnej trajektórie máme na výber z dvoch možností. Prvou je voľba manuálnej trajektórie, ktorej referenčnú hodnotu nastavujeme pomocou potenciometra na shielde. Druhou voľbou je automatická trajektória, ktorá má vopred naprogramované referenčné hodnoty. Voľbu trajektórie meníme zmenou hodnoty premennej \verb|MANUAL| z 0 na 1 v príkaze \code{#define MANUAL 0}. Parametre regulátora K$_p$, T$_i$ a T$_d$ slúžia ako symbolické parametre, pre lepší prehľad. Ich hodnotu zapisujeme do PID knižnice pomocou metódy \code{PIDAbs.setKp(KP)}. Vzorkovacia perióda \verb|Ts| je nastavená na hodnotu troch milisekúnd, ktorá je priradená riadiacemu algoritmu PID, ako aj knižnici na vzorkovanie. 
+V tomto príklade využívame na riadenie PID regulátora, vopred pripravenú knižnicu \verb|PIDAbs|, ktorá je volaná z knižnice \verb|AeroShield|. Za účelom vzorkovania, využívame knižnicu \verb|Sampling|, ktorú načítame do príkladu príkazom \code{#include <Sampling.h>}. Pri voľbe referenčnej trajektórie máme na výber z dvoch možností. Prvou je voľba manuálnej trajektórie, ktorej referenčnú hodnotu nastavujeme pomocou potenciometra na shielde. Druhou voľbou je automatická trajektória, ktorá má vopred naprogramované referenčné hodnoty. Voľbu trajektórie meníme zmenou hodnoty premennej \verb|MANUAL| z 0 na 1 v príkaze \code{#define MANUAL 0}. Parametre regulátora K$_p$, T$_i$ a T$_d$ slúžia ako symbolické parametre, pre lepší prehľad. Ich hodnotu zapisujeme do PID knižnice pomocou metódy \code{PIDAbs.setKp(KP)}. Vzorkovacia perióda \verb|Ts| je nastavená na hodnotu troch milisekúnd. Perióda vzorkovania je priradená riadiacemu algoritmu PID, ako aj knižnici na vzorkovanie. 
 
 \begin{lstlisting}[caption={Načítanie knižníc a premenných do programu.},captionpos=b]
 #define KP 1.7          // PID Kp konstanta
 #define TI 3.8          // PID Ti konstanta
 #define TD 0.25         // PID Td konstanta
 
-float startangle=0;     //  Premenna pre nulovy uhol kyvadla
-float lastangle=0;      //  Premenna pre mapovanie uhlu kyvadla
+float startAngle=0;     //  Premenna pre nulovy uhol kyvadla
+float lastAngle=0;      //  Premenna pre mapovanie uhlu kyvadla
 float pendulumAngle;    //  Realna hodnota uhlu kyvadla
 
 unsigned long Ts = 3;   // Vzorkovacia perioda 
@@ -239,7 +240,7 @@ int i=i;                // Index referencnej hodnoty
 int T=1000;             // Dlzka sekcie dana poctom vzoriek 
 float R[]={45.0,23.0,75.0,32.0,58.0,10.0,35.0,
 	19.0,9.0,43.0,23.0,65.0,15.0,80.0};  // Referencna trajektoria kyvadla
-float r=0.0;            // Referencia (Uhol ktory chceme dosiahnut)
+float r = 0.0;          // Referencia (Uhol ktory chceme dosiahnut)
 float y = 0.0;          // Vystup (Realny uhol kyvadla)
 float u = 0.0;          // Vstup (Vykon motora)
 \end{lstlisting}
@@ -250,9 +251,9 @@ regulátora, ako aj rýchlosť vzorkovania.
 \begin{lstlisting}[caption={Organzačná funkcia setup.},captionpos=b]
 void setup() {   
 	Serial.begin(250000);      //  Zaciatok seriovej komunikacie
-	AeroShield.begin(AeroShield.detectMagnet());   //  Inicializacia 
-	startangle = AeroShield.calibration(AeroShield.getRawAngle());        // Kalibracia
-	lastangle=startangle+1024;       // Vypocet uhlu pre mapovanie 
+	AeroShield.begin();   //  Inicializacia 
+	startAngle = AeroShield.calibration(AeroShield.getRawAngle());        // Kalibracia
+	lastAngle=startAngle+1024;       // Vypocet uhlu pre mapovanie 
 	Sampling.period(Ts*1000);              // Vzorkovacia perioda 
 	PIDAbs.setKp(KP);                      // Nastavenie Kp
 	PIDAbs.setTi(TI);                      // Nastavenie Ti
@@ -262,7 +263,7 @@ void setup() {
 }
 \end{lstlisting}
 
-Funkcia \verb|stepEnable()| je volaná z knižnice sampling, v intervale zadanom na začiatku programu, ako vzorkovacia perióda. Slúži na kontrolu postupnosti vzoriek a povolenie spustenia nasledujúcej vzorky. Táto funkcia je volaná vždy len na začiatku jednotlivých vzoriek. Pokiaľ je teda v trvaní jednej vzorky spustená viacero krát, vieme povedať že nastal konflikt vo vzorkovaní. Pri takejto chybe vzorkovania sa vypne motor a pomocou príkazu \code{while(1)}, je ukončené vykonávanie programu. 
+Funkcia \verb|stepEnable()| je volaná z knižnice sampling, v intervale zadanom na začiatku programu, ako vzorkovacia perióda. Slúži na kontrolu postupnosti vzoriek a povolenie spustenia nasledujúcej vzorky. Táto funkcia je volaná vždy len na začiatku jednotlivých vzoriek. Pokiaľ je teda v trvaní jednej vzorky spustená viacero krát, vieme povedať že nastala chyba vzorkovania. Pri takejto chybe sa vypne motor a pomocou príkazu \code{while(1)}, je ukončené vykonávanie programu. 
 
 Pokiaľ nedošlo ku chybe vzorkovania, funkcia povolí vykonanie nasledujúcej vzorky, zmenou hodnoty premennej \verb|nextStep|, na hodnotu $"$true$"$ teda 1. 
 
@@ -293,7 +294,7 @@ void loop() {
 }
 \end{lstlisting}
 
-Funkcia \verb|step()| vykonáva samotné meranie, ovládanie a výpočty potrebné pri riadení systému pomocou PID regulátora. Na začiatku funkcie sa zvolí buď manuálna, alebo automatická trajektória. Pri automatickej dráhe je dôležité, vedieť kedy bol dosiahnutý koniec pred programovanej trajektórie. Táto kontrola je vykonávaná pomocou porovnávania veľkostí premennej \verb|i|, ktorá zaznamenáva počet vykonaných sekcií trajektórie, oproti veľkosti pola \verb|R[]|, v ktorom sú zapísané hodnoty jednotlivých sekcií. Príkaz \code{sizeof(R)/sizeof(R[0])} vráti počet prvkov pola \verb|R[]|. Zároveň sa kontroluje dĺžka chodu sekcie. Pokiaľ výraz \verb|k % (T*i)|, dosiahne hodnotu 0, nastaví sa ako trajektória nasledujúca sekcia. 
+Funkcia \verb|step()| vykonáva samotné meranie, ovládanie a výpočty potrebné pri riadení systému pomocou PID regulátora. Na začiatku funkcie sa zvolí buď manuálna, alebo automatická trajektória. Pri automatickej dráhe je dôležité, vedieť kedy bol dosiahnutý koniec pred programovanej trajektórie. Táto kontrola je vykonávaná pomocou porovnávania veľkostí premennej \verb|i|, ktorá zaznamenáva počet vykonaných sekcií trajektórie, oproti veľkosti pola \verb|R[]|, v ktorom sú zapísané hodnoty jednotlivých sekcií. Príkaz \code{sizeof(R)/sizeof(R[0])}, vráti počet prvkov pola \verb|R[]|. Zároveň sa kontroluje dĺžka chodu sekcie. Pokiaľ výraz \verb|k % (T*i)|, dosiahne hodnotu 0, nastaví sa ako trajektória nasledujúca sekcia. 
 
 Následne je mapovaný uhol kyvadla na percentuálnu hodnotu od 0\% do 100\%, ktorá je uložená ako premenná \verb|y|. Veľkosť regulačnej odchýlky, obmedzenie integračného nasýtenia\footnote[9]{K nasýteniu integračnej zložky dochádza, v prípade že akčný člen nie je schopný dosiahnuť požadovanú referenčnú
 	hodnotu. V takom prípade začne hodnota integračná zložka nekontrolovateľne stúpať.}(angl. anti-windup), ako aj hodnotu saturácie systému\footnote[10]{Keď sa hodnota spätnoväzbového riadiaceho systému dostane do oblasti nasýtenia ktorejkoľvek z jeho zložiek, zmena vstupu nasýtenej zložky nespôsobí žiadnu zmenu na jej výstupe. Zosilnenie vtedy dosahuje nulové hodnoty.}, zadávame do algoritmu na výpočet akčného zásahu v tvare \verb|PIDAbs.compute(r-y,minSaturacia,maxSaturacia|
@@ -328,12 +329,84 @@ void step() {
 }
 \end{lstlisting}
 
+\subsubsection{Výstupy}
+
+Všetky výstupy z API Arduino IDE, boli zaznamenávané programom CoolTerm a následne vykreslené do grafov v prostredí MATLAB. 
+
+Na obr.\ref{OBRAZOK 2.5.1}, vidíme reakciu systému na skokovú zmenu z nulovej referenčnej hodnoty na hodnotu maximálnu, teda 100\%. Pomocou sledovania odozvy systému vieme lepšie nastaviť parametre PID regulátora. Systém nadobudne 1\% regulačnú odchýlku v priebehu 500 vzoriek, čo znamená čas približne jeden a pol sekundy. 
+
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=\textwidth]{obr/SkokovaZmena.png}
+	\caption{Reakcia systému na jednotkový skok.}\label{OBRAZOK 2.5.1}
+\end{figure}
+
+Manuálna trajektória obr.\ref{OBRAZOK 2.5.3}, má oproti automatickej trajektórii obr.\ref{OBRAZOK 2.5.2}, väčšie rozdiely v hodnote akčného zásahu. Je to spôsobené kontinuálnou zmenou referenčnej hodnoty, ako aj miernym šumom signálu z potenciometra. V rámci obr.\ref{OBRAZOK 2.5.3} si ešte môžeme všimnúť časť medzi vzorkami 5000-6000, ktorá je priblížená na obr.\ref{OBRAZOK 2.5.4}. Jedná sa o manuálne zavedenie výchylky, pomocou buchnutia do kyvadla. Systém na takúto zmenu reaguje zmenou akčného zásahu a regulačnú odchýlky menšiu ako 2\%, nadobúda v priebehu jednej sekundy. 
+
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=150mm]{obr/Auto3.png}
+	\caption{Automatická trajektória.}\label{OBRAZOK 2.5.2}
+\end{figure}
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=150mm]{obr/potentio.png}
+	\caption{Manuálna trajektória.}\label{OBRAZOK 2.5.3}
+\end{figure}
+
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=\textwidth]{obr/BuchnutieKyvadla.png}
+	\caption{Manuálne zavedenie výchylky .}\label{OBRAZOK 2.5.4}
+\end{figure}
 
 
 \subsection{MATLAB}
+\label{MATLABPID}
+
+Príklad na ukážku fungovania PID regulátora bol taktiež vytvorený v prostredí MATLAB a simulink. Princíp fungovania PID regulátora je rovnaký ako pri Arduino IDE, avšak mení sa spôsob vzorkovania a nastavovania parametrov PID. V prípade MATLABU využívame, na výpočet akčného zásahu, knižnicu PID.m, ktorá bola taktiež vytvorená v rámci programu AutomationShield. Na nastavenie parametrov PID slúži príkaz \code{PID.setParameters(Kp, Ti, Td, Ts)}, Ts udáva vzorkovaciu periódu. 
+
+Na vzorkovanie využívame funkcie \verb|TIC a TOC |, ktoré merajú prejdený čas. Funkcia TIC zaznamenáva aktuálny čas a funkcia TOC používa zaznamenanú hodnotu na výpočet uplynulého času. Ak je splnená podmienka \code{if (toc>=Ts*k)}, povolí sa posun na nasledujúcu vzorku, pričom premenná \verb*|k|, udáva počet vykonaných vzoriek. Dáta sú postupne zapisované do poľa \code{ PIDresponse(k,:)=[r y u]}, a toto pole je vykresľované pomocou funkcie \code{plotLive(PIDresponse(k,:))}. Na konci sú všetky dáta uložené, a teda sú prístupné aj po ukončený programu. Kompletný zdrojový kód sa nachádza v prílohe na strane \pageref{AeroShieldPID.m}.
+
+Regulácia PID v prostredí MATLAB potrebuje pre svoje fungovanie pomerne vysoký výpočtový výkon. Z tohoto dôvodu je perióda vzorkovania, oproti Arduino IDE, rádovo nižšia a dosahuje hodnoty maximálne piatich vzoriek za sekundu tj. Ts=0.2s. Takáto rýchlosť vzorkovania je hraničná a teda pri pomalšom vzorkovaní systém nedosahuje ideálne vlastnosti. Výpočtová náročnosť sa dá znížiť, zamedzením vykresľovania grafu, alebo odstránením možnosti ukladania zaznamenaných dát. 
+
+\newpage
+\subsubsection{Výstupy}
+
+Všetky výstupy z príkladu \ref{MATLABPID}, majú priamu funkciu vykresľovania grafov spolu s legendou výstupov. Tieto grafy majú taktiež definovaný rozsah zobrazovaných hodnôt na oboch osiach, ako aj pomenovania týchto osí. Na obr.\ref{OBRAZOK 2.6.1} vidíme reakciu systému na jednotkový skok. Obrázok \ref{OBRAZOK 2.6.2} zobrazuje automatickú trajektóriu referenčnej hodnoty a obr.\ref{OBRAZOK 2.6.3} trajektóriu manuálnu. 
+
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=140mm]{obr/jednotkovyskoskMAt.png}
+	\caption{Reakcia systému na jednotkový skok.}\label{OBRAZOK 2.6.1}
+\end{figure}
+
+Pri manuálnej trajektórii bola trikrát vnesená veľká regulačná odchýlka a to pomocou úderu do kyvadla. Ako je vidieť z grafu \ref{OBRAZOK 2.6.3}, ustálenie systému prebieha oveľa pomalšie ako v príklade \ref{Arduino IDE PID}. Oscilácia je pomerne vysoká a pretrváva po dobu cca 35 vzoriek, čo predstavuje približne 7 sekúnd. Táto skutočnosť je spôsobená pomalšou reakciou PID regulátora, na veľkú regulačnú odchýlku. Dlhší čas potrebný na ustálenie kyvadla je spôsobený pomalším vzorkovaním, ako aj nie ideálne nastavenými hodnotami PID regulátora.  
+\vspace{6cm}
+
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=125mm]{obr/PIDautomaMat.png}
+	\caption{Automatická trajektória.}\label{OBRAZOK 2.6.2}
+	
+	\centering
+	\includegraphics[width=125mm]{obr/pidmanualbuch.png}
+	\caption{Manuálna trajektória.}\label{OBRAZOK 2.6.3}
+\end{figure}
 
 
+\subsection{Simulink}
 
+Simulink, narozdiel od MATLABU alebo Arduino IDE, využíva grafické programátorské prostredie, ktoré je založené na prepájaní funkčných blokov, vyberaných z prostredia knižnice. Pre prácu s Arduinom v rámci Simulinku existuje knižnica \textit{Simulink Support Package for Arduino Hardware}, ako aj knižnica AeroLibrary obr.\ref{OBRAZOK 2.6.4}, ktorú využívame priamo pre funkcie AeroShieldu. V knižnici AeroLibrary sa nachádzajú tieto hlavné funkcie: 
+\begin{itemize}
+\item Reference read- čítanie referenčnej hodnoty 
+\item Actuator write- ovládanie akčného členu 
+\item Angle read- meranie výstupu 
+\item AeroShield- súhrn blokov na zapisovanie akčného zásahu ako aj meranie regulovanej veličiny
+\end{itemize}
 
-
-
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=125mm]{obr/AeroLib.png}
+	\caption{Knižnica AeroLibrary.}\label{OBRAZOK 2.6.4}
+\end{figure}

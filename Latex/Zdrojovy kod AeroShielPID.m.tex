@@ -1,0 +1,68 @@
+\LARGE\bf{Zdrojový kód súboru AeroShieldPID.m}
+\label{AeroShieldPID.m}
+\vspace{1cm}
+\begin{lstlisting}[numbers=left,basicstyle=\scriptsize,caption={Zdrojový kód súboru AeroShieldPID.m.},captionpos=b]	
+clear all
+clc 
+AeroShield=AeroShield; 
+PID = PID;
+AeroShield.begin();
+startangle= AeroShield.calibration(); 
+lastangle=startangle+1024; 
+Ts = 0.0017;   
+Kp=0.015 ;
+Ti=0.00020 ;
+Td=0.0003 ;  
+PID.setParameters(Kp, Ti, Td, Ts);
+MANUAL= 0;
+R=[23 48 69 45 19 37 78];
+secLength=30; 
+stepEnable = 0;  
+k=1; 
+j=1;
+r=R(1);
+y=0;      
+
+tic 
+while(1) 
+if (stepEnable) 
+RAW = AeroShield.getRawAngle();
+y = map(RAW, startangle, lastangle, 0.0, 100.0);
+if MANUAL  
+PWMvalue = AeroShield.referenceRead(); 
+r=map(PWMvalue, 0, 5, 0, 100);
+else 
+if (mod(k,secLength*j)==0); 
+j=j+1; 
+if (j > length(R)) 
+AeroShield.actuatorWrite(0.0); 
+break  
+end
+r=R(j); 
+end
+end
+
+u = PID.compute(r-y, 0, 90, 0, 90); 
+coercedInput = constrain(u, 0, 100); 
+PWM=map(coercedInput, 0, 100, 0, 5); 
+AeroShield.actuatorWrite(PWM); 
+
+PIDresponse(k,:)=[r y u];
+plotLive(PIDresponse(k,:)); 
+k=k+1;  
+stepEnable = 0; 
+end      
+
+if (toc>=Ts*k)      
+stepEnable = 1;            
+end
+if (y > 110)        
+AeroShield.actuatorWrite(0.0); 
+disp('Angle of pendulum too high. AeroShield is turned off')
+break                     
+end
+end   
+
+disp('Example finished. Captured data saved to "PIDresponse.mat" file.')
+save PIDresponse PIDresponse     
+\end{lstlisting}

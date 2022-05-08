@@ -15,24 +15,32 @@
 \contentsline {figure}{\numberline {1.4}{\ignorespaces Zapojenie akčného člena a typ motorčeka}}{8}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia motorčeka.}}}{8}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Akčný člen sústavy.\cite {corelessMotor}}}}{8}{}%
-\contentsline {figure}{\numberline {1.5}{\ignorespaces meranie prúdu}}{8}{}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia snímača prúdu.}}}{8}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Senzor INA169NA/250\cite {INAobr}}}}{8}{}%
+\contentsline {figure}{\numberline {1.5}{\ignorespaces meranie prúdu}}{9}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia snímača prúdu.}}}{9}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Senzor INA169NA/250\cite {INAobr}}}}{9}{}%
 \contentsline {figure}{\numberline {1.6}{\ignorespaces Schematická reprezentácia hallovho javu.}}{9}{}%
-\contentsline {figure}{\numberline {1.7}{\ignorespaces meranie uhla kyvadla}}{9}{}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia čipu na meranie uhlu.}}}{9}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {čip AS5600\cite {As5600obr}}}}{9}{}%
-\contentsline {figure}{\numberline {1.8}{\ignorespaces Schéma zapojenia AeroShieldu}}{10}{}%
-\contentsline {figure}{\numberline {1.9}{\ignorespaces Vedľajšia doska AeroShieldu- breakout board}}{11}{}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Vrchná strana breakout boardu}}}{11}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Spodná strana breakout boardu}}}{11}{}%
-\contentsline {figure}{\numberline {1.10}{\ignorespaces (a) Vrchná strana AeroShieldu (b) Spodná strana AeroShieldu}}{12}{}%
-\contentsline {figure}{\numberline {1.11}{\ignorespaces Dosky plošných spojov AeroShieldu}}{13}{}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Hlavná doska AeroShieldu}}}{13}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Vedľajšia doska AeroShieldu}}}{13}{}%
-\contentsline {figure}{\numberline {1.12}{\ignorespaces Model kyvadla, tvorený v programe CATIA.}}{15}{}%
+\contentsline {figure}{\numberline {1.7}{\ignorespaces meranie uhla kyvadla}}{10}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia čipu na meranie uhlu.}}}{10}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {čip AS5600\cite {As5600obr}}}}{10}{}%
+\contentsline {figure}{\numberline {1.8}{\ignorespaces Schéma zapojenia AeroShieldu}}{11}{}%
+\contentsline {figure}{\numberline {1.9}{\ignorespaces Vedľajšia doska AeroShieldu- breakout board}}{12}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Vrchná strana breakout boardu}}}{12}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Spodná strana breakout boardu}}}{12}{}%
+\contentsline {figure}{\numberline {1.10}{\ignorespaces (a) Vrchná strana AeroShieldu (b) Spodná strana AeroShieldu}}{13}{}%
+\contentsline {figure}{\numberline {1.11}{\ignorespaces Dosky plošných spojov AeroShieldu}}{14}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Hlavná doska AeroShieldu}}}{14}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Vedľajšia doska AeroShieldu}}}{14}{}%
+\contentsline {figure}{\numberline {1.12}{\ignorespaces Model kyvadla, tvorený v programe CATIA.}}{16}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Výstup z programu AeroShieldOpenLoop.ino.}}{29}{}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Výstup z programu AeroShieldOpenLoop.m.}}{32}{}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Schéma riadenia PID regulátorom.}}{33}{}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Výstup z programu AeroShieldOpenLoop.ino.}}{30}{}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Výstup z programu AeroShieldOpenLoop.m.}}{33}{}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Schéma riadenia PID regulátorom.}}{34}{}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Reakcia systému na jednotkový skok.}}{39}{}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Automatická trajektória.}}{40}{}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Manuálna trajektória.}}{40}{}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Manuálne zavedenie výchylky .}}{41}{}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Reakcia systému na jednotkový skok.}}{42}{}%
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Automatická trajektória.}}{43}{}%
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Manuálna trajektória.}}{43}{}%
+\contentsline {figure}{\numberline {2.11}{\ignorespaces Knižnica AeroLibrary.}}{44}{}%
 \addvspace {10\p@ }
