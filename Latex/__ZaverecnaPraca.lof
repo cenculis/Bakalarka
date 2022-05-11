@@ -31,20 +31,33 @@
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Hlavná doska AeroShieldu}}}{14}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Vedľajšia doska AeroShieldu}}}{14}{}%
 \contentsline {figure}{\numberline {1.12}{\ignorespaces Model kyvadla, tvorený v programe CATIA.}}{16}{}%
+\contentsline {figure}{\numberline {1.13}{\ignorespaces Knižnica AeroLibrary.}}{29}{}%
+\contentsline {figure}{\numberline {1.14}{\ignorespaces Reference read- Simulink.}}{30}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Tri podsystémy bloku Reference read.}}}{30}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Podsystém pre 10-bitovú logiku.}}}{30}{}%
+\contentsline {figure}{\numberline {1.15}{\ignorespaces Angle read- Simulink.}}{31}{}%
+\contentsline {figure}{\numberline {1.16}{\ignorespaces Mapovanie uhlu kyvadla- Simulink.}}{31}{}%
+\contentsline {figure}{\numberline {1.17}{\ignorespaces Kalibrácia- Simulink.}}{32}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Sústava pre zabezpečenie kalibrácie.}}}{32}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Podsystém pre zaznamenanie nulového uhla.}}}{32}{}%
+\contentsline {figure}{\numberline {1.18}{\ignorespaces Podsystém na kontrolu uhlu kyvadla.}}{33}{}%
+\contentsline {figure}{\numberline {1.19}{\ignorespaces Reference read- Simulink.}}{34}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Nastavenia masky.}}}{34}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Zobrazenie masky.}}}{34}{}%
+\contentsline {figure}{\numberline {1.20}{\ignorespaces AeroShield\_OpenLoop.}}{35}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Výstup z programu AeroShieldOpenLoop.ino.}}{30}{}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Výstup z programu AeroShieldOpenLoop.m.}}{33}{}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Schéma riadenia PID regulátorom.}}{34}{}%
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Reakcia systému na jednotkový skok.}}{39}{}%
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Automatická trajektória.}}{40}{}%
-\contentsline {figure}{\numberline {2.6}{\ignorespaces Manuálna trajektória.}}{40}{}%
-\contentsline {figure}{\numberline {2.7}{\ignorespaces Manuálne zavedenie výchylky .}}{41}{}%
-\contentsline {figure}{\numberline {2.8}{\ignorespaces Reakcia systému na jednotkový skok.}}{42}{}%
-\contentsline {figure}{\numberline {2.9}{\ignorespaces Automatická trajektória.}}{43}{}%
-\contentsline {figure}{\numberline {2.10}{\ignorespaces Manuálna trajektória.}}{43}{}%
-\contentsline {figure}{\numberline {2.11}{\ignorespaces Knižnica AeroLibrary.}}{44}{}%
-\contentsline {figure}{\numberline {2.12}{\ignorespaces Reference read Simulink.}}{45}{}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Tri podsystémy bloku Reference read.}}}{45}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Podsystém pre 10-bitovú logiku.}}}{45}{}%
-\contentsline {figure}{\numberline {2.13}{\ignorespaces Angle read Simulink.}}{46}{}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Výstup z programu AeroShieldOpenLoop.ino.}}{37}{}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Výstup z programu AeroShieldOpenLoop.m.}}{40}{}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Schéma riadenia PID regulátorom.}}{41}{}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Reakcia systému na jednotkový skok.}}{47}{}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Automatická trajektória.}}{47}{}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Manuálna trajektória.}}{48}{}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Manuálne zavedenie výchylky.}}{48}{}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Reakcia systému na jednotkový skok.}}{49}{}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Automatická trajektória.}}{50}{}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Manuálna trajektória.}}{50}{}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Ukážka riadenia systému pomocou PID regulátora v API Simulink.}}{51}{}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Reakcia systému na skokovú zmenu.}}{52}{}%
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Manuálna trajektória.}}{52}{}%
 \addvspace {10\p@ }

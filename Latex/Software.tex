@@ -408,4 +408,171 @@ end
 
 Zostávajúce funkcie, ako aj celý zdrojový kód \verb|AeroShield.m| sa nachádza v prílohe na strane \pageref{AeroShield.m}. 
 
-\subsection{Simulink}	
+\newpage
+\subsection{Simulink}
+
+Simulink, narozdiel od MATLABU alebo Arduino IDE, využíva grafické programátorské prostredie, ktoré je založené na prepájaní funkčných blokov, vyberaných z prostredia knižnice. Pre prácu s Arduinom, v rámci Simulinku, existuje knižnica \textit{Simulink Support Package for Arduino Hardware}, ako aj knižnica AeroLibrary obr.\ref{OBRAZOK 2.6.4}, ktorú využívame priamo pre funkcie AeroShieldu. V knižnici AeroLibrary sa nachádzajú tieto bloky: 
+\begin{itemize}
+	\item Reference read- čítanie referenčnej hodnoty, 
+	\item Actuator write- ovládanie akčného členu, 
+	\item Angle read- meranie výstupu, 
+	\item AeroShield- súhrn blokov na zapisovanie akčného zásahu ako aj meranie regulovanej veličiny.
+\end{itemize}
+Jednotlivé bloky majú svoju vlastnú vnútornú štruktúru a nastavenia, ktoré sa dajú meniť priamo v bloku, alebo pomocou masky bloku. Maska je akési grafické okno, ktoré sa zobrazí po kliknutí na blok. Toto okno zobrazuje informácie o funkcionalite bloku, ako aj prvky, pomocou ktorých sa dá nastaviť vnútorná štruktúra bloku. Pre lepšiu orientáciu medzi blokmi, má každý priradený vlastný ilustračný obrázok. Bližšie si o tvorbe masky povieme v časti \ref{Maska}. 
+
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=125mm]{obr/AeroLib.png}
+	\caption{Knižnica AeroLibrary.}\label{OBRAZOK 2.6.4}
+\end{figure}
+
+Blok \verb|Actuator Write| má najjednoduchšiu vnútornú štruktúru. Skladá sa z funkcie \verb*|Constrain|, ktorá prepočíta percentuálnu hodnotu vstupu na výstupný 8-bitový PWM signál. Tento signál posiela na Shield blok \verb*|PWM|, z knižnice \textit{Simulink Support Package for Arduino Hardware}. 
+
+\subsubsection{Reference read}
+\label{AngleRead}
+
+V časti \verb|Reference read| máme na výber možnosť manuálnej, alebo automatickej trajektórie. Používateľ si z týchto možností vyberie pomocou tlačidiel v maske bloku. Vnútorná štruktúra sa ďalej skladá z troch podsystémov, z ktorých dva pre manuálnu trajektóriu obr.\ref{OBRAZOK 2.6.5} sú takmer totožné. Rozdiel medzi nimi je taký, že pri použití niektorých druhov Arduina\footnote[11]{Due, MKR1000, MKR1010, MKRZero, Nano 33IoT.} je pri použitý bloku \verb|Analog input|, výstup v tvare 12-bitového čísla, narozdiel od 10-bitového, ako je tomu pri ostatných podporovaných modeloch Arduina. Načítaná hodnota je ďalej upravovaná do percentuálnej podoby pomocou pre násobenia konštantou v bloku \verb*|gain|. 
+
+Podsystém pre automatickú trajektóriu obr.\ref{} má v sebe prednastavené pole referenčných hodnôt. 
+
+\begin{figure}[!tbh]
+	\hfill
+	\subfigure[Tri podsystémy bloku Reference read.]{\includegraphics[width=6cm]{obr/Subsystem.png}}
+	\hfill
+	\subfigure[Podsystém pre 10-bitovú logiku.]{\includegraphics[width=9cm]{obr/10bit.png}}
+	\hfill
+	\caption{Reference read- Simulink.}\label{OBRAZOK 2.6.5}
+\end{figure}
+
+\subsubsection{Angle read}
+
+Tento blok obr.\ref{OBRAZOK 2.6.6} slúži na čítanie uhlu kyvadla, ako aj pre bezpečnostnú kontrolu uhlu kyvadla. Jeho vnútorná štruktúra sa dá rozdeliť na štyri menšie celky. 
+\begin{itemize}
+	\item Zapisovanie príkazov na senzor,  
+	\item čítanie uhlu kyvadla zo senzoru, 
+	\item kalibrácia nulového uhlu kyvadla,
+	\item kontrola uhlu kyvadla. 
+\end{itemize}
+
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=\textwidth]{obr/AngleRead.png}
+	\caption{Angle read- Simulink.}\label{OBRAZOK 2.6.6}
+\end{figure}
+
+
+\paragraph{I2C zápis}
+
+Blok I2C Write obr.\ref{OBRAZOK 2.6.6}(ľavý dolný roh), z knižnice \textit{Simulink Support Package for Arduino Hardware}, zapisuje na senzor striedavo hodnoty 12 a 13, ktoré slúžia ako príkaz pre čítanie a následné odoslanie hodnoty pootočenia kyvadla. Prepínanie medzi týmito dvomi hodnotami zabezpečuje automatický prepínač (Automatic switch). 
+
+\paragraph{I2C čítanie}
+
+Samotné čítanie uhlu zabezpečuje blok I2C Read obr.\ref{OBRAZOK 2.6.6}(pravý horný roh), ktorého výstupom je 12-bitové číslo, predstavujúce aktuálne natočenie kyvadla. Tento výstup musíme previesť na uhlovú výchylku v rozmedzí od 0 do 360°. Tento prevod sa vykonáva v mapovacom podsystéme obr.\ref{OBRAZOK 2.6.7}. Mapovanie funguje na rovnakom princípe ako v príklade \ref{MatlabPID}. Jednotlivé premenné vchádzajú do bloku \verb*|MUX|, ktorý slúži ako multiplexer\footnote[12]{Zariadenie, ktoré vyberá medzi viacerými analógovými alebo digitálnymi vstupnými signálmi a tieto preposiela na jednu výstupnú linku.}. Signál z multiplexoru vstupuje do \verb|fcn bloku|, ktorý prepája Simulink s MATLABOM. Zdrojový kód \ref{MAPfcn} zobrazuje funkciu vo vnútri tohoto bloku. 
+
+
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=\textwidth]{obr/SensMap.png}
+	\caption{Mapovanie uhlu kyvadla- Simulink.}\label{OBRAZOK 2.6.7}
+\end{figure}
+
+
+\begin{lstlisting}[caption={Mapovacia funkcia vo fcn bloku.},captionpos=b,label=MAPfcn]
+	function y = fcn(u)
+	angMin=0;
+	angMax=72;
+	y = ((u(1) - u(2)) * (angMax - angMin)) / (u(3) - u(2)) + angMin ;
+\end{lstlisting}
+
+
+Proces získania premennej \verb|StartAngle|, ktorú využívame pri mapovaní, je opísaný v nasledujúcom odstavci. 
+
+\paragraph{Kalibrácia} 
+Kalibrácia prebieha vždy len raz a to pri spustení simulácie. V podsystéme (Enabled Subsystem) obr.\ref{OBRAZOK 2.6.8}.a, ktorý je spustený len ak je do neho privedený signál, sa nachádzajú funkcie pre zapisovanie a čítanie informácii zo senzoru. Uhol ktorý je týmto podsystémom zaznamenaný pri spustený simulácie, sa uloží v bloku \verb|Data store Write|, ako premenná \verb|StartAngle| obr.\ref{OBRAZOK 2.6.8}.b.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+
+\begin{figure}[!tbh]
+	\hfill
+	\subfigure[Sústava pre zabezpečenie kalibrácie.]{\includegraphics[width=6cm]{obr/Calibrat.png}}
+	\hfill
+	\subfigure[Podsystém pre zaznamenanie nulového uhla.]{\includegraphics[width=9cm]{obr/calibDnu.png}}
+	\hfill
+	\caption{Kalibrácia- Simulink.}\label{OBRAZOK 2.6.8}
+\end{figure}
+
+\paragraph{Kontrola uhlu}
+
+Kontrola uhlu kyvadla prebieha v podsystéme, ktorý je spustený päť sekúnd po začatí simulácie obr.\ref{OBRAZOK 2.6.6}(pravý dolný roh). Časový posun je použitý z dôvodu občasného šumu premenných počas začiatku simulácie. Tento šum môže spôsobiť nechcené výkyvy hodnoty uhlu kyvadla, ktoré by splnili podmienku v podsystéme a tým by zastavili priebeh simulácie. V podsystéme na obr.\ref{OBRAZOK 2.6.9}, sa nachádza blok \verb|Compare To Constant|, ktorý porovnáva hodnotu uhlu kyvadla, s daným maximálnym uhlom kyvadla. Táto hodnota je v našom prípade 110°. Pokiaľ kyvadlo dosiahne väčší uhol, ako je uhol dovolený, blok \verb|Stop Simulation| zastaví simuláciu.  
+
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=100mm]{obr/AngleControl.png}
+	\caption{Podsystém na kontrolu uhlu kyvadla.}\label{OBRAZOK 2.6.9}
+\end{figure}
+
+\newpage
+\subsubsection{Tvorba masky}
+\label{Maska}
+
+Maska slúži ako vlastné používateľské rozhranie bloku resp. podsystému. Maskovaním bloku zapúzdrime blokovú schému tak, aby mala podla potreby, vlastné dialógové okná s nastaviteľnými parametrami, popisy bloku, výzvy na zadanie parametrov alebo texty s nápovedami. Vďaka maske blokov, sa tieto viacej podobajú na bloky, ktoré nájdeme v predprogramovaných knižniciach Simulinku. Masku upravujeme pomocou editora, ktorý spustíme pravým kliknutím na blok, s následným výberom možnosti \verb|Mask|. V maske sa nachádzajú štyri hlavné editovacie rozhrania. 
+
+Prvým z nich je záložka \verb|Icon & Ports|. V tomto okne upravujeme hlavne vzhľad bloku, teda jeho zobrazenie, rotáciu, inicializáciu alebo aj ikona bloku. Pre všetky bloky v knižnici AeroLibrary, boli vytvorené vlastné ikony, ktoré sa do masky vkladajú nasledujúcim príkazom \code{image('assets/Pote.png')}.
+
+Ďalšou v poradí je záložka \verb|Parameters & Dialog|. V tejto sekcii nastavujeme vzhľad a funkcie masky, ktorá sa zobrazí po kliknutí na blok. V prípade bloku \verb|Reference read|, máme v maske na výber voľbu automatickej alebo manuálnej referenčnej trajektórie. Medzi týmito možnosťami si vyberáme pomocou tlačidiel (Radio button) obr.\ref{OBRAZOK 2.6.100}, ktorých výber taktiež formátuje zobrazenie masky bloku. 
+
+Pokiaľ si z tlačidiel vyberieme manuálnu trajektóriu, zobrazí sa ďalšia možnosť výberu, a tou je model dosky Arduino. Jedná sa o roletové, alebo "popup" menu, v ktorom si vyberieme typ dosky s ktorou používame AeroShield. Dôvod tohoto výberu je opísaný v časti \ref{AngleRead}, na strane \pageref{AngleRead}. Pokiaľ si zvolíme Automatickú referenčnú trajektóriu, možnosť voľby dosky sa nezobrazí. Táto funkcia je vykonávaná automaticky, zdrojovým kódom \ref{Callback}, ktorý sa nachádza v časti \verb|Callback|, v nastaveniach tlačidiel voľby trajektórie. 
+
+\begin{lstlisting}[caption={Callback funkcia.},captionpos=b,label=Callback]
+	ref = get_param(gcb,'ref');
+	if strcmp(ref(1),'M')
+	set_param(gcb,'MaskVisibilities',{'on';'on'}),
+	else
+	set_param(gcb,'MaskVisibilities',{'on';'off'}),
+	end
+\end{lstlisting}
+
+Pomocou príkazu \verb|get_param|, sa nám do premennej \verb|ref|, uloží výber tlačidla v maske. Príkaz \verb|gcb| vráti cestu
+daného bloku v aktuálnom systéme. Podmienka \verb|if| kontroluje ktorú z možností sme si vybrali, pomocou príkazu \verb|strcmp|, ktorý porovnáva prvé písmeno z premennej \verb|ref|, s písmenom 'M' (Manual). Pokiaľ sa tieto zhodujú, príkaz \verb|set_param|, spolu s príkazom \verb|MaskVisibilities|, nastaví obe polia tlačidiel ako viditeľné, teda s hodnotou \verb|'on'|. Pokiaľ sa písmená nezhodujú a teda bola vybraná trajektória automatická, možnosť výberu dosky Arduino, je skrytá príkazom \verb|'off'|. 
+
+
+\begin{figure}[!tbh]
+	\hfill
+	\subfigure[Nastavenia masky.]{\includegraphics[width=10cm]{obr/ParamAnd.png}}
+	\hfill
+	\subfigure[Zobrazenie masky.]{\includegraphics[width=5.5cm]{obr/Maska.png}}
+	\hfill
+	\caption{Reference read- Simulink.}\label{OBRAZOK 2.6.100}
+\end{figure}
+
+\verb|Initialization| tvorí tretiu záložku v maske. V tejto záložke môžeme pridávať MATLAB kód, ktorý ovláda a formátuje podsystémy. V maske bloku \verb|Reference read |, máme v tejto záložke vložený kód \ref{Initialization}. Podľa pravdivosti \verb|if| podmienky, príkaz \newline \verb|set_param(gcb,'LabelModeActiveChoice'| aktivuje podsystém bloku, ktorého názov je uvedený ako tretí parameter v zátvorke príkazu. 
+
+\begin{lstlisting}[caption={Initialization- maska Reference read.},captionpos=b,label=Initialization]
+	ref = get_param(gcb,'ref');
+	model = get_param(gcb,'model');
+	if strcmp(ref,'Manual')
+	if strcmp(model,'Due')
+	set_param(gcb,'LabelModeActiveChoice', '12bit');
+	elseif strcmp(model,'MKR1000')
+	set_param(gcb,'LabelModeActiveChoice', '12bit');
+	elseif strcmp(model,'MKR1010')
+	set_param(gcb,'LabelModeActiveChoice', '12bit');
+	elseif strcmp(model,'MKRZero')
+	set_param(gcb,'LabelModeActiveChoice', '12bit');
+	elseif strcmp(model,'Nano 33IoT')
+	set_param(gcb,'LabelModeActiveChoice', '12bit');
+	elseif strcmp(model,'Others') 
+	set_param(gcb,'LabelModeActiveChoice', '10bit');
+	end
+	end
+	if strcmp(ref,'Automatic')
+	set_param(gcb,'LabelModeActiveChoice', 'Auto');
+	end
+\end{lstlisting}
+
+Pre lepšie porozumenie blokov a ich funkcií, bol v API Simulink zostavený inštruktážny príklad \verb|AeroShieldOpenLoop| obr.\ref{OBRAZOK 2.6.111}. Tento príklad funguje na princípe merania hodnoty bežca potenciometra na Shielde, a následného zapisovania nameranej hodnoty na akčný člen sústavy. Zároveň je meraný uhol v ktorom sa kyvadlo nachádza. Obe tieto hodnoty sú priebežne zobrazované na grafe. 
+
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=100mm]{obr/AeroOpenLoop.png}
+	\caption{AeroShield\_OpenLoop.}\label{OBRAZOK 2.6.111}
+\end{figure}
+

@@ -61,6 +61,7 @@ void loop() {
 \end{figure}
 
 \subsection{MATLAB}
+\label{MatlabPID}
 
 V príklade \verb|AeroShieldOpenLoop.m| si ukážeme výhody a možnosti zobrazovania výstupov, v prostredí MATLAB. Výstupy vieme zobrazovať nielen na sériovom monitore alebo zapisovači, ale máme možnosť tvoriť grafy, tabuľky... a všetky tieto výstupy upravovať a ukladať podľa vlastných predstáv a požiadaviek. 
 
@@ -142,9 +143,8 @@ clear AeroShield.arduino;
 	\caption{Výstup z programu AeroShieldOpenLoop.m.}\label{OBRAZOK 3.2}
 \end{figure}
 
-\newpage
-\section{Programy v uzatvorenej slučke, so spätnou väzbou}
-\subsection{PID regulácia}
+
+\chapter{PID regulácia}
 
 Skôr ako si ukážeme príklady na PID riadenie,musíme si vysvetliť ako takéto riadenie funguje. Základom takéhoto riadenia je získavanie informácii o sledovanej resp. riadenej veličine, za pomoci senzoru a jej porovnávanie s hodnotou žiadanou. Vďaka tomu že získavame informácie o výstupe, ktoré aktívne využívame na riadenie akčného člena, môžeme hovoriť o spätnoväzbovom riadení. Spätnoväzbové riadenie, je teda také riadenie, ktoré ovplyvnuje sústavu na základe aktuálne získaných informácii o stave, v ktorom sa sústava práve nachádza. Pri takomto riadení existuje množstvo algoritmov, ktoré ovládajú správanie sa systému. Medzi tieto algoritmy patrí napríklad: Modelové prediktívne riadenie (MPC), Lineárno-kvadratické riadenie (LQ), Lineárne riadenie s premenlivým parametrom (LPV), Proporcionálno-integračno-derivačné riadenie (PID)...
 
@@ -216,7 +216,7 @@ Spomenuté vzťahy PID regulátorov fungujú pri spojitých procesoch. Avšak pr
 
 Diskrétna forma PID regulátora je využívaná z toho dôvodu že Arduino resp. počítače nie sú schopné nepretržito zaznamenávať merané hodnoty. Dáta sú preto spracovávané v diskrétnych okamihoch kT, ktorým hovoríme vzorky. Proces získavania takýchto vzoriek v istej pravidelnom frekvencii, nazývame vzorkovanie. Vzorkovanie môže mať rýchlosť niekoľko minút, pri pomali sa meniacich systémoch, až po mikrosekundy, pri veľmi rýchlych systémoch. Rovnicu v tvare \ref{diskretna} využíva na implementáciu PID regulátora knižnica AutomationShield a teda je aj súčasťou didaktických príkladov pre AeroShield. 
 
-\section{Príklady riadenia pomocou PID regulátora}
+\section{Programy v uzatvorenej slučke, so spätnou väzbou}
 \subsection{Arduino IDE}
 \label{Arduino IDE PID}
 
@@ -357,10 +357,10 @@ Manuálna trajektória obr.\ref{OBRAZOK 2.5.3}, má oproti automatickej trajekt�
 \begin{figure}[!tbh]
 	\centering
 	\includegraphics[width=\textwidth]{obr/BuchnutieKyvadla.png}
-	\caption{Manuálne zavedenie výchylky .}\label{OBRAZOK 2.5.4}
+	\caption{Manuálne zavedenie výchylky.}\label{OBRAZOK 2.5.4}
 \end{figure}
 
-
+\newpage
 \subsection{MATLAB}
 \label{MATLABPID}
 
@@ -370,14 +370,14 @@ Na vzorkovanie využívame funkcie \verb|TIC a TOC |, ktoré merajú prejdený �
 
 Regulácia PID v prostredí MATLAB potrebuje pre svoje fungovanie pomerne vysoký výpočtový výkon. Z tohoto dôvodu je perióda vzorkovania, oproti Arduino IDE, rádovo nižšia a dosahuje hodnoty maximálne piatich vzoriek za sekundu tj. Ts=0.2s. Takáto rýchlosť vzorkovania je hraničná a teda pri pomalšom vzorkovaní systém nedosahuje ideálne vlastnosti. Výpočtová náročnosť sa dá znížiť, zamedzením vykresľovania grafu, alebo odstránením možnosti ukladania zaznamenaných dát. 
 
-\newpage
+
 \subsubsection{Výstupy}
 
 Všetky výstupy z príkladu \ref{MATLABPID}, majú priamu funkciu vykresľovania grafov spolu s legendou výstupov. Tieto grafy majú taktiež definovaný rozsah zobrazovaných hodnôt na oboch osiach, ako aj pomenovania týchto osí. Na obr.\ref{OBRAZOK 2.6.1} vidíme reakciu systému na jednotkový skok. Obrázok \ref{OBRAZOK 2.6.2} zobrazuje automatickú trajektóriu referenčnej hodnoty a obr.\ref{OBRAZOK 2.6.3} trajektóriu manuálnu. 
 
 \begin{figure}[!tbh]
 	\centering
-	\includegraphics[width=140mm]{obr/jednotkovyskoskMAt.png}
+	\includegraphics[width=90mm]{obr/jednotkovyskoskMAt.png}
 	\caption{Reakcia systému na jednotkový skok.}\label{OBRAZOK 2.6.1}
 \end{figure}
 
@@ -394,58 +394,43 @@ Pri manuálnej trajektórii bola trikrát vnesená veľká regulačná odchýlka
 	\caption{Manuálna trajektória.}\label{OBRAZOK 2.6.3}
 \end{figure}
 
-
+\newpage 
 \subsection{Simulink}
 
-Simulink, narozdiel od MATLABU alebo Arduino IDE, využíva grafické programátorské prostredie, ktoré je založené na prepájaní funkčných blokov, vyberaných z prostredia knižnice. Pre prácu s Arduinom, v rámci Simulinku, existuje knižnica \textit{Simulink Support Package for Arduino Hardware}, ako aj knižnica AeroLibrary obr.\ref{OBRAZOK 2.6.4}, ktorú využívame priamo pre funkcie AeroShieldu. V knižnici AeroLibrary sa nachádzajú tieto bloky: 
-\begin{itemize}
-\item Reference read- čítanie referenčnej hodnoty, 
-\item Actuator write- ovládanie akčného členu, 
-\item Angle read- meranie výstupu, 
-\item AeroShield- súhrn blokov na zapisovanie akčného zásahu ako aj meranie regulovanej veličiny.
-\end{itemize}
-Jednotlivé bloky majú svoju vlastnú vnútornú štruktúru a nastavenia, ktoré sa dajú meniť priamo v bloku, alebo pomocou masky bloku. Maska je akési grafické okno, ktoré sa zobrazí po kliknutí na blok. Toto okno zobrazuje informácie o funkcionalite bloku, ako aj prvky, pomocou ktorých sa dá nastaviť vnútorná štruktúra bloku. Pre lepšiu orientáciu medzi blokmi, má každý priradený vlastný ilustračný obrázok. Bližšie si o tvorbe masky povieme v časti \ref{label}. 
+Vzhľadovo pôsobí príklad PID riadenia v API Simulink jednoduchšie, ako tomu bolo pri tom istom riadení v MATLABE alebo Arduino IDE. Pred pripravené bloky z knižnice AeroLibrary stačí v príklade logicky pospájať, a následne zvoliť vhodné parametre v maskách blokov. Regulovanú sústavu v tomto príklade predstavuje blok \verb|AeroShield|, do ktorého vstupuje z bloku \verb|Reference read| percentuálna hodnota referenčnej trajektórie. Z tohoto bloku taktiež vychádza percentuálna hodnota náklonu kyvadla, ktorú využívame na výpočet regulačnej odchýlky.  
 
-\begin{figure}[!tbh]
+
+
+
+%Blok Discrete PID Controller predstavuje PID algoritmus. Pomocou masky
+%je nastavený ako diskrétny vo forme Ideal. Prenosová funkcia regulátora je znázornená
+%v Rov. (3.8), kde konštanta P má hodnotu 1, I 4:5 a D 0:01.
+
+
+
+blablabla este prid=am kecy
+
+
+
+
+%Spojením pred pripravených blokov z knižnice AeroLibrary, ako aj pridaním bloku diskrétneho PID regulátora, získame príklad pre PID regulácie v prostredí Simulink obr.\ref{OBRAZOK 2.6.10}. 
+
+   \begin{figure}[!tbh]
 	\centering
-	\includegraphics[width=125mm]{obr/AeroLib.png}
-	\caption{Knižnica AeroLibrary.}\label{OBRAZOK 2.6.4}
+	\includegraphics[width=\textwidth]{obr/SimulinkPID.png}
+	\caption{Ukážka riadenia systému pomocou PID regulátora v API Simulink.}\label{OBRAZOK 2.6.10}
 \end{figure}
 
-Blok \verb|Actuator Write| má najjednoduchšiu vnútornú štruktúru. Skladá sa z funkcie \verb*|Constrain|, ktorá prepočíta percentuálnu hodnotu vstupu na výstupný 8-bitový PWM signál. Tento signál posiela na Shield blok \verb*|PWM|, z knižnice \textit{Simulink Support Package for Arduino Hardware}. 
+\subsubsection{Výstupy}
 
-\subsubsection{Reference read}
-
-V časti \verb|Reference read| máme na výber možnosť manuálnej, alebo automatickej trajektórie. Používateľ si z týchto možností vyberie pomocou tlačidiel v maske bloku. Vnútorná štruktúra sa ďalej skladá z troch podsystémov, z ktorých dva pre manuálnu trajektóriu obr.\ref{OBRAZOK 2.6.5} sú takmer totožné. Rozdiel medzi nimi je taký, že pri použití niektorých druhov Arduina\footnote[11]{Due, MKR1000, MKR1010, MKRZero, Nano 33IoT.} je pri použitý bloku \verb|Analog input|, výstup v tvare 12-bitového čísla, narozdiel od 10-bitového, ako je tomu pri ostatných podporovaných modeloch Arduina. Načítaná hodnota je ďalej upravovaná do percentuálnej podoby pomocou pre násobenia konštantou v bloku \verb*|gain|. 
-
-Podsystém pre automatickú trajektóriu obr.\ref{} má v sebe prednastavené pole referenčných hodnôt. 
-
-\begin{figure}[!tbh]
-	\hfill
-	\subfigure[Tri podsystémy bloku Reference read.]{\includegraphics[width=6cm]{obr/Subsystem.png}}
-	\hfill
-	\subfigure[Podsystém pre 10-bitovú logiku.]{\includegraphics[width=9cm]{obr/10bit.png}}
-	\hfill
-	\caption{Reference read Simulink.}\label{OBRAZOK 2.6.5}
+   \begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=100mm]{obr/SimSkok.png}
+	\caption{Reakcia systému na skokovú zmenu.}\label{OBRAZOK 2.6.11}
 \end{figure}
 
-\subsubsection{Angle read}
-
-Tento blok obr.\ref{OBRAZOK 2.6.6} slúži na čítanie uhlu kyvadla, ako aj pre bezpečnostnú kontrolu uhlu kyvadla. Jeho vnútorná štruktúra sa dá rozdeliť na štyri menšie celky. 
-\begin{itemize}
-	\item Kalibrácia nulového uhlu kyvadla,
-	\item zapisovanie príkazov na senzor,  
-	\item čítanie uhlu kyvadla zo senzoru, 
-	\item kontrola uhlu kyvadla. 
-\end{itemize}
-
- \begin{figure}[!tbh]
- 	\centering
- 	\includegraphics[width=\textwidth]{obr/AngleRead.png}
- 	\caption{Angle read Simulink.}\label{OBRAZOK 2.6.6}
- \end{figure}
- 
- \paragraph{Kalibrácia} 
- \paragraph{I2C zápis}
- \paragraph{I2C čítanie}
- \paragraph{Kontrola uhlu}
+   \begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=\textwidth]{obr/SimulinkManual.png}
+	\caption{Manuálna trajektória.}\label{OBRAZOK 2.6.12}
+\end{figure}
