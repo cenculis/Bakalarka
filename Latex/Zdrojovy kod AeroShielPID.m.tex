@@ -22,7 +22,6 @@ k=1;
 j=1;
 r=R(1);
 y=0;      
-
 tic 
 while(1) 
 if (stepEnable) 
@@ -41,7 +40,6 @@ end
 r=R(j); 
 end
 end
-
 u = PID.compute(r-y, 0, 90, 0, 90); 
 coercedInput = constrain(u, 0, 100); 
 PWM=map(coercedInput, 0, 100, 0, 5); 
@@ -62,7 +60,6 @@ disp('Angle of pendulum too high. AeroShield is turned off')
 break                     
 end
 end   
-
 disp('Example finished. Captured data saved to "PIDresponse.mat" file.')
 save PIDresponse PIDresponse     
 \end{lstlisting}

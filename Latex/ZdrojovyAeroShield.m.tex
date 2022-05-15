@@ -1,0 +1,61 @@
+\LARGE\bf{Zdrojový kód súboru AeroShield.m}
+\label{AeroShield.m}
+\vspace{1cm}
+\begin{lstlisting}[numbers=left,basicstyle=\scriptsize,caption={Zdrojový kód súboru AeroShield.m.},captionpos=b]	
+	classdef AeroShield < handle
+	
+	properties
+	arduino;
+	as5600;
+	end
+	properties(Constant)
+	AERO_UPIN = 'D5'; 
+	AERO_RPIN = 'A3';
+	VOLTAGE_SENSOR_PIN = 'A2';
+	voltageReference = 5.0;
+	ShuntRes = 0.1;
+	correction1 = 4.1220;
+	correction2 = 0.33;
+	repeatTimes = 50;
+	end
+	
+	methods
+	function begin(AeroShieldObject) 
+	AeroShieldObject.arduino = arduino();
+	AeroShieldObject.as5600 = device(AeroShieldObject.arduino,'I2CAddress',0x36); 
+	configurePin(AeroShieldObject.arduino,AeroShieldObject.AERO_UPIN, 'DigitalOutput') 
+	disp('AeroShield initialized.') 
+	end
+	function startangle = calibration(AeroShieldObject)
+	write(AeroShieldObject.as5600, 0x0c, 'uint8');
+	write(AeroShieldObject.as5600, 0x0d, 'uint8');
+	startangle = read(AeroShieldObject.as5600, 1, 'uint16');
+	end
+	function PWM = referenceRead(AeroShieldObject)
+	PWM= readVoltage(AeroShieldObject.arduino, AeroShieldObject.AERO_RPIN);
+	end
+	function actuatorWrite(AeroShieldObject, PWM) 
+	writePWMVoltage(AeroShieldObject.arduino, AeroShieldObject.AERO_UPIN, PWM);
+	end
+	function RAW = getRawAngle(AeroShieldObject)
+	write(AeroShieldObject.as5600, 0x0c, 'uint8');
+	write(AeroShieldObject.as5600, 0x0d, 'uint8');
+	RAW = read(AeroShieldObject.as5600, 1, 'uint16');
+	end
+	function currentMean = getCurrent()
+	for r = 1:repeatTimes
+	voltageValue = readVoltage(AeroShieldObject.arduino, AeroShieldObject.VOLTAGE_SENSOR_PIN);
+	voltageValue= (voltageValue * voltageReference) / 1024;
+	Current= Current + correction1-(voltageValue / (10 * ShuntRes)); 
+	end
+	currentMean= Current/repeatTimes;
+	currentMean= currentMean-correction2;
+	if currentMean < 0.000 
+	currentMean= 0.000; 
+	end
+	current= 0;  
+	voltageValue=0;   
+	end 
+	end
+	end
+\end{lstlisting}

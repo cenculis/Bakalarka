@@ -1,5 +1,4 @@
-\documentclass[12pt,fleqn,a4paper,oneside]{mybook} %Final!!!
-%\documentclass[11pt,fleqn,a4paper,draft]{mybook} %DRAFT - highlights overflow, leaves out images
+\documentclass[12pt,fleqn,a4paper,twoside]{mybook} %Final!!!
 
 %\usepackage{microtype}
 \usepackage[slovak]{babel}
@@ -31,7 +30,7 @@
 \newcommand{\angl}[1]{{\footnote{\emph{angl.}\ {#1}}}} %Shorthand english equivalent
 
 
-\usepackage[left=25mm,right=25mm,top=25mm,bottom=25mm,paperwidth=210mm,paperheight=297mm,includehead]{geometry}
+\usepackage[inner=3.5cm,outer=2cm,top=25mm,bottom=25mm,paperwidth=210mm,paperheight=297mm,includehead]{geometry}
 
 \usepackage{titlesec}
 \titleformat{\chapter}[hang]{\normalfont\huge\bfseries}{\thechapter}{1em}{}
@@ -83,7 +82,6 @@
 
 \begin{document}
 %%%%%%% Zaciaatok %%%%%%%%
-
 \input{Obalka}
 %\input{Obalkasvk}
  \input{Titul}
@@ -104,10 +102,6 @@
 % \phantomsection
 \addcontentsline{toc}{chapter}{\lstlistlistingname}
 \lstlistoflistings
-\cleardoublepage
-% \phantomsection
-\addcontentsline{toc}{chapter}{\listtablename}
-\listoftables
 \newpage
 %%%%%% Jednotlive kapitoly %%%%%%%%%
 \pagestyle{plain}
@@ -118,11 +112,8 @@
 \include{Uvod}
 \include{AeroShield}
 \include{Software}
-\include{Didaktické príklady}
+\include{Didakticke}
 \include{Zaver}
-%\include{Kapitola1}
-%\include{Kapitola2}
-%[...]
 
 %%%%%%% Koniec %%%%%%%%
 
@@ -135,19 +126,19 @@
 % \phantomsection
 \addcontentsline{toc}{chapter}{Arduino IDE}
 \addcontentsline{toc}{section}{Zdrojový kód AeroShield.h}
-\include{Zdrojovy kod AeroShield.h}
+\include{Zdrojovy_kod_AeroShield.h}
 \addcontentsline{toc}{section}{Zdrojový kód AeroShield.cpp}
-\include{Zdrojovy kod AeroShield.cpp}
+\include{Zdrojovy_kod_AeroShield.cpp}
 \addcontentsline{toc}{section}{Zdrojový kód AeroShieldOpenLoop.ino}
-\include{Zdrojovy kod AeroShieldOpenLoop.ino}
+\include{AeroShieldOpenLoop.ino}
 \addcontentsline{toc}{section}{Zdrojový kód AeroShieldPID.ino}
-\include{Zdrojovy kod AeroShieldPID.ino}
+\include{AeroShieldPID.ino}
 \addcontentsline{toc}{chapter}{MATLAB}
 \addcontentsline{toc}{section}{Zdrojový kód AeroShield.m}
-\include{Zdrojovy kod AeroShield.m}
+\include{ZdrojovyAeroShield.m}
 \addcontentsline{toc}{section}{Zdrojový kód AeroShieldOpenLoop.m}
-\include{Zdrojovy kod AeroShieldOpenLoop.m}
+\include{ZdrojovyAeroShieldOpenLoop.m}
 \addcontentsline{toc}{section}{Zdrojový kód AeroShielPID.m}
-\include{Zdrojovy kod AeroShielPID.m}
+\include{ZdrojovyAeroShielPID.m}
 \addcontentsline{toc}{chapter}{Simulink}
 \end{document}

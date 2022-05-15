@@ -1,18 +1,16 @@
 \chapter{Didaktické príklady}
 \label{Didaktické príklady}
 
-Pre AeroShield bolo v prostredí Arduino IDE, MATLAB a Simulink vytvorených niekoľko vzorových programov, ktoré demonštrujú všetky jeho funkcie a možnosti operácie. Programy sú rozdelené do dvoch veľkých skupín, konkrétne programy v otvorenej slučke bez spätnej väzby a programy v uzavretej slučke so spätnou väzbou. 
+Pre AeroShield bolo v prostredí Arduino IDE, MATLAB a Simulink vytvorených niekoľko vzorových programov, ktoré demonštrujú všetky jeho funkcie. Programy sú rozdelené do dvoch veľkých skupín, konkrétne programy v otvorenej slučke bez spätnej väzby a programy v uzavretej slučke so spätnou väzbou. 
 
 Ich rozdiel spočíva v tom že pri riadení bez spätnej väzby, hovoríme o ovládaní systému, kedy sa snažíme dosiahnuť žiadané hodnoty výstupov bez spätnej informácie o vykonaní procesu, alebo o jeho hodnote. V prípade riadenia so spätnou väzbou sa jedná o reguláciu. Pri regulácii sa kontroluje bezprostredný účinok riadenia, ktorý sa porovnáva so žiadanou hodnotou výstupu a na vyrovnanie ich vzájomnej chyby, sa okamžite vykonáva zásah do vstupných veličín. 
 
 \section{Programy v otvorenej slučke, bez spätnej väzby}
 \subsection{Arduino IDE}
 
-Ako prvý príklad si ukážeme program s názvom \verb|AeroShield_OpenLoop.ino| napísaný v prostredí Arduino IDE. Hlavnou ideou tohoto programu je jednoduché ovládanie otáčok motorčeka kyvadla, pomocou potenciometra. Na začiatku programu inicializujeme hlavnú knižnicu AeroShieldu pomocou príkazu \verb|#include "AeroShield.h"|. Následne deklarujeme premenné, ktorých hodnoty budú vypisované na sériový monitor. 
+Ako prvý príklad si ukážeme program s názvom \verb|AeroShield_OpenLoop.ino| napísaný v prostredí Arduino IDE. Hlavnou ideou tohoto programu je jednoduché ovládanie otáčok motorčeka, pomocou potenciometra. Na začiatku programu inicializujeme hlavnú knižnicu AeroShieldu pomocou príkazu \verb|#include "AeroShield.h"|. Následne deklarujeme premenné, ktorých hodnoty budú vypisované na sériový monitor. 
 
 \begin{lstlisting}[caption={AeroShield open loop dekleracia.},captionpos=b]
-#include "AeroShield.h"       //  Inicializacia hlavnej kniznice
-
 float startangle=0;           //  Premenna pre nulovy uhol
 float lastangle=0;            //  Premenna pre maximalny uhol 
 float pendulumAngle;          //  Uhol natocenia kyvadla
@@ -31,26 +29,20 @@ void setup() {                // Setup prebehne len jeden krat
 }
 \end{lstlisting}
 
-V časti \verb|loop()| sa program opakuje dookola. Ako prvé, prebehne mapovanie uhlu kyvadla pomocou funkcie \verb|AutomationShield.mapFloat()| a získaná hodnota uhlu sa vypíše na sériový monitor, spolu s názvom a premennou danej veličiny. Nasleduje čítanie hodnoty potenciometra, ktorá slúži na ovládanie akčného člena pomocou funkcie \verb|AeroShield.actuatorWrite()|. Na sériový port sa vypíše hodnota potenciometra obr.\ref{OBRAZOK 3.1}, za ktorou nasleduje veľkosť prúdu odoberaného motorom \verb| AeroShield.currentMeasure()|. 
+V cykle \verb|loop()| prebehne ako prvé mapovanie uhlu kyvadla pomocou funkcie \verb|AutomationShield.mapFloat()|. Nasleduje čítanie hodnoty potenciometra, ktorá slúži na ovládanie akčného člena pomocou funkcie \verb|AeroShield.actuatorWrite()|. Na sériový súradnicový zapisovač sa modrou farbou vykreslí uhol kyvadla, červenou farbou hodnota potenciometra a zelenou veľkosť prúdu odoberaného motorom obr.\ref{OBRAZOK 3.1}. 
 
 \begin{lstlisting}[caption={AeroShield open loop loop().},captionpos=b]
 void loop() {
-	pendulumAngle= AutomationShield.mapFloat(AeroShield.getRawAngle(),startangle,lastangle,0.00,90.00);    //  Mapovanie uhlu kyvadla 
-	Serial.print("pendulum angle is: ");
-	Serial.print(pendulumAngle);    
-	Serial.print("Degrees || ");
-	
 	referencePercent= AeroShield.referenceRead();  // Citanie potenciometra
-	Serial.print("pot value is: ");
-	Serial.print(referencePercent);  
-	Serial.print("% || ");
-	
 	AeroShield.actuatorWrite(referencePercent); // Pohyb akcneho clenu
-	
 	CurrentMean= AeroShield.currentMeasure();  // Meranie prudu
-	Serial.print("current value is: ");
+	
+	Serial.print(pendulumAngle);    
+	Serial.print(" ");
+	Serial.print(referencePercent);  
+	Serial.print(" ");
 	Serial.print(CurrentMean);   
-	Serial.println("A || ");
+	Serial.println(" ");
 }
 \end{lstlisting}
 
@@ -63,15 +55,13 @@ void loop() {
 \subsection{MATLAB}
 \label{MatlabPID}
 
-V príklade \verb|AeroShieldOpenLoop.m| si ukážeme výhody a možnosti zobrazovania výstupov, v prostredí MATLAB. Výstupy vieme zobrazovať nielen na sériovom monitore alebo zapisovači, ale máme možnosť tvoriť grafy, tabuľky... a všetky tieto výstupy upravovať a ukladať podľa vlastných predstáv a požiadaviek. 
+V príklade \verb|AeroShieldOpenLoop.m| si ukážeme výhody a možnosti zobrazovania výstupov, v prostredí MATLAB. Výstupy vieme zobrazovať nielen na sériovom monitore, alebo súradnicovom zapisovači, ale máme možnosť tvoriť grafy, tabuľky a tieto výstupy upravovať a ukladať. 
 
-
-Na začiatku kódu vymažeme všetky premenné a objekty, pomocou série príkazov \code{Clear all, clear a, clc}. Následne načítame knižnicu AeroShieldu a vykonáme funkciu \verb|AeroShield.begin()|. Nasleduje kalibrácia nulového uhlu kyvadla a zadefinovanie premenných na počítanie času, ako aj premenné na ukladanie hodnôt potenciometra a uhlu kyvadla. 
+Na začiatku kódu vymažeme všetky premenné a objekty, pomocou série príkazov \code{Clear all, clc}. Následne načítame knižnicu AeroShieldu a vykonáme funkciu \verb|AeroShield.begin()|. Kód pokračuje kalibráciou nulového uhlu kyvadla, zadefinovaním premenných na počítanie času, ako aj premenných na ukladanie hodnôt potenciometra a uhlu kyvadla. 
 
 \begin{lstlisting}[caption={AeroShield open loop inicializacia.},captionpos=b]
 % vymazanie premennych a objektov 
-clear all;
-clear a;
+clear all
 clc 
 
 % nacitanie kniznice AeroShieldu  
@@ -108,7 +98,7 @@ potentiometer = 0;  % hodnota potenciometra
 	tic                              % time keeping
 \end{lstlisting}
 
-Nasleduje while cyklus ktorý má podmienku ukončenia zatvorenie vykresľovaného grafu tj. v momente kedy zatvoríme graf, podmienka prestane byť splnená a program sa ukončí. V cykle najskôr čítame hodnotu potenciometra pomocou \verb|AeroShield.referenceRead()| a túto hodnotu zapisujeme na akčný člen vďaka príkazu \verb| AeroShield.actuatorWrite()|. Nasleduje čítanie uhlu kyvadla \verb|AeroShield.getRawAngle()|, za ktorím prebehne mapovanie premennej z hodnoty raw na stupne. Premenná \verb|count| slúži na počítanie počtu prejdených cyklov, ako aj na tvorbu usporiadaného radu premenných, a využívame ju aj na vykresľovanie pohyblivej x-ovej osi grafu obr.\ref{OBRAZOK 3.2}. Ľavá stupnica grafu je stacionárna a zobrazuje hodnotu potenciometra, pravá stupnica zobrazuje uhol kyvadla v stupňoch a svoje rozpätie zväčšuje alebo zmenšuje v závislosti na výchylke kyvadla. Na konci programu ešte nájdeme if podmienku, ktorá kontroluje uhol kyvadla. Ak ten nadobudne hodnotu väčšiu ako 110°, proces sa automaticky ukončí a vypíše sa upozornenie. Posledný príkaz \verb|clear AeroShield.arduino| vymaže objekt \verb|arduino| a pripraví MATLAB na spustenie ďalšieho programu. 
+Nasleduje while cyklus, ktorý je ukončený zatvorením vykresľovaného grafu. V cykle najskôr čítame hodnotu potenciometra pomocou príkazu \verb|AeroShield.referenceRead()| a túto hodnotu zapisujeme na akčný člen príkazom \verb| AeroShield.actuatorWrite()|. Nasleduje čítanie uhlu kyvadla \verb|AeroShield.getRawAngle()|, za ktorím prebehne mapovanie premennej z hodnoty raw na stupne. Premenná \verb|count| slúži na počítanie počtu prejdených cyklov, na tvorbu usporiadaného radu premenných, ako aj na vykresľovanie pohyblivej x-ovej osi grafu obr.\ref{OBRAZOK 3.2}. Ľavá stupnica grafu je stacionárna a zobrazuje hodnotu potenciometra, pravá stupnica zobrazuje uhol kyvadla v stupňoch a svoje rozpätie zväčšuje, alebo zmenšuje v závislosti na výchylke kyvadla. Na konci programu ešte nájdeme if podmienku, ktorá kontroluje uhol kyvadla, ktorý ak nadobudne hodnotu väčšiu ako 110°, proces sa automaticky ukončí a vypíše sa upozornenie. Posledný príkaz \verb|clear AeroShield.arduino| vymaže objekt \verb|arduino| a pripraví MATLAB na spustenie ďalšieho programu. 
 
 \begin{lstlisting}[caption={AeroShield open loop, while cyklus.},captionpos=b]
 while ishandle(plotGraph)           % loop will run until plot is closed
@@ -146,9 +136,9 @@ clear AeroShield.arduino;
 
 \chapter{PID regulácia}
 
-Skôr ako si ukážeme príklady na PID riadenie,musíme si vysvetliť ako takéto riadenie funguje. Základom takéhoto riadenia je získavanie informácii o sledovanej resp. riadenej veličine, za pomoci senzoru a jej porovnávanie s hodnotou žiadanou. Vďaka tomu že získavame informácie o výstupe, ktoré aktívne využívame na riadenie akčného člena, môžeme hovoriť o spätnoväzbovom riadení. Spätnoväzbové riadenie, je teda také riadenie, ktoré ovplyvnuje sústavu na základe aktuálne získaných informácii o stave, v ktorom sa sústava práve nachádza. Pri takomto riadení existuje množstvo algoritmov, ktoré ovládajú správanie sa systému. Medzi tieto algoritmy patrí napríklad: Modelové prediktívne riadenie (MPC), Lineárno-kvadratické riadenie (LQ), Lineárne riadenie s premenlivým parametrom (LPV), Proporcionálno-integračno-derivačné riadenie (PID)...
+Skôr ako si ukážeme príklady s využitím PID regulátora, musíme si vysvetliť ako PID regulátor funguje. Základom je získavanie informácii o sledovanej resp. riadenej veličine, za pomoci senzoru a jej porovnávanie s hodnotou žiadanou. Vďaka tomu že získavame informácie o výstupe, ktoré aktívne využívame na riadenie akčného člena, môžeme hovoriť o spätnoväzbovom riadení. Spätnoväzbové riadenie, je teda také riadenie, ktoré ovplyvnuje sústavu na základe aktuálne získaných informácii o stave, v ktorom sa sústava nachádza. Pri takomto riadení existuje množstvo algoritmov, ktoré ovládajú správanie sa systému. Medzi tieto algoritmy patrí napríklad: Modelové prediktívne riadenie (MPC), Lineárno-kvadratické riadenie (LQ), Lineárne riadenie s premenlivým parametrom (LPV), Proporcionálno-integračno-derivačné riadenie (PID)...
 
-Bližšie sa ideme baviť o PID regulátore obr.\ref{OBRAZOK 3.3}. Je to typ riadenia, ktoré ovplyvňuje akčné zásahy do sústavy \verb|u(t)|, na základe zaznamenaných výstupných informácii zo sústavy \verb|y(t)|. Veľkosť akčného zásahu \verb|u(t)| vypočítame na základe rozdielu medzi požadovanou hodnotou \verb|w(t)| a hodnotou reálnou \verb|y(t)|. Tento rozdiel označujeme tiež ako regulačná odchýlka \verb|e(t)|. Písmeno $"$t$"$ v zátvorkách predstavuje, časovú závislosť premenných. 
+PID regulátor obr.\ref{OBRAZOK 3.3}, ovplyvňuje akčné zásahy do sústavy \verb|u(t)| na základe zaznamenaných výstupných informácii \verb|y(t)|. Veľkosť akčného zásahu \verb|u(t)| vypočítame na základe rozdielu medzi požadovanou hodnotou \verb|w(t)| a hodnotou reálnou \verb|y(t)|. Tento rozdiel označujeme tiež ako regulačná odchýlka \verb|e(t)|. Písmeno $"$t$"$ v zátvorkách predstavuje, časovú závislosť premenných. 
 
 \begin{figure}[!tbh]
 	\centering
@@ -168,20 +158,20 @@ Skratka PID odzrkadľuje zložky, z ktorých sa regulátor skladá:
 	
 	\item \textbf{I}- predstavuje integračnú zložku. Integrálny riadiaci člen je priamo úmerný veľkosti ako aj trvaniu chyby. Pokiaľ má regulovaná veličina menšiu hodnotu ako je požadovaná, integrálna časť PID sa zväčšuje. Naopak pokiaľ je hodnota regulovanej veličiny nižšia ako hodnota požadovaná, integrálna časť PID klesá. Tento údaj sa následne vynásobí integračnou konštantou K$_i$ a je pripočítaný ku hodnote akčného zásahu rov.\ref{rovnicadva}. Príliš veľká hodnota K$_i$ má za následok zvyšovanie nežiadúceho kmitania resp. nad a pod regulovania. 
 	
-	Veľkosť integrálnej zložky PID regulátora teda ovplyvňuje veľkosť regulačnej odchýlky, doba jej trvania ako aj integračná konštanta K$_i$.
+	Veľkosť integrálnej zložky PID regulátora ovplyvňuje regulačnej odchýlky, doba jej trvania, ako aj integračná konštanta K$_i$.
 	\begin{align}
 		\label{rovnicadva}
 		u(t)=K_i  \int_{0}^{t} e(\tau)d\tau
 	\end{align}
 
-	\item \textbf{D}- reprezentuje derivačnú zložku. Derivačná zložka predpovedá správanie sa systému, pomocou derivácie regulačnej odchýlky v čase. Toto temto zmeny je následne pre násobené derivačnou konštantou K$_d$. Vstup je teda počítaný podľa rov.\ref{rovnicatri}. Derivačná zložka PID regulátora zmierňuje kmitanie systému, zároveň však spomaľuje rýchlosť odozvy na skokovú zmenu. V praxi sa derivačná zložka veľmi nepoužíva a využívaný je P alebo PI regulátor. 
+	\item \textbf{D}- reprezentuje derivačnú zložku, ktorá predpovedá správanie sa systému, pomocou derivácie regulačnej odchýlky v čase. Rýchlosť zmeny je následne prenásobená derivačnou konštantou K$_d$. Vstup je teda počítaný podľa rov.\ref{rovnicatri}. Derivačná zložka PID regulátora zmierňuje kmitanie systému, zároveň však spomaľuje rýchlosť odozvy na skokovú zmenu. V praxi sa derivačná zložka veľmi nepoužíva a využívaný je P alebo PI regulátor. 
 	\begin{align}
 		\label{rovnicatri}
 		u(t)=K_d  \dfrac{de(t)}{dt}
 	\end{align}
 \end{itemize}
 
-Pre lepšie chápanie je v tab.\ref{PIDvplyv}\cite{pidcontrol} zhrnutie vplyvu jednotlivých zložiek PID na odozvu systému v uzatvorenej slučke, pri zvyšovaní hodnoty K$_p$, K$_i$ a K$_d$.
+Pre lepšie chápanie je v tab.\ref{PIDvplyv}\cite{pidcontrol} zhrnutý vplyv jednotlivých zložiek PID, na odozvu systému v uzatvorenej slučke a to pri zvyšovaní hodnoty K$_p$, K$_i$ a K$_d$. 
 
 \begin{table}[!tbh]
 	\begin{tabular}{|c|c|c|c|c|c|}
@@ -205,9 +195,9 @@ Spojením jednotlivých samostatných zložiek, získame kompletný vzťah pre P
 	\label{rovnicapat}
 	u(t)=K_p \left(e(t) + \dfrac{1}{T_i}  \int_{0}^{t} e(\tau)d\tau + T_d  \dfrac{de(t)}{dt}\right)
 \end{align}
-Rovnica \ref{rovnicastr} predstavuje jeden z možných tvarov zápisu vzťahu pre PID regulátor. V praxi sa často využíva tvar rov.\ref{rovnicapat}, z dôvodu lepšej interpretácie parametrov ktoré rovnicu tvoria. T$_i$ predstavuje integračnú a T$_d$ derivačnú časovú konštantu, pričom ich vzťah s konštantami K$_i$ a K$_d$ je v tvare T$_i$ = (K$_p$/K$_i$) a T$_d$ = (K$_d$/K$_p$). Jednotlivé zložky v zátvorke tvoria novú a samostatnú regulačnú odchýlku, ktorá je ešte násobená konštantou K$_p$. Derivačná zložka predpovedá hodnotu regulačnej odchýlky T$_d$ sekúnd(vzoriek) do budúcnosti a integračná zložka sa snaží korigovať súčet hodnoty regulačných odchýlok do T$_i$ sekúnd(vzoriek)\cite{pidcontrol}.
+Rovnica \ref{rovnicastr} predstavuje jeden z možných tvarov zápisu vzťahu pre PID regulátor. V praxi sa často využíva tvar rov.\ref{rovnicapat}, z dôvodu lepšej interpretácie parametrov ktoré rovnicu tvoria. T$_i$ predstavuje integračnú a T$_d$ derivačnú časovú konštantu, pričom ich vzťah s konštantami K$_i$ a K$_d$ je v tvare T$_i$ = (K$_p$/K$_i$) a T$_d$ = (K$_d$/K$_p$). Jednotlivé zložky v zátvorke tvoria novú a samostatnú regulačnú odchýlku, ktorá je ešte násobená konštantou K$_p$. Derivačná zložka predpovedá hodnotu regulačnej odchýlky T$_d$ sekúnd(vzoriek) do budúcnosti a integračná zložka sa snaží korigovať súčet hodnoty regulačných odchýlok do T$_i$ sekúnd(vzoriek)\cite{pidcontrol2}. \cite{PetkovZadek}.
 
-Spomenuté vzťahy PID regulátorov fungujú pri spojitých procesoch. Avšak pri implementácii PID pomocou číslicových regulátorov, musíme rovnicu transformovať do jej diskrétnej podoby rov.\ref{diskretna}.
+Predchádzajúce rovnice PID regulátorov fungujú pri spojitých procesoch. Avšak pri implementácii PID pomocou číslicových regulátorov, musíme rovnicu transformovať do jej diskrétnej podoby rov.\ref{diskretna}.
 
 \begin{align}
 	\label{diskretna}
