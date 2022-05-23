@@ -10,8 +10,8 @@
 	#define TI 3.8  
 	#define TD 0.25   
 	
-	float startangle=0; 
-	float lastangle=0; 
+	float startAngle=0; 
+	float lastAngle=0; 
 	float pendulumAngle;
 	
 	unsigned long Ts = 3; 
@@ -29,8 +29,8 @@
 	void setup() {           
 		Serial.begin(250000);                         
 		AeroShield.begin(AeroShield.detectMagnet());
-		startangle = AeroShield.calibration(AeroShield.getRawAngle()); 
-		lastangle=startangle+1024;                                  
+		startAngle = AeroShield.calibration(AeroShield.getRawAngle()); 
+		lastAngle=startAngle+1024;                                  
 		Sampling.period(Ts*1000);      
 		PIDAbs.setKp(KP);       
 		PIDAbs.setTi(TI);    
@@ -72,7 +72,7 @@
 			i++; 
 		}
 		#endif
-		y= AutomationShield.mapFloat(AeroShield.getRawAngle(),startangle,lastangle,0.00,100.00);
+		y= AutomationShield.mapFloat(AeroShield.getRawAngle(),startAngle,lastAngle,0.00,100.00);
 		u = PIDAbs.compute(r-y,0,100,0,100);
 		AeroShield.actuatorWrite(u);
 		

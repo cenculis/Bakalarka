@@ -19,49 +19,48 @@
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia snímača prúdu.}}}{9}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Senzor INA169NA/250\cite {INAobr}}}}{9}{}%
 \contentsline {figure}{\numberline {1.6}{\ignorespaces Schematická reprezentácia hallovho javu.}}{9}{}%
-\contentsline {figure}{\numberline {1.7}{\ignorespaces meranie uhla kyvadla}}{10}{}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia čipu na meranie uhlu.}}}{10}{}%
+\contentsline {figure}{\numberline {1.7}{\ignorespaces Enkóder slúžiaci na meranie uhla kyvadla.}}{10}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia čipu AS5600.}}}{10}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {čip AS5600\cite {As5600obr}}}}{10}{}%
 \contentsline {figure}{\numberline {1.8}{\ignorespaces Schéma zapojenia AeroShieldu.}}{11}{}%
-\contentsline {figure}{\numberline {1.9}{\ignorespaces Vedľajšia doska AeroShieldu- breakout board.}}{12}{}%
+\contentsline {figure}{\numberline {1.9}{\ignorespaces Breakout board.}}{12}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Vrchná strana breakout boardu}}}{12}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Spodná strana breakout boardu}}}{12}{}%
 \contentsline {figure}{\numberline {1.10}{\ignorespaces (a) Vrchná strana AeroShieldu. (b) Spodná strana AeroShieldu.}}{13}{}%
-\contentsline {figure}{\numberline {1.11}{\ignorespaces Dosky plošných spojov AeroShieldu.}}{14}{}%
+\contentsline {figure}{\numberline {1.11}{\ignorespaces Dosky plošných spojov AeroShieldu (2. verzia).}}{14}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Hlavná doska AeroShieldu}}}{14}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Vedľajšia doska AeroShieldu}}}{14}{}%
 \contentsline {figure}{\numberline {1.12}{\ignorespaces Model kyvadla, tvorený v programe CATIA.}}{14}{}%
 \contentsline {figure}{\numberline {1.13}{\ignorespaces Tretia verzia AeroShieldu.}}{16}{}%
 \contentsline {figure}{\numberline {1.14}{\ignorespaces Schéma zapojenia tretej verzie AeroShieldu.}}{16}{}%
-\contentsline {figure}{\numberline {1.15}{\ignorespaces Knižnica AeroLibrary.}}{29}{}%
-\contentsline {figure}{\numberline {1.16}{\ignorespaces Reference read- Simulink.}}{30}{}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Tri podsystémy bloku Reference read.}}}{30}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Podsystém pre 10-bitovú logiku.}}}{30}{}%
-\contentsline {figure}{\numberline {1.17}{\ignorespaces Automatická trajektória- Simulink.}}{31}{}%
-\contentsline {figure}{\numberline {1.18}{\ignorespaces Angle read- Simulink.}}{32}{}%
-\contentsline {figure}{\numberline {1.19}{\ignorespaces Mapovanie uhlu kyvadla- Simulink.}}{33}{}%
-\contentsline {figure}{\numberline {1.20}{\ignorespaces Kalibrácia- Simulink.}}{33}{}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Sústava pre zabezpečenie kalibrácie.}}}{33}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Podsystém pre zaznamenanie nulového uhla.}}}{33}{}%
-\contentsline {figure}{\numberline {1.21}{\ignorespaces Podsystém na kontrolu uhlu kyvadla.}}{34}{}%
-\contentsline {figure}{\numberline {1.22}{\ignorespaces Nastavenia parametrov masky bloku Reference read.}}{36}{}%
-\contentsline {figure}{\numberline {1.23}{\ignorespaces Reference read- Simulink.}}{36}{}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Nastavenia masky pri výbere manuálnej trajektórie.}}}{36}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Zobrazenie masky pri výbere automatickej trajektórie.}}}{36}{}%
-\contentsline {figure}{\numberline {1.24}{\ignorespaces AeroShield\_OpenLoop.}}{37}{}%
+\contentsline {figure}{\numberline {1.15}{\ignorespaces Knižnica AeroLibrary.}}{27}{}%
+\contentsline {figure}{\numberline {1.16}{\ignorespaces Reference read- Simulink.}}{28}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Tri podsystémy bloku Reference read.}}}{28}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Podsystém pre 10-bitovú logiku.}}}{28}{}%
+\contentsline {figure}{\numberline {1.17}{\ignorespaces Automatická trajektória- Simulink.}}{29}{}%
+\contentsline {figure}{\numberline {1.18}{\ignorespaces Angle read- Simulink.}}{30}{}%
+\contentsline {figure}{\numberline {1.19}{\ignorespaces Mapovanie uhlu kyvadla- Simulink.}}{31}{}%
+\contentsline {figure}{\numberline {1.20}{\ignorespaces Kalibrácia- Simulink.}}{31}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Sústava pre zabezpečenie kalibrácie.}}}{31}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Podsystém pre zaznamenanie nulového uhla.}}}{31}{}%
+\contentsline {figure}{\numberline {1.21}{\ignorespaces Podsystém na kontrolu uhlu kyvadla.}}{32}{}%
+\contentsline {figure}{\numberline {1.22}{\ignorespaces Nastavenia parametrov masky bloku Reference read.}}{34}{}%
+\contentsline {figure}{\numberline {1.23}{\ignorespaces Reference read- Simulink.}}{34}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Nastavenia masky pri výbere manuálnej trajektórie.}}}{34}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Zobrazenie masky pri výbere automatickej trajektórie.}}}{34}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Výstup z programu AeroShieldOpenLoop.ino.}}{40}{}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Výstup z programu AeroShieldOpenLoop.m.}}{43}{}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Výstup z programu AeroShieldOpenLoop.ino.}}{36}{}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Výstup z programu AeroShieldOpenLoop.m.}}{38}{}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces AeroShield\_OpenLoop.}}{39}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Schéma riadenia PID regulátorom.}}{45}{}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Reakcia systému na jednotkový skok.}}{51}{}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Automatická trajektória.}}{51}{}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Manuálna trajektória.}}{52}{}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Manuálne zavedenie výchylky.}}{52}{}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Reakcia systému na jednotkový skok.}}{53}{}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Automatická trajektória.}}{54}{}%
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Manuálna trajektória.}}{54}{}%
-\contentsline {figure}{\numberline {3.9}{\ignorespaces Ukážka riadenia systému pomocou PID regulátora v API Simulink.}}{55}{}%
-\contentsline {figure}{\numberline {3.10}{\ignorespaces Reakcia systému na skokovú zmenu.}}{56}{}%
-\contentsline {figure}{\numberline {3.11}{\ignorespaces Manuálna trajektória.}}{56}{}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Schéma riadenia PID regulátorom.}}{41}{}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Reakcia systému na jednotkový skok.}}{47}{}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Automatická trajektória.}}{48}{}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Manuálna trajektória.}}{48}{}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Reakcia systému na jednotkový skok referenčnej hodnoty.}}{49}{}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Automatická trajektória.}}{50}{}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Manuálna trajektória.}}{51}{}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Ukážka riadenia systému pomocou PID regulátora v API Simulink.}}{52}{}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Reakcia systému na skokovú zmenu referenčnej hodnoty.}}{52}{}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Manuálna trajektória.}}{52}{}%
 \addvspace {10\p@ }

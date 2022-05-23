@@ -4,8 +4,8 @@
 \begin{lstlisting}[numbers=left,basicstyle=\scriptsize,caption={Zdrojový kód súboru AeroShieldOpenLoop.ino.},captionpos=b]	
 	#include "AeroShield.h" 
 	
-	float startangle=0; 
-	float lastangle=0; 
+	float startAngle=0; 
+	float lastAngle=0; 
 	float pendulumAngle;  
 	float referencePercent;  
 	float CurrentMean; 
@@ -14,8 +14,8 @@
 		
 		Serial.begin(115200);   
 		AeroShield.begin(AeroShield.detectMagnet());
-		startangle = AeroShield.calibration(AeroShield.getRawAngle());
-		lastangle=startangle+1024;  
+		startAngle = AeroShield.calibration(AeroShield.getRawAngle());
+		lastAngle=startAngle+1024;  
 	}
 	
 	void loop() {
@@ -24,21 +24,15 @@
 			while(1);
 		}
 		
-		pendulumAngle= AutomationShield.mapFloat(AeroShield.getRawAngle(),startangle,lastangle,0.00,90.00);
-		Serial.print("pendulum angle is: ");
-		Serial.print(pendulumAngle); 
-		Serial.print("degree || ");
-		
-		referencePercent= AeroShield.referenceRead();
-		Serial.print("pot value is: ");
-		Serial.print(referencePercent);
-		Serial.print("percent || ");
-		
-		AeroShield.actuatorWrite(referencePercent); 
-		
-		CurrentMean= AeroShield.currentMeasure();
-		Serial.print("current value is: ");
-		Serial.print(CurrentMean);   
-		Serial.println("A || ");
+	pendulumAngle= AutomationShield.mapFloat(AeroShield.getRawAngle(),startAngle,lastAngle,0.00,90.00);  
+	referencePercent= AeroShield.referenceRead(); 
+	AeroShield.actuatorWrite(referencePercent);    
+	CurrentMean= AeroShield.currentMeasure();
+
+	Serial.print(pendulumAngle);  
+	Serial.print(" ");
+	Serial.print(referencePercent); 
+	Serial.print(" ");
+	Serial.println(CurrentMean);
 	}
 \end{lstlisting}
