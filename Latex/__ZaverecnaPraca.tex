@@ -9,6 +9,7 @@
 \usepackage{graphicx}
 %\usepackage{subfig}
 \usepackage{subfigure}
+\usepackage{pdfpages}
 \usepackage{enumerate}
 \usepackage{etoolbox}                       %Problematic URL in reference
 \apptocmd{\sloppy}{\hbadness 10000\relax}{}{}%Removes badness warnings
@@ -82,11 +83,13 @@
 
 \begin{document}
 %%%%%%% Zaciaatok %%%%%%%%
-\input{Obalka}
-%\input{Obalkasvk}
- \input{Titul}
+\includepdf[pages=-]{Title.pdf}
+\includepdf[pages=-]{Blank.pdf}
+\includepdf[pages=-]{RealTitle.pdf}
+\includepdf[pages=-]{Blank.pdf}
 \frontmatter
- \input{Zadanie}
+\includepdf[pages=-]{zadanie.pdf}
+\includepdf[pages=-]{Blank.pdf}
  \input{Prehlasenie}
  \input{Podakovanie}
  \input{Abstrakt}

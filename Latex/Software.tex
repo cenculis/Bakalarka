@@ -2,14 +2,14 @@
 \subsection{Arduino API}
 \label{ArduinoLib}
 
-Vývojové prostredie, ktoré sme zvolili na programovanie arduina sa nazýva Arduino IDE\footnote[5]{Arduino Integrated Development Environment.} a využíva programovací jazyk C/C++ resp. jeho mutáciu, s pridanými špecializovanými príkazmi a funkciami. V rámci projektu AutomationShield existuje niekoľko rôznych Shieldov, ktoré však často využívajú rovnaké funkcie a príkazy. Z tohoto dôvodu bola vytvorená knižnica $"$AutomationShield$"$, ktorá v sebe zahŕňa niekoľko ďalších, často využívaných knižníc a súborov. Jedná sa napríklad o funkcie potrebné pri riadení pomocou PID regulátora, vzorkovanie programu alebo mapovanie premenných. O jednotlivých funkciách v rámci knižnice $"$AutomationShield$"$ si povieme viacej pri opise didaktických príkladov v časti:\ref{Didaktické príklady}.
+Vývojové prostredie, ktoré sme zvolili na programovanie arduina sa nazýva Arduino IDE\footnote[5]{Arduino Integrated Development Environment.} a využíva programovací jazyk C/C++ resp. jeho mutáciu, s pridanými špecializovanými príkazmi a funkciami. V rámci projektu AutomationShield existuje niekoľko rôznych Shieldov, ktoré však často využívajú rovnaké funkcie a príkazy. Z tohoto dôvodu bola vytvorená knižnica $"$AutomationShield$"$, ktorá v sebe zahŕňa niekoľko ďalších, často využívaných knižníc a súborov. Ide o funkcie potrebné pri riadení pomocou PID regulátora, vzorkovanie programu alebo mapovanie premenných. O jednotlivých funkciách v rámci knižnice $"$AutomationShield$"$ si povieme viacej pri opise didaktických príkladov v časti:\ref{Didaktické príklady}.
 
-V rámci programovania knižníc využívame objektovo orientované programovanie \newline (OOP)\cite{oop}. Knižnice väčšinou rozdeľujeme do dvoch súborov. Prvým z nich je \verb|header| teda hlavička s koncovkou .h a druhý \verb|source| alebo zdrojový dokument s koncovkou .cpp. Header slúži ako akýsi navádzač a sklad pre premenné a funkcie, ktorý následne komunikuje so source dokumentom v ktorom sú uložené samotné funkcie. Takéto rozdelenie súborov má za ciel zrýchlenie kompilácie programu\cite{546521}.
+V rámci programovania knižníc využívame objektovo orientované programovanie \newline (OOP)\cite{oop}. Knižnice väčšinou rozdeľujeme do dvoch súborov. Prvým z nich je \verb|header| teda hlavička s koncovkou .h a druhý \verb|source| alebo zdrojový dokument s koncovkou .cpp. Header slúži ako akýsi navádzač a sklad pre premenné a funkcie, ktorý následne komunikuje so source dokumentom, v ktorom sú uložené samotné funkcie. Takéto rozdelenie súborov má za ciel zrýchlenie kompilácie programu\cite{546521}.
 
 
 \subsubsection{Header}
 
-Header súbor má niekoľko náležitostí ktoré obsahuje. Na začiatok deklarujeme súbor samotný. Robíme to pomocou príkazu \verb|#define|. Avšak ak by sa takáto deklarácia nachádzala vo viacerých súboroch, a teda header súbor by sa načítal niekoľkokrát, spôsobovalo by to problém pri kompilácii kódu. Z toho dôvodu využívame príkazy \verb|#ifndef| spolu s \verb|#define|, ktoré zamedzujú násobnému definovaniu rovnakých súborov. 
+Header súbor má niekoľko náležitostí, ktoré obsahuje. Na začiatok deklarujeme súbor samotný. Robíme to pomocou príkazu \verb|#define|. Avšak ak by sa takáto deklarácia nachádzala vo viacerých súboroch, a teda header súbor by sa načítal niekoľkokrát, spôsobovalo by to problém pri kompilácii kódu. Z toho dôvodu využívame príkazy \verb|#ifndef| spolu s \verb|#define|, ktoré zamedzujú násobnému definovaniu rovnakých súborov. 
 
 Hneď za definovaním knižnice AeroShild.h môžeme vkladať ďalšie knižnice, ktoré sú potrebné pre funkcie danej knižnice, a to pomocou príkazu \verb|#include|. Za knižnicami následne určujeme premenné, ktoré môžu mať priradené fyzické čísla pinov na Arduine. 
 
@@ -34,7 +34,7 @@ Hneď za definovaním knižnice AeroShild.h môžeme vkladať ďalšie knižnice
 
 V časti \verb|Zdrojovy kod|, vytvárame \verb|triedu| (class), ktorá v sebe zahŕňa funkcie a premenné, ktoré sa nazývajú \verb|objekty| (objects). Trieda obsahuje podmnožinu objektov, ktoré vieme prepájať a spájať vo väčšie celky, vďaka čomu vieme dosiahnuť veľmi komplexné funkcie. Týmto funkciám a premenným vieme obmedziť prístup resp. ich dosah v rámci programu, pomocou modifikátorov prístupu (access modifiers). Tieto modifikátory delíme do štyroch skupín. Základný modifikátor je \verb|default|, teda akýsi predvolený prístup, ktorý nadobúdajú všetky funkcie a premenné automaticky. Ďalšími modifikátormi sú \verb|public|, teda funkcie a premenné verejne prístupné v triede aj mimo nej a modifikátor \verb|privat|, ktorý obmedzuje prístup len pre danú triedu. Posledným modifikátorom prístupu je \verb|protected|, čo je prístup chránený. V header súbore sa môže nachádzať jedna, alebo viacero tried, záleží to od logicky deliteľných úsekov kódu, alebo od preferencie programátora. 
 
-Rozdelenie na public a privat má zmysel hlavne v prípade ak chceme mať zadefinované premenné, pri ktorých nechceme aby sa dala externe zmeniť ich hodnota, alebo typ. V prípade privat takáto zmena nie je možná. Zmeniť takúto premennú môžeme len jej ručným prepísaním v zdrojovom súbore. V časti private deklarujeme funkcie, ktoré následne využívame v rámci triedy, alebo slúžia ako pomocné funkcie pri tvorbe komplexnejších častí kódu. V časti public sú funkcie viditeľné a schopné interagovať s inými triedami, ako aj s inými knižnicami. 
+Rozdelenie na public a privat má zmysel hlavne v prípade, ak chceme mať zadefinované premenné, pri ktorých nechceme aby sa dala externe zmeniť ich hodnota, alebo typ. V prípade privat takáto zmena nie je možná. Zmeniť takúto premennú môžeme len jej ručným prepísaním v zdrojovom súbore. V časti private deklarujeme funkcie, ktoré následne využívame v rámci triedy, alebo slúžia ako pomocné funkcie pri tvorbe komplexnejších častí kódu. V časti public sú funkcie viditeľné a schopné interagovať s inými triedami, ako aj s inými knižnicami. 
 
 
 \subsubsection{Source}
@@ -44,7 +44,7 @@ Prepojenie súborov source a header spravíme pomocou príkazu \code{#include "A
 
 \subsubsection{Popis použitých funkcií z knižnice AutomationShield}
 
-Pri rôznych veľkostiach a rozsahoch číselných stupníc, je dobré vyjadrovať hodnoty v percentách, namiesto ich absolútnej hodnoty. Arduino ponúka funkciu \verb|map()|, ktorá však pracuje len s dátovým typom integer. Aby sme docielili vyššiu presnosť, potrebujeme mapovať dátový typ float. Na tento účel nám slúži funkcia mapFloat. 
+Pri rôznych veľkostiach a rozsahoch číselných stupníc je dobré vyjadrovať hodnoty v percentách namiesto ich absolútnej hodnoty. Arduino ponúka funkciu \verb|map()|, ktorá však pracuje len s dátovým typom integer. Aby sme docielili vyššiu presnosť, potrebujeme mapovať dátový typ float. Na tento účel nám slúži funkcia \verb|mapFloat|. 
 
 \begin{lstlisting}[caption={Zdrojový kód funkcie mapFloat.},captionpos=b]
 float AutomationShieldClass::mapFloat(float x, float in_min, float in_max, float out_min, float out_max) 
@@ -67,7 +67,7 @@ Táto komunikácia funguje na princípe master-slave. Master môže naraz komuni
 \item sériovú hodinovú linku (SCL-serial clock), na ktorú arduino v pravidelných intervaloch posiela impulzy. 
 \end{itemize}
 
-Hodinový pin udáva tempo komunikácie a je ovládaný mastrom. Mení stav v pravidelných impulzoch z 0 (low), na 1 (high). Pri každej takejto zmene je na dátový pin poslaný jeden bit informácie. Tieto bity najskôr obsahujú adresu zariadenia slave s ktorým chce master komunikovať, následne sa odosielajú bity príkazov. Keď sa táto informácia celá odošle, slave vykoná požiadavku a ak je to vyžadované, môže spätne mastrovi poslať údaje. Všetky tieto bity informácií sa posielajú na linke SDA\cite{idvac}.
+Hodinový pin udáva tempo komunikácie a je ovládaný mastrom. Mení stav v pravidelných impulzoch z 0 (low), na 1 (high). Pri každej takejto zmene je na dátový pin poslaný jeden bit informácie. Tieto bity najskôr obsahujú adresu zariadenia slave, s ktorým chce master komunikovať, následne sa odosielajú bity príkazov. Keď sa táto informácia celá odošle, slave vykoná požiadavku a ak je to vyžadované, môže spätne mastrovi poslať údaje. Všetky tieto bity informácií sa posielajú na linke SDA\cite{idvac}.
 
    
 
@@ -145,7 +145,7 @@ bool AeroShield::detectMagnet()
 
 \subsubsection{Funkcia getMagnetStrength()}
 
-Pre správnosť fungovania hall senzoru je dôležité dodržať správnu vzdialenosť magnetu od senzoru. Výrobca udáva že najideálnejšia vzdialenosť je 0.5-3mm, v závislosti na sile a veľkosti magnetu. Bolo by nepraktické túto vzdialenosť merať ručne, použijeme preto funkciu \code{int AeroShield::getMagnetStrength()}. Môžeme si všimnúť že táto funkcia používa rovnaký príkaz na komunikáciu so senzorom, ako aj funkcia \code{detectMagnet()} a to síce \verb|_stat|. Z toho vyplýva že \code{detectMagnet()} kontroluje nielen prítomnosť magnetu, ale aj jeho správnu vzdialenosť. Pokiaľ teda dostaneme z funkcie \code{detectMagnet()} ako výsledok 1, vieme že magnet je prítomný a zároveň v ideálnej vzdialenosti. Funkcia \code{getMagnetStrength()} je teda iba doplňujúcou funkciou, ktorá nám určí či sa magnet nachádza príliš blízko, alebo naopak veľmi ďaleko od senzoru. 
+Pre správnosť fungovania hall senzoru je dôležité dodržať správnu vzdialenosť magnetu od senzoru. Výrobca udáva že najideálnejšia vzdialenosť je 0.5-3 mm, v závislosti na sile a veľkosti magnetu. Bolo by nepraktické túto vzdialenosť merať ručne, použijeme preto funkciu \code{int AeroShield::getMagnetStrength()}. Môžeme si všimnúť, že táto funkcia používa rovnaký príkaz na komunikáciu so senzorom, ako aj funkcia \code{detectMagnet()} a to síce \verb|_stat|. Z toho vyplýva že \code{detectMagnet()} kontroluje nielen prítomnosť magnetu, ale aj jeho správnu vzdialenosť. Pokiaľ teda dostaneme z funkcie \code{detectMagnet()} ako výsledok 1, vieme že magnet je prítomný a zároveň v ideálnej vzdialenosti. Funkcia \code{getMagnetStrength()} je teda iba doplňujúcou funkciou, ktorá nám určí či sa magnet nachádza príliš blízko, alebo naopak veľmi ďaleko od senzoru. 
 
 \begin{lstlisting}[caption={Zdrojový kód funkcie getMagnetStrength.},captionpos=b]
 int AeroShield::getMagnetStrength()   
@@ -169,7 +169,7 @@ int AeroShield::getMagnetStrength()
 
 \subsubsection{Funkcia getRawAngle()}
 
-Táto funkcia slúži na čítanie uhlu kyvadla. Výstupom tejto funkcie, je číslo s rozsahom 12bitov, teda číslo od 0 do 4096, ktoré udáva momentálnu polohu kyvadla. 
+Táto funkcia slúži na čítanie uhlu kyvadla. Výstupom tejto funkcie, je číslo s rozsahom 12 bitov, teda číslo od 0 do 4096, ktoré udáva momentálnu polohu kyvadla. 
 
 \begin{lstlisting}[caption={Zdrojový kód funkcie getRawAngle.},captionpos=b]
 word AeroShield::getRawAngle() 
@@ -180,7 +180,7 @@ word AeroShield::getRawAngle()
 
 \subsubsection{Funkcia begin()}
 
-Prvou z funkcií mimo komunikácie s rotačným enkóderom je \code{void AeroShield::begin(bool isDetected)}, do ktorej vstupuje výsledok z funkcie \code{detectMagnet()} ako premenná \verb|isDetected|. Funkcia \code{begin()} nastaví pin potrebný na ovládanie akčného člena, pomocou príkazu \verb|pinMode|, ako výstup (OUTPUT). Zároveň inicializuje sériovú komunikáciu I$^{2}$C. Príkaz na započatie komunikácie I$^{2}$C sa pri rôznych typoch dosiek, resp. architektúr mikroradiča Arduino líši. Použijeme preto podmienku \verb|#ifdef| za ktorou nasleduje typ architektúry daného mikroradiča a príslušný príkaz pre začiatok sériovej komunikácie I$^{2}$C. V prípade Arduino UNO, je to príkaz \verb|Wire.begin()|. 
+Prvou z funkcií mimo komunikácie s rotačným enkóderom je \code{void AeroShield::begin(bool isDetected)}, do ktorej vstupuje výsledok z funkcie \code{detectMagnet()} ako premenná \verb|isDetected|. Funkcia \code{begin()} nastaví pin potrebný na ovládanie akčného člena, pomocou príkazu \verb|pinMode|, ako výstup (OUTPUT). Zároveň inicializuje sériovú komunikáciu I$^{2}$C. Príkaz na započatie komunikácie I$^{2}$C sa pri rôznych typoch dosiek, resp. architektúr mikroradiča Arduino líši. Použijeme preto podmienku \verb|#ifdef|, za ktorou nasleduje typ architektúry daného mikroradiča a príslušný príkaz pre začiatok sériovej komunikácie I$^{2}$C. V prípade Arduino UNO, je to príkaz \verb|Wire.begin()|. 
 
 Zároveň je vo funkcii \code{begin()}, pomocou if podmienky, kontrolovaná premenná \verb|isDetected|. Pokiaľ bol magnet detegovaný, vypíše na sériový port správu "Magnet detected$"$ a while\footnote[7]{Cyklus while sa bude opakovať nepretržite, pokiaľ sa výraz vnútri zátvoriek () nestane nepravdivým.} cyklus, sa pomocou príkazu \verb|break| ukončí. Pokiaľ magnet detegovaný nebol, vypíše "Can not detect magnet", no while cyklus pokračuje.  
 
@@ -290,7 +290,7 @@ Na ovládanie motora resp. jeho otáčok, používame funkciu \code{actuatorWrit
 	
 Poslednou funkciou AeroShieldu je \code{currentMeasure()}, ktorá slúži na zaznamenávanie prúdu, ktorý odoberá motor kyvadla. Pre presnejšie výsledky merania, využívame priemernú hodnotu prúdu, ktorú získavame pomocou for cyklu. 
 
-Nepresnosť vzniká v dôsledku ovládania motora PWM signálom. Tým že je motor prerušovane vypínaný a zapínaný, kolísa aj veľkosť odoberaného prúdu. 
+Nepresnosť vzniká v dôsledku ovládania motora PWM signálom. Tým, že je motor prerušovane vypínaný a zapínaný, kolísa aj veľkosť odoberaného prúdu. 
 
 Výsledná hodnota prúdu prechádza úpravami pomocou dvoch korekčných premenných, ktoré sme získali vďaka meraniam prúdu pomocou multimetra a následným porovnaním týchto hodnôt oproti hodnotám zo senzora. 
 
@@ -324,17 +324,17 @@ float AeroShield::currentMeasure(void){
 	
 V tomto programe, rovnako ako pri Arduino IDE, vieme príkazy a funkcie zapisovať do knižnice, odkiaľ si potom jednotlivé položky voláme do hlavného kódu. Z toho dôvodu bola zostavená knižnica \verb|AeroShield.m|. Knižnice v MATLABE môžu mať podobu súborov \verb|Header| a \verb|Source|, alebo funkcie zapíšeme len do jedného súboru s koncovkou \verb|.m|. 
 
-V našom prípade sa jedná o jeden súbor na ktorého začiatku definujeme triedu súboru, pomocou príkazu \code{classdef AeroShield < handle ... end}. Za príkazom \verb|classdef| nasleduje názov našej triedy \verb|AeroShield| a porovnávací symbol $<$, za ktorým nasleduje $"$super trieda$"$ \verb|handle|. Super, alebo nad-trieda \verb|handle| je abstraktná trieda, ktorej inštancia sa nedá vytvoriť priamo. Táto trieda sa využíva na odvodenie iných tried, ktoré sú už konkrétnymi triedami, ktorých inštancie sú objektmi handle\cite{HANDLE}. 
+V našom prípade ide o jeden súbor, na ktorého začiatku definujeme triedu súboru, pomocou príkazu \code{classdef AeroShield < handle ... end}. Za príkazom \verb|classdef| nasleduje názov našej triedy \verb|AeroShield| a porovnávací symbol $<$, za ktorým nasleduje $"$super trieda$"$ \verb|handle|. Super, alebo nad-trieda \verb|handle| je abstraktná trieda, ktorej inštancia sa nedá vytvoriť priamo. Táto trieda sa využíva na odvodenie iných tried, ktoré sú už konkrétnymi triedami, ktorých inštancie sú objektmi handle\cite{HANDLE}. 
 
 Každá trieda môže následne obsahovať jeden alebo viacero triednych blokov: 
 \begin{itemize}
 	\item Properties(atribúty) ...end- Vymedzuje blok kódu, ktorý definuje vlastnosti s rovnakými nastaveniami atribútov.
-	\item Methods(atribúty)    ...end- Má rovnaký názov ako trieda v ktorej sa nachádza a vracia inicializovaný objekt triedy.
+	\item Methods(atribúty)    ...end- Má rovnaký názov ako trieda, v ktorej sa nachádza a vracia inicializovaný objekt triedy.
 	\item Events(atribúty)     ...end- Vymedzuje blok kódu, v ktorom nastane istá preddefinovaná udalosť, napr. zmena stavu. 
 	\item Enumeration(atribúty)...end- Vytvorí zoznam hodnôt/premenných. 
 \end{itemize}
 
-V AeroShield knižnici máme definované dva triedne bloky typu properties. V prom bloku sa nachádzajú objekty pre dosku arduino a hall senzor. V druhom bloku definujeme všetky premenné ktoré budeme ďalej v kóde využívať. Jedná sa hlavne o názvy a čísla pinov, ktoré používame na čítanie alebo zapisovanie hodnôt, ako aj o premenné, na výpočet prúdu odoberaného motorom. 
+V AeroShield knižnici máme definované dva triedne bloky typu properties. V prom bloku sa nachádzajú objekty pre dosku arduino a hall senzor. V druhom bloku definujeme všetky premenné, ktoré budeme ďalej v kóde využívať. Jedná sa hlavne o názvy a čísla pinov, ktoré používame na čítanie alebo zapisovanie hodnôt, ako aj o premenné, na výpočet prúdu odoberaného motorom. 
 
 \begin{lstlisting}[caption={Knižnica AeroShield.m properties.},captionpos=b]
 classdef AeroShield < handle
@@ -517,13 +517,13 @@ Kontrola uhlu kyvadla prebieha v podsystéme, ktorý je spustený jednu sekundu 
 \subsubsection{Tvorba masky}
 \label{Maska}
 
-Maska slúži ako vlastné používateľské rozhranie bloku resp. podsystému. Maskovaním bloku zapúzdrime blokovú schému tak, aby mala podla potreby, vlastné dialógové okná s nastaviteľnými parametrami, popisy bloku, výzvy na zadanie parametrov alebo texty s nápovedami. Vďaka maske, je používanie a editácia blokov intuitívnejšia a vďaka textovým popisom funkcií jednoduchšia. Masku upravujeme pomocou editora, ktorý spustíme pravým kliknutím na blok, s následným výberom možnosti \verb|Mask|. V maske sa nachádzajú štyri hlavné editovacie rozhrania. 
+Maska slúži ako vlastné používateľské rozhranie bloku resp. podsystému. Maskovaním bloku zapúzdrime blokovú schému tak, aby mala podla potreby, vlastné dialógové okná s nastaviteľnými parametrami, popisy bloku, výzvy na zadanie parametrov alebo texty s nápovedami. Vďaka maske je používanie a editácia blokov intuitívnejšia a vďaka textovým popisom funkcií jednoduchšia. Masku upravujeme pomocou editora, ktorý spustíme pravým kliknutím na blok, s následným výberom možnosti \verb|Mask|. V maske sa nachádzajú štyri hlavné editovacie rozhrania. 
 
 Prvým z nich je záložka \verb|Icon & Ports|. V tomto okne upravujeme vzhľad bloku. Teda jeho zobrazenie, rotáciu, inicializáciu, alebo ikonu bloku. Pre všetky bloky v knižnici AeroLibrary, boli vytvorené vlastné ikony, ktoré sa do masky vkladajú príkazom \code{image('assets/Pote.png')}.
 
 Ďalšou v poradí je záložka \verb|Parameters & Dialog|. V tejto sekcii nastavujeme vzhľad a funkcie masky, ktorá sa zobrazí po kliknutí na blok. V prípade bloku \verb|Reference read|, máme v maske na výber voľbu automatickej alebo manuálnej referenčnej trajektórie. Medzi týmito možnosťami si vyberáme pomocou tlačidiel (Radio button) obr.\ref{OBRAZOK 2.6.100}, ktorých výber taktiež formátuje zobrazenie masky bloku. 
 
-Pokiaľ si z tlačidiel vyberieme manuálnu trajektóriu, zobrazí sa ďalšia možnosť výberu, a tou je model dosky Arduino. Jedná sa o roletové, alebo "popup$"$ menu, v ktorom si vyberieme typ dosky s ktorou používame AeroShield. Dôvod tohoto výberu je opísaný v časti \ref{AngleRead}, na strane \pageref{AngleRead}. Pokiaľ si zvolíme Automatickú referenčnú trajektóriu, možnosť voľby dosky sa nezobrazí. Namiesto toho sa zobrazia možnosti nastavenia automatickej trajektórie. Táto funkcia je vykonávaná automaticky, zdrojovým kódom \ref{Callback}, ktorý sa nachádza v časti \verb|Callback|, v nastaveniach tlačidiel voľby trajektórie. 
+Pokiaľ si z tlačidiel vyberieme manuálnu trajektóriu, zobrazí sa ďalšia možnosť výberu, a tou je model dosky Arduino. Ide o roletové, alebo "popup$"$ menu, v ktorom si vyberieme typ dosky s ktorou používame AeroShield. Dôvod tohoto výberu je opísaný v časti \ref{AngleRead}, na strane \pageref{AngleRead}. Pokiaľ si zvolíme Automatickú referenčnú trajektóriu, možnosť voľby dosky sa nezobrazí. Namiesto toho sa zobrazia možnosti nastavenia automatickej trajektórie. Táto funkcia je vykonávaná automaticky, zdrojovým kódom \ref{Callback}, ktorý sa nachádza v časti \verb|Callback|, v nastaveniach tlačidiel voľby trajektórie. 
 
 \begin{lstlisting}[caption={Callback funkcia.},captionpos=b,label=Callback]
 ref = get_param(gcb,'ref');

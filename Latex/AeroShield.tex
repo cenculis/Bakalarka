@@ -5,8 +5,8 @@ Práca je založená na už započatom projekte vzdušného kyvadla. Na jeho tvo
 
 \begin{figure}[tbh]
 	\centering
-	\includegraphics[width=80mm]{obr/oldshield.jpg}
-	\caption{Prvá verzia AeroShieldu. }\label{OBRAZOK 2.1.1}
+	\includegraphics[width=80mm]{obr/oldshield.png}
+	\caption{Prvá verzia AeroShieldu.}\label{OBRAZOK 2.1.1}
 \end{figure}
 
 
@@ -20,7 +20,7 @@ V novej verzii dosky bolo odstránených niekoľko nedostatkov predchádzajúcej
 	\item neprepojenie nulového konektora shieldu s nulovým konektorom arduina.
 \end{itemize}
 
-Základom tejto bakalárskej práce teda bolo pochopiť jednotlivé časti zapojenia, ich úprava do funkčnej podoby a následne zostavenie modelu. V rámci projektu bola vytvorená hlavná doska, na ktorej sa nachádza väčšina elektroniky a menšia doska tzv. breakout board obr.\ref{OBRAZOK 2.1.2}.b, ktorý je uchytený v hornej časti kyvadla a slúži na uchytenie a prepojenie senzoru hall efektu s hlavnou doskou shieldu. Doska breakout boardu fungovala bezproblémovo a teda nebolo potrebné nijakým spôsobom meniť jej schému zapojenia obr.\ref{OBRAZOK 2.1.2}.a. Breakout boardu sa budeme bližšie venovať v časti \ref{PCBcka}.
+Základom tejto bakalárskej práce teda bolo pochopiť jednotlivé časti zapojenia, ich úprava do funkčnej podoby a následne zostavenie modelu. V rámci projektu bola vytvorená hlavná doska, na ktorej sa nachádza väčšina elektroniky a menšia doska tzv. breakout board obr.\ref{OBRAZOK 2.1.2}.b, ktorý je uchytený v hornej časti kyvadla a slúži na prepojenie senzoru hall efektu s hlavnou doskou shieldu. Doska breakout boardu fungovala bezproblémovo, a teda nebolo potrebné nijakým spôsobom meniť jej schému zapojenia obr.\ref{OBRAZOK 2.1.2}.a. Breakout boardu sa budeme bližšie venovať v časti \ref{PCBcka}.
 
 \begin{figure}[!tbh]
 	\hfill
@@ -28,7 +28,7 @@ Základom tejto bakalárskej práce teda bolo pochopiť jednotlivé časti zapoj
 	\hfill
 	\subfigure[Breakout board.]{\includegraphics[width=5cm]{obr/fotoBreak.png}}
 	\hfill
-	\caption{Meranie uhla kyvadla}\label{OBRAZOK 2.1.2}
+	\caption{Meranie uhla kyvadla.}\label{OBRAZOK 2.1.2}
 \end{figure}
 
 
@@ -50,28 +50,28 @@ V tejto časti sa bližšie pozrieme na menšie celky zapojenia AeroShieldu:
 \subsubsection{Znižovací menič}
 \label{nap}
 
-Na napájanie akčného člena, motorčeka, potrebujeme napätie v rozmedzí 0-3,7V. Na shield je však privádzané, pomocou koaxiálneho napájacieho konektora, napätie 12V, ktoré by mohlo motor pri dlhšom používaní zničiť. Na zníženie napätia preto použijeme znižovací menič tzv. buck converter. 
+Na napájanie akčného člena, motorčeka, potrebujeme napätie v rozmedzí 0-3,7 V. Na shield je však privádzané, pomocou koaxiálneho napájacieho konektora, napätie 12 V, ktoré by mohlo motor pri dlhšom používaní zničiť. Na zníženie napätia preto použijeme znižovací menič tzv. buck converter. 
 
-Hlavnou časťou konvertora je čip TPS56339 od výrobcu Texas Instruments obr.\ref{OBRAZOK 2.1}.b. Znižovanie napätia funguje za pomoci dvoch integrovaných N-kanálových 70-m$\Omega$ a 35-m$\Omega$ high-side mosfetov\footnote[4]{N-kanálový mosfet je typ tranzistora, v ktorom sa ovláda kolektorový prúd pomocou napätia medzi riadiacou elektródou a emitorom.}, v spolupráci s ďalšími komponentami. Celkový prevádzkový prúd zariadenia je približne 98$\upmu$A, keď funguje bez spínania a bez záťaže. Keď je zariadenie vypnuté, napájací prúd je približne 3$\upmu$A a zariadenie umožňuje nepretržitý výstupný prúd do 3 A\cite{buckobr}.
+Hlavnou časťou konvertora je čip TPS56339 od výrobcu Texas Instruments obr.\ref{OBRAZOK 2.1}.b. Znižovanie napätia funguje za pomoci dvoch integrovaných N-kanálových 70 m$\Omega$ a 35 m$\Omega$ high-side mosfetov\footnote[4]{N-kanálový mosfet je typ tranzistora, v ktorom sa ovláda kolektorový prúd pomocou napätia medzi riadiacou elektródou a emitorom.}, v spolupráci s ďalšími komponentami. Celkový prevádzkový prúd zariadenia je približne 98 $\upmu$A, keď funguje bez spínania a bez záťaže. Keď je zariadenie vypnuté, napájací prúd je približne 3 $\upmu$A a zariadenie umožňuje nepretržitý výstupný prúd do 3 A\cite{buckobr}.
 
 \begin{figure}[!tbh]
 	\hfill
 	\subfigure[Schéma zapojenia znižovacieho meniča.]{\includegraphics[width=9cm]{obr/schemaBuck.png}}
 	\hfill
-	\subfigure[{čip TPS56339.\cite{buckobr}}]{\includegraphics[width=5cm]{obr/cip.eps}}
+	\subfigure[{Čip TPS56339\cite{buckobr}.}]{\includegraphics[width=5cm]{obr/cip.eps}}
 	\hfill
-	\caption{buck converter}\label{OBRAZOK 2.1}
+	\caption{Znižovací menič.}\label{OBRAZOK 2.1}
 \end{figure}
 
-Na čip je privádzané napätie 12V ktoré sa pomocou zapojenia viditeľného na schéme obr.\ref{OBRAZOK 2.1}.a, znižuje na napätie 3,7V. Domnievali sme sa že napájanie motora musí byť realizované externe, pomocou koaxiálneho napájacieho konektora z dôvodu vysokého prúdu odoberaného motorom počas silného zaťaženia. Rovnaký konektor sa síce nachádza aj na doske Arduino UNO a pomocou VIN pinu sa z neho dajú napájať napätím 6-12V aj iné zariadenia, avšak tento pin je napojený na diódu, obmedzujúcu prúd na 1A\cite{ampere}\cite{ampere2}. 
+Na čip je privádzané napätie 12 V ktoré sa pomocou zapojenia viditeľného na schéme obr.\ref{OBRAZOK 2.1}.a, znižuje na napätie 3,7 V. Domnievali sme sa, že napájanie motora musí byť realizované externe, pomocou koaxiálneho napájacieho konektora z dôvodu vysokého prúdu odoberaného motorom počas silného zaťaženia. Rovnaký konektor sa síce nachádza aj na doske Arduino UNO a pomocou VIN pinu sa z neho dajú napájať napätím 6-12 V aj iné zariadenia, avšak tento pin je napojený na diódu, obmedzujúcu prúd na 1 A\cite{ampere}\cite{ampere2}. 
 
-Pri testovaní prototypov druhej verzie AeroShieldu, sa merané hodnoty prúdu pohybovali nad hodnotu 1A, čo by zničilo spomínanú internú diódu na doske Arduino UNO. 
-Po zostavení finálnej verzie shieldu a opätovnom meraní odoberaného prúdu, bola maximálna dosahovaná hodnota menšia ako 0,5A. Z tohoto dôvodu sme sa rozhodli pre zmenu v schéme kyvadla z ktorej sme odobrali externý napájací konektora následne bola vyrobená nová doska plošných spojov. Tretej verzii AeroShieldu sa bližšie venujeme v časti...
+Pri testovaní prototypov druhej verzie AeroShieldu, sa merané hodnoty prúdu pohybovali nad hodnotu 1 A, čo by zničilo spomínanú internú diódu na doske Arduino UNO. 
+Po zostavení finálnej verzie shieldu a opätovnom meraní odoberaného prúdu, bola maximálna dosahovaná hodnota menšia ako 0,5 A. Z tohoto dôvodu sme sa rozhodli pre zmenu v schéme kyvadla, z ktorej sme odobrali externý napájací konektor a následne bola vyrobená nová doska plošných spojov. Tretej verzii AeroShieldu sa bližšie venujeme v časti \ref{tretia}.
 
 \subsubsection{Akčný člen}
 \label{akcclen}
 
-Ako akčný člen AeroShieldu je použitý 7mm, 3,7V motorček na jednosmerný prúd bez jadra, používaný hlavne pre pohon dronov. “Coreless motor“, alebo motor bez jadra, je motor s cievkou navinutou samou na sebe\cite{coreless}. Stator je vyrobený z magnetov na báze vzácnych zemín, ako je neodým alebo SmCo(samárium-kobalt).
+Ako akčný člen AeroShieldu je použitý 7 mm, 3,7 V motorček na jednosmerný prúd bez jadra, používaný hlavne pre pohon dronov. “Coreless motor“, alebo motor bez jadra, je motor s cievkou navinutou samou na sebe\cite{coreless}. Stator je vyrobený z magnetov na báze vzácnych zemín, ako je neodým alebo SmCo(samárium-kobalt).
 
 Takýto motor ponúka mnoho výhod oproti motoru so železným jadrom. Výrazne sa znižuje hmotnosť a tým aj zotrvačnosť rotora, čo je dôležité pre naše použitie, kedy potrebujeme dosahovať vysokú akceleráciu motora. Ďalšou výhodou je fakt, že nedochádza k stratám na železe a tým pádom sa účinnosť takýchto motorov blíži až ku 90\%\cite{5545147}. Motor, resp. otáčky motora sú riadené pomocou PWM signálu a ten do motoru prechádza cez N-kanálový mosfet PMV45EN2 od výrobcu Nexperia\cite{pmv}.
 
@@ -82,43 +82,40 @@ Takýto motor ponúka mnoho výhod oproti motoru so železným jadrom. Výrazne 
 	\hfill
 	\subfigure[{Akčný člen sústavy.\cite{corelessMotor}}]{\includegraphics[width=7cm]{obr/coreless.jpg}}
 	\hfill
-	\caption{Zapojenie akčného člena a typ motorčeka}\label{OBRAZOK 2.3}
+	\caption{Zapojenie akčného člena a typ motorčeka.}\label{OBRAZOK 2.3}
 \end{figure}
 
 
 \subsubsection{Meranie prúdu}
 \label{merprud}
 
-Z dôvodu merania prúdu odoberaného motorom, bol do schémy pridaný monitor prúdu, takzvaný "current shunt monitor". Nameraný prúd môžeme využiť na implementácie riadenia motora na základe prúdu, ktorý odoberá. AeroShield používa snímač INA169NA/250 od výrobcu Texas Instruments obr.\ref{OBRAZOK 2.3.2}.b.
+Z dôvodu merania prúdu odoberaného motorom bol do schémy pridaný monitor prúdu, takzvaný "current shunt monitor". Nameraný prúd môžeme využiť na implementácie riadenia motora na základe prúdu, ktorý odoberá. AeroShield používa snímač INA169NA/250 od výrobcu Texas Instruments obr.\ref{OBRAZOK 2.3.2}.b.
 
-INA169 funguje na základe zaznamenávania zmien napätia na stranách shunt rezistora obr.\ref{OBRAZOK 2.3.2}.a. Na základe nameraného úbytku napätia, vysiela senzor podľa nami zvoleného stupňa zosilnenia, napätie s maximálnou hodnotou $V_{OUTMAX} = V_{IN-} - 0.5V $.
+INA169 funguje na základe zaznamenávania zmien napätia na stranách shunt rezistora obr.\ref{OBRAZOK 2.3.2}.a. Na základe nameraného úbytku napätia vysiela senzor podľa nami zvoleného stupňa zosilnenia, napätie s maximálnou hodnotou $V_{OUTMAX} = V_{IN-} - 0.5 V $.
 
 Prúd $I_{s}$ odoberaný motorom, vypočítame pomocou vzorca \ref{Shunt}
 
 \begin{align}
 	\label{Shunt}
- I_{s} = \dfrac{(V_{OUT} \times  1k\Omega)}{(R_{s} \times R_{l})}
+ I_{s} = \dfrac{(V_{OUT} \times  1 k\Omega)}{(R_{s} \times R_{l})}
 \end{align}
 
-kde $V_{OUT}$ je napätie namerané na výstupe, 1k$\Omega$ je konštanta vnútorných odporov senzoru, $R_{s}$ je hodnota bočníka v $\Omega$ a $R_{l}$ je hodnota rezistora na výstupe, taktiež v $\Omega$\cite{INA}.
+kde $V_{OUT}$ je napätie namerané na výstupe, 1 k$\Omega$ je konštanta vnútorných odporov senzoru, $R_{s}$ je hodnota bočníka v $\Omega$ a $R_{l}$ je hodnota rezistora na výstupe, taktiež v $\Omega$\cite{INA}.
 
 \begin{figure}[!tbh]
 	\hfill
 	\subfigure[Schéma zapojenia snímača prúdu.]{\includegraphics[width=9cm]{obr/INAschema.png}}
 	\hfill
-	\subfigure[{Senzor INA169NA/250\cite{INAobr}}]{\includegraphics[width=6cm]{obr/ina.png}}
+	\subfigure[{Senzor INA169NA/250\cite{INAobr}.}]{\includegraphics[width=6cm]{obr/ina.png}}
 	\hfill
-	\caption{meranie prúdu}\label{OBRAZOK 2.3.2}
+	\caption{Meranie prúdu.}\label{OBRAZOK 2.3.2}
 \end{figure}
-
-
-
 
 
 \subsubsection{Meranie uhla kyvadla}
 \label{meruhl}
 
-Na fungovanie AeroShieldu je dôležité vedieť s vysokou presnosťou merať uhol naklonenia kyvadla. Na tento účel sme si zvolili meranie uhlu bezkontaktnou formou, pomocou snímača hall efektu. Hallov jav vieme opísať ako vznik priečneho elektrického poľa v pevnom materiáli, keď ním preteká elektrický prúd a tento materiál je umiestnený v magnetickom poli, ktoré je kolmé na prúd\cite{Hall}. Toto elektrické pole resp. vznik elektrického potenciálu vieme detegovať ako Hallovo napätie a na základe jeho zmeny, vieme určiť rotáciu kyvadla. Fyzikálna podstata tohoto javu je na obr.\ref{OBRAZOK 1.323}, kde V$_H$ je Hallovo napätie, B je magnetické pole, F$_m$ magnetická sila pôsobiaca na negatívne prenášače náboja, F$_e$ elektrická sila z nahromadeného náboja, I je dohodnutý smer elektrického prúdu. 
+Na fungovanie AeroShieldu je dôležité vedieť s vysokou presnosťou merať uhol naklonenia kyvadla. Na tento účel sme si zvolili meranie uhlu bezkontaktnou formou, pomocou snímača Hallovho javu. Hallov jav vieme opísať ako vznik priečneho elektrického poľa v pevnom materiáli, keď ním preteká elektrický prúd a tento materiál je umiestnený v magnetickom poli, ktoré je kolmé na prúd\cite{Hall}. Toto elektrické pole, resp. vznik elektrického potenciálu, vieme detegovať ako Hallovo napätie a na základe jeho zmeny, vieme určiť rotáciu kyvadla. Fyzikálna podstata tohoto javu je na obr.\ref{OBRAZOK 1.323}, kde V$_H$ je Hallovo napätie, B je magnetické pole, F$_m$ magnetická sila pôsobiaca na negatívne prenášače náboja, F$_e$ elektrická sila z nahromadeného náboja, I je dohodnutý smer elektrického prúdu. 
 
 \begin{figure}[!tbh]
 	\centering
@@ -127,7 +124,7 @@ Na fungovanie AeroShieldu je dôležité vedieť s vysokou presnosťou merať uh
 \end{figure}
 
 V kyvadle je na konci horizontálneho ramena umiestnený špeciálny magnet kruhového tvaru, ktorý je polarizovaný naprieč prierezom magnetu. Ako senzor na meranie hall efektu je použitý AS5600 od výrobcu OSRAM obr.\ref{OBRAZOK 2.2}.b. Signály zachytené senzorom sa v čipe najskôr zosilnia, následne sú filtrované a prechádzajú konverziou pomocou analógovo-digitálneho prevodníka(ADC). Snímaná je aj intenzita magnetického poľa, ktorou senzor pomocou
-automatického riadenia zosilnenia(AGC), kompenzuje zmeny teploty priestoru a taktiež zmeny sily magnetického poľa.
+automatického riadenia zosilnenia(AGC) kompenzuje zmeny teploty priestoru a taktiež zmeny sily magnetického poľa.
 
 Na výber sú dva typy výstupu a to analógový, alebo digitálny výstup s kódovaním PWM. Senzor má taktiež možnosti interného programovania pomocou rozhrania I2C.
 V našom prípade používame 12-bitový analógový výstup s rozlíšením 0°5'16". Toto rozlíšenie nám umožňuje s vysokou presnosťou kontrolovať naklonenie kyvadla a na základe získaných informácii ovplyvňovať fungovanie akčného člena sústavy. Schéma zapojenia enkóderu na meranie uhlu môžeme vidieť na obr.\ref{OBRAZOK 2.2}.a.
@@ -138,7 +135,7 @@ V našom prípade používame 12-bitový analógový výstup s rozlíšením 0°
 	\hfill
 	\subfigure[Schéma zapojenia čipu AS5600.]{\includegraphics[width=10cm]{obr/as5600.png}}
 	\hfill
-	\subfigure[{čip AS5600\cite{As5600obr}}]{\includegraphics[width=4cm]{obr/hall.jpg}}
+	\subfigure[{Čip AS5600\cite{As5600obr}.}]{\includegraphics[width=4cm]{obr/hall.jpg}}
 	\hfill
 	\caption{Enkóder slúžiaci na meranie uhla kyvadla.}\label{OBRAZOK 2.2}
 \end{figure}
@@ -186,18 +183,18 @@ Hotová schéma zapojenia je prenesená do programu DipTrace PCB. Program ponúk
 
 \begin{figure}[!tbh]
 	\hfill
-	\subfigure[Vrchná strana breakout boardu]{\includegraphics[width=5cm]{obr/breakoutTOP.png}}
+	\subfigure[Vrchná strana breakout boardu.]{\includegraphics[width=5cm]{obr/breakoutTOP.png}}
 	\hfill
-	\subfigure[Spodná strana breakout boardu]{\includegraphics[width=5cm]{obr/breakoutbottom.png}}
+	\subfigure[Spodná strana breakout boardu.]{\includegraphics[width=5cm]{obr/breakoutbottom.png}}
 	\hfill
 	\caption{Breakout board.}\label{OBRAZOK 2.6}
 \end{figure}
 
-Po rozmiestnení komponentov treba jednotlivé piny poprepájať vodivými cestami, ktoré nahrádzajú funkciu káblov. Máme možnosť zvoliť automatické alebo manuálne rozmiestnenie ciest. Ako je vidieť na obr.\ref{OBRAZOK 2.4}.a, nie všetky cesty majú rovnakú šírku. Dôvodom je fakt že niektorými cestami prúdi väčší prúd. V zásade sa používa pravidlo, čím vyšší prúd preteká vodičom, tým väčšiu plochu prierezu by mal mať. Prúdy pretekajúci vodičom tento vodič zahrieva. Pokiaľ je toto zahrievanie nadmerné, môže dôjsť k poškodeniu vodiča.  
+Po rozmiestnení komponentov treba jednotlivé piny poprepájať vodivými cestami, ktoré nahrádzajú funkciu káblov. Máme možnosť zvoliť automatické alebo manuálne rozmiestnenie ciest. Ako je vidieť na obr.\ref{OBRAZOK 2.4}.a, nie všetky cesty majú rovnakú šírku. Dôvodom je fakt, že niektorými cestami prúdi väčší prúd. V zásade sa používa pravidlo, čím vyšší prúd preteká vodičom, tým väčšiu plochu prierezu by mal mať. Prúdy pretekajúci vodičom tento vodič zahrieva. Pokiaľ je toto zahrievanie nadmerné, môže dôjsť k poškodeniu vodiča.  
 
-Tvorba elektrických ciest má niekoľko pravidiel. Najdôležitejšie z nich je, že cesty spájajúce rozdielne vodiče sa nemôžu križovať. Pokiaľ by k takémuto kríženiu došlo, jednotlivé cesty sa vzájomne vyskratujú. Z toho dôvodu treba niekedy cestu priviesť na druhú stranu dosky plošných spojov kde v jej pokračovaní neprekáža iná cesta. Na tento účel sa používajú vodivé konektory ,,via'', spájajúce obe strany dosky. Tretia verzia dosky AeroShieldu je na obr.\ref{OBRAZOK 2.4}. 
+Tvorba elektrických ciest má niekoľko pravidiel. Najdôležitejšie z nich je, že cesty spájajúce rozdielne vodiče sa nemôžu križovať. Pokiaľ by k takémuto kríženiu došlo, jednotlivé cesty sa vzájomne vyskratujú. Z toho dôvodu treba niekedy cestu priviesť na druhú stranu dosky plošných spojov, kde v jej pokračovaní neprekáža iná cesta. Na tento účel sa používajú vodivé konektory ,,via'', spájajúce obe strany dosky. Tretia verzia dosky AeroShieldu je na obr.\ref{OBRAZOK 2.4}. 
 
-Po finálnej kontrole zapojenia komponentov na doske plošných spojov, môžeme tieto dosky uložiť do formátu gerber. Súbory typu gerber v sebe ukladajú presné zloženie finálnej dosky plošných spojov a to po jej jednotlivých vrstvách. Zkonvertované súbory zasielame výrobcovi PCB dosiek kde si môžeme zvoliť parametre dosky ako jej farbu, typy spájkovacích doštičiek a iné. Podobu finálnej dosky AeroShieldu môžeme vidieť na obr.\ref{OBRAZOK 2.7}.a a dosky breakout boardu na obr.\ref{OBRAZOK 2.7}.b.
+Po finálnej kontrole zapojenia komponentov na doske plošných spojov môžeme tieto dosky uložiť do formátu gerber. Súbory typu gerber v sebe ukladajú presné zloženie finálnej dosky plošných spojov a to po jej jednotlivých vrstvách. Zkonvertované súbory zasielame výrobcovi PCB dosiek, kde si môžeme zvoliť parametre dosky ako jej farbu, typy spájkovacích doštičiek a iné. Podobu finálnej dosky AeroShieldu môžeme vidieť na obr.\ref{OBRAZOK 2.7}.a a dosky breakout boardu na obr.\ref{OBRAZOK 2.7}.b.
 
 \begin{figure}[!tbh]
 	\centering
@@ -217,9 +214,9 @@ Po finálnej kontrole zapojenia komponentov na doske plošných spojov, môžeme
 
 \begin{figure}
 	\hfill
-	\subfigure[Hlavná doska AeroShieldu]{\includegraphics[width=9cm]{obr/AeroShield.jpg}}
+	\subfigure[Hlavná doska AeroShieldu.]{\includegraphics[width=9cm]{obr/AeroShield.jpg}}
 	\hfill
-	\subfigure[Vedľajšia doska AeroShieldu]{\includegraphics[width=6cm]{obr/fotoBreak.png}}
+	\subfigure[Vedľajšia doska AeroShieldu.]{\includegraphics[width=6cm]{obr/fotoBreak.png}}
 	\hfill
 	\caption{Dosky plošných spojov AeroShieldu (2. verzia).}\label{OBRAZOK 2.7}
 \end{figure}
@@ -230,10 +227,14 @@ Po finálnej kontrole zapojenia komponentov na doske plošných spojov, môžeme
 Telo kyvadla ako aj všetky konektory spájajúce jeho jednotlivé časti, boli vytvorené v 3D modelovacom softvéri CATIA obr.\ref{OBRAZOK 1.1}. Zámerom bolo vytvoriť pevný a zároveň estetický držiak, ktorý sa dá následne vytlačiť na 3D tlačiarni. Telo kyvadla stojí na štyroch nožičkách, ktoré sú priskrutkované k hlavnej doske plošných spojov. Stred kyvadla je dutý, a sú nim vedené káble napájania motorčeka. V hornej časti držiaku sa nachádzajú diery na priskrutkovanie breakout boardu. 
 
 \begin{figure}
-	\centering
-	\includegraphics[width=100mm]{obr/spojeneKyvadlo.png}
-	\caption{Model kyvadla, tvorený v programe CATIA.}\label{OBRAZOK 1.1}
+	\hfill
+	\subfigure[Model tvorený v programe CATIA.]{\includegraphics[width=75mm]{obr/spojeneKyvadlo.png}}
+	\hfill
+	\subfigure[Zostavený model AeroShieldu.]{\includegraphics[width=65mm]{obr/BezPozadnia.png}}
+	\hfill
+	\caption{AeroShield.}\label{OBRAZOK 1.1}
 \end{figure}
+
 
 \subsubsection{Cenová kalkulácia AeroShieldu}
 
@@ -248,7 +249,7 @@ Hlavnou podmienku pri tvorbe AeroShieldu bola jeho funkcionalita, dostupnosť po
 		FFC konektor                        & FFC 4pin                                           & 2                                  & 0,2                                      & 0,4                                        \\
 		Cievka                              & IND1210                                            & 1                                  & 0,2                                      & 0,2                                        \\
 		Konektor DC motora                  & JST-XH 2,54                                        & 1                                  & 0,4                                      & 0,4                                        \\
-		Motor                               & Howellp 7x20mm Motor                               & 1                                  & 2,1                                      & 2,1                                        \\
+		Motor                               & Howellp 7x20 mm Motor                               & 1                                  & 2,1                                      & 2,1                                        \\
 		Potenciometer                       & CA14                                               & 1                                  & 0,45                                     & 0,45                                       \\
 		Mosfet                              & pmv45en2                                           & 1                                  & 0,04                                     & 0,04                                       \\
 		Rezistor                            & SMD, sot23                                         & 9                                  & 0,08                                      & 0,72                                        \\

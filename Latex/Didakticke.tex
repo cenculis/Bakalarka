@@ -3,7 +3,7 @@
 
 Pre AeroShield bolo v prostredí Arduino IDE, MATLAB a Simulink vytvorených niekoľko vzorových programov, ktoré demonštrujú všetky jeho funkcie. Programy sú rozdelené do dvoch veľkých skupín, konkrétne programy v otvorenej slučke bez spätnej väzby a programy v uzavretej slučke so spätnou väzbou. 
 
-Ich rozdiel spočíva v tom že pri riadení bez spätnej väzby, hovoríme o ovládaní systému, kedy sa snažíme dosiahnuť žiadané hodnoty výstupov bez spätnej informácie o vykonaní procesu, alebo o jeho hodnote. V prípade riadenia so spätnou väzbou sa jedná o reguláciu. Pri regulácii sa kontroluje bezprostredný účinok riadenia, ktorý sa porovnáva so žiadanou hodnotou výstupu a na vyrovnanie ich vzájomnej chyby, sa okamžite vykonáva zásah do vstupných veličín. 
+Ich rozdiel spočíva v tom, že pri riadení bez spätnej väzby, hovoríme o ovládaní systému, kedy sa snažíme dosiahnuť žiadané hodnoty výstupov bez spätnej informácie o vykonaní procesu, alebo o jeho hodnote. V prípade riadenia so spätnou väzbou sa jedná o reguláciu. Pri regulácii sa kontroluje bezprostredný účinok riadenia, ktorý sa porovnáva so žiadanou hodnotou výstupu a na vyrovnanie ich vzájomnej chyby, sa okamžite vykonáva zásah do vstupných veličín. 
 
 \section{Programy v otvorenej slučke, bez spätnej väzby}
 \subsection{Arduino IDE}
@@ -59,7 +59,7 @@ V cykle \verb|loop()| prebehne ako prvé mapovanie uhlu kyvadla pomocou funkcie 
 
 V príklade \verb|AeroShieldOpenLoop.m| si ukážeme výhody a možnosti zobrazovania výstupov, v prostredí MATLAB. 
 
-Na začiatku kódu vymažeme všetky premenné a objekty, pomocou série príkazov \code{Clear all, clc}. Následne načítame knižnicu AeroShieldu a vykonáme funkciu \verb|AeroShield.begin()|. Kód pokračuje kalibráciou nulového uhlu kyvadla, zadefinovaním premenných na počítanie času, ako aj premenných na ukladanie hodnôt potenciometra a uhlu kyvadla. 
+Na začiatku kódu vymažeme všetky premenné a objekty pomocou série príkazov \code{Clear all, clc}. Následne načítame knižnicu AeroShieldu a vykonáme funkciu \verb|AeroShield.begin()|. Kód pokračuje kalibráciou nulového uhlu kyvadla, zadefinovaním premenných na počítanie času, ako aj premenných na ukladanie hodnôt potenciometra a uhlu kyvadla. 
 
 \begin{lstlisting}[caption={AeroShield open loop inicializacia.},captionpos=b]
 	% vymazanie premennych a objektov 
@@ -119,7 +119,7 @@ Nasleduje while cyklus, ktorý je ukončený zatvorením vykresľovaného grafu.
 \subsection{Simulink}
 
 
-Na ukážku funkcií jednotlivých blokov \verb|AeroLibrary|, bol v API Simulink zostavený inštruktážny príklad \verb|AeroShieldOpenLoop| obr.\ref{OBRAZOK 2.6.111}. V tomto príklade sa pomocou hodnoty potenciometra ovláda akčný člen. Zároveň je meraný uhol v ktorom sa kyvadlo nachádza a obe tieto hodnoty sú priebežne zobrazované na grafe pomocou bloku \verb|Scope|. 
+Na ukážku funkcií jednotlivých blokov \verb|AeroLibrary|, bol v API Simulink zostavený inštruktážny príklad \verb|AeroShieldOpenLoop| obr.\ref{OBRAZOK 2.6.111}. V tomto príklade sa pomocou hodnoty potenciometra ovláda akčný člen. Zároveň je meraný uhol, v ktorom sa kyvadlo nachádza a obe tieto hodnoty sú priebežne zobrazované na grafe pomocou bloku \verb|Scope|. 
 
 \begin{figure}[!tbh]
 	\centering
@@ -134,7 +134,7 @@ Na ukážku funkcií jednotlivých blokov \verb|AeroLibrary|, bol v API Simulink
 
 PID reguláciu sme si vybrali z dôvodu jednoduchosti použitia, ako aj z dôvodu že práve PID regulácia je vyučovaná medzi prvými v rámci teórie riadenia. P, PI alebo PID regulátory taktiež patria medzi veľmi populárne typy riadiacich algoritmov.  
 
-Skôr ako si ukážeme príklady s využitím PID regulátora, musíme si vysvetliť ako PID regulátor funguje. Základom je získavanie informácii o sledovanej resp. riadenej veličine, za pomoci senzoru a jej porovnávanie s hodnotou žiadanou. Vďaka tomu že získavame informácie o výstupe, ktoré aktívne využívame na riadenie akčného člena, môžeme hovoriť o spätnoväzbovom riadení. Spätnoväzbové riadenie, je teda také riadenie, ktoré ovplyvnuje sústavu na základe aktuálne získaných informácii o stave, v ktorom sa sústava nachádza. Pri takomto riadení existuje množstvo algoritmov, ktoré ovládajú správanie sa systému. Medzi tieto algoritmy patrí napríklad: Lineárne riadenie s premenlivým parametrom (LPV), Lineárno-kvadratické riadenie (LQ), Modelové prediktívne riadenie (MPC), Proporcionálno-integračno-derivačné riadenie (PID)...
+Skôr ako si ukážeme príklady s využitím PID regulátora, musíme si vysvetliť ako PID regulátor funguje. Základom je získavanie informácii o sledovanej resp. riadenej veličine, za pomoci senzoru a jej porovnávanie s hodnotou žiadanou. Vďaka tomu, že získavame informácie o výstupe, ktoré aktívne využívame na riadenie akčného člena, môžeme hovoriť o spätnoväzbovom riadení. Spätnoväzbové riadenie, je teda také riadenie, ktoré ovplyvnuje sústavu na základe aktuálne získaných informácii o stave, v ktorom sa sústava nachádza. Pri takomto riadení existuje množstvo algoritmov, ktoré ovládajú správanie sa systému. Medzi tieto algoritmy patrí napríklad: Lineárne riadenie s premenlivým parametrom (LPV), Lineárno-kvadratické riadenie (LQ), Modelové prediktívne riadenie (MPC), Proporcionálno-integračno-derivačné riadenie (PID)...
 
 PID regulátor obr.\ref{OBRAZOK 3.3}, ovplyvňuje akčné zásahy do sústavy \verb|u(t)| na základe zaznamenaných výstupných informácii \verb|y(t)|. Veľkosť akčného zásahu \verb|u(t)| vypočítame na základe rozdielu medzi požadovanou hodnotou \verb|w(t)| a hodnotou reálnou \verb|y(t)|. Tento rozdiel označujeme tiež ako regulačná odchýlka \verb|e(t)|. Písmeno $"$t$"$ v zátvorkách predstavuje, časovú závislosť premenných. 
 
@@ -152,7 +152,7 @@ Skratka PID odzrkadľuje zložky, z ktorých sa regulátor skladá:
 		\label{rovnicajedna}
 		u(t)=K_p e(t)
 	\end{align}
-	Konštanta K$_p$ je veľmi dôležitou pri nastavovaní parametrov PID regulátora. Zvyšovaním hodnoty proporcionálnej zložky znižuje regulačnú odchýlku, avšak nikdy nedosiahneme úplne odstránenie trvalej regulačnej odchýlky. Zmenou proporcionálnej zložky vieme taktiež urýchliť, alebo spomaliť nábeh na požadovanú hodnotu. Pre malé hodnoty K$_p$ je nábeh pomalí, a regulačná odchýlka veľká. Pri zvyšovaní hodnoty K$_p$ sa zrýchľuje nábeh, no zároveň narastá nežiadúce kmitanie sústavy. Zvyšovanie hodnoty K$_p$ má svoj limit, za ktorým sa sústava dostáva za hranicu stability a ďalšia regulácia nie je možná. 
+	Konštanta K$_p$ je veľmi dôležitou pri nastavovaní parametrov PID regulátora. Zvyšovaním hodnoty proporcionálnej zložky znižuje regulačnú odchýlku, avšak nikdy nedosiahneme úplne odstránenie trvalej regulačnej odchýlky. Zmenou proporcionálnej zložky vieme taktiež urýchliť, alebo spomaliť nábeh na požadovanú hodnotu. Pre malé hodnoty K$_p$ je nábeh pomalý, a regulačná odchýlka veľká. Pri zvyšovaní hodnoty K$_p$ sa zrýchľuje nábeh, no zároveň narastá nežiadúce kmitanie sústavy. Zvyšovanie hodnoty K$_p$ má svoj limit, za ktorým sa sústava dostáva za hranicu stability a ďalšia regulácia nie je možná. 
 	
 	\item \textbf{I}- predstavuje integračnú zložku. Integrálny riadiaci člen je priamo úmerný veľkosti ako aj trvaniu chyby. Pokiaľ má regulovaná veličina menšiu hodnotu ako je požadovaná, integrálna časť PID sa zväčšuje. Naopak pokiaľ je hodnota regulovanej veličiny väčšia ako požadovaná, integrálna časť PID klesá. Za predpokladu že systém je v ustálenom stave s konštantným výstupom u$_o$ ako aj konštantnou regulačnou odchýlkou e$_o$. Z rovnice \ref{rovnicatriapol} potom vyplýva, že trvalá regulačná odchýlka bude pri použití integračnej zložky nulová\cite{PIDcko}. 
 	
@@ -332,10 +332,10 @@ Na obr.\ref{OBRAZOK 2.5.1}, vidíme reakciu systému na skokovú zmenu z nulovej
 \begin{figure}[!tbh]
 	\centering
 	\includegraphics[width=120mm]{obr/SkokovaZmena.png}
-	\caption{Reakcia systému na jednotkový skok.}\label{OBRAZOK 2.5.1}
+	\caption{Reakcia systému na skokovú zmenu referenčnej hodnoty- Arduino IDE.}\label{OBRAZOK 2.5.1}
 \end{figure}
 
-Manuálna trajektória obr.\ref{OBRAZOK 2.5.3}, má oproti automatickej trajektórii obr.\ref{OBRAZOK 2.5.2}, väčšie rozdiely v hodnote akčného zásahu. Je to spôsobené kontinuálnou zmenou referenčnej hodnoty, ako aj miernym šumom signálu z potenciometra. V rámci obr.\ref{OBRAZOK 2.5.3} si ešte môžeme všimnúť časť medzi vzorkami 5000-6000. Jedná sa o manuálne zavedenie chyby, pomocou buchnutia do kyvadla. Systém na takúto zmenu reaguje zmenou akčného zásahu a regulačnú odchýlku menšiu ako 2\%, nadobúda v priebehu jednej sekundy. 
+Manuálna trajektória obr.\ref{OBRAZOK 2.5.3}, má oproti automatickej trajektórii obr.\ref{OBRAZOK 2.5.2}, väčšie rozdiely v hodnote akčného zásahu. Je to spôsobené kontinuálnou zmenou referenčnej hodnoty, ako aj miernym šumom signálu z potenciometra. V rámci obr.\ref{OBRAZOK 2.5.3} si ešte môžeme všimnúť časť medzi vzorkami 5000-6000. Ide o manuálne zavedenie chyby, pomocou buchnutia do kyvadla. Systém na takúto zmenu reaguje zmenou akčného zásahu a regulačnú odchýlku menšiu ako 2\%, nadobúda v priebehu jednej sekundy. 
 
 \begin{figure}[!tbh]
 	\centering

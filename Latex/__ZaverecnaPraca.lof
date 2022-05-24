@@ -2,35 +2,37 @@
 \contentsline {figure}{\numberline {1}{\ignorespaces Experimentálne moduly vzdušného kyvadla.}}{2}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Aeropendulum značky Real Sim\cite {AeroPendulumTeheran}.}}}{2}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Aeropendulum univerzity Arizona\cite {enikov_campa_2012}.}}}{2}{}%
-\contentsline {figure}{\numberline {2}{\ignorespaces {Arduino UNO R3.\cite {UNOFOTO}}}}{3}{}%
-\contentsline {figure}{\numberline {3}{\ignorespaces {Arduino Mega 2560 R3.\cite {megafoto}}}}{4}{}%
+\contentsline {figure}{\numberline {2}{\ignorespaces {Arduino UNO R3\cite {UNOFOTO}.}}}{3}{}%
+\contentsline {figure}{\numberline {3}{\ignorespaces {Arduino Mega 2560 R3\cite {megafoto}.}}}{4}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1.1}{\ignorespaces Prvá verzia AeroShieldu. }}{5}{}%
-\contentsline {figure}{\numberline {1.2}{\ignorespaces Meranie uhla kyvadla}}{6}{}%
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Prvá verzia AeroShieldu.}}{5}{}%
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Meranie uhla kyvadla.}}{6}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia breakout boardu.}}}{6}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Breakout board.}}}{6}{}%
-\contentsline {figure}{\numberline {1.3}{\ignorespaces buck converter}}{7}{}%
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Znižovací menič.}}{7}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia znižovacieho meniča.}}}{7}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {čip TPS56339.\cite {buckobr}}}}{7}{}%
-\contentsline {figure}{\numberline {1.4}{\ignorespaces Zapojenie akčného člena a typ motorčeka}}{8}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Čip TPS56339\cite {buckobr}.}}}{7}{}%
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Zapojenie akčného člena a typ motorčeka.}}{8}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia motorčeka.}}}{8}{}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Akčný člen sústavy.\cite {corelessMotor}}}}{8}{}%
-\contentsline {figure}{\numberline {1.5}{\ignorespaces meranie prúdu}}{9}{}%
+\contentsline {figure}{\numberline {1.5}{\ignorespaces Meranie prúdu.}}{9}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia snímača prúdu.}}}{9}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Senzor INA169NA/250\cite {INAobr}}}}{9}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Senzor INA169NA/250\cite {INAobr}.}}}{9}{}%
 \contentsline {figure}{\numberline {1.6}{\ignorespaces Schematická reprezentácia hallovho javu.}}{9}{}%
 \contentsline {figure}{\numberline {1.7}{\ignorespaces Enkóder slúžiaci na meranie uhla kyvadla.}}{10}{}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Schéma zapojenia čipu AS5600.}}}{10}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {čip AS5600\cite {As5600obr}}}}{10}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Čip AS5600\cite {As5600obr}.}}}{10}{}%
 \contentsline {figure}{\numberline {1.8}{\ignorespaces Schéma zapojenia AeroShieldu.}}{11}{}%
 \contentsline {figure}{\numberline {1.9}{\ignorespaces Breakout board.}}{12}{}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Vrchná strana breakout boardu}}}{12}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Spodná strana breakout boardu}}}{12}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Vrchná strana breakout boardu.}}}{12}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Spodná strana breakout boardu.}}}{12}{}%
 \contentsline {figure}{\numberline {1.10}{\ignorespaces (a) Vrchná strana AeroShieldu. (b) Spodná strana AeroShieldu.}}{13}{}%
 \contentsline {figure}{\numberline {1.11}{\ignorespaces Dosky plošných spojov AeroShieldu (2. verzia).}}{14}{}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Hlavná doska AeroShieldu}}}{14}{}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Vedľajšia doska AeroShieldu}}}{14}{}%
-\contentsline {figure}{\numberline {1.12}{\ignorespaces Model kyvadla, tvorený v programe CATIA.}}{14}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Hlavná doska AeroShieldu.}}}{14}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Vedľajšia doska AeroShieldu.}}}{14}{}%
+\contentsline {figure}{\numberline {1.12}{\ignorespaces AeroShield.}}{14}{}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Model tvorený v programe CATIA.}}}{14}{}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Zostavený model AeroShieldu.}}}{14}{}%
 \contentsline {figure}{\numberline {1.13}{\ignorespaces Tretia verzia AeroShieldu.}}{16}{}%
 \contentsline {figure}{\numberline {1.14}{\ignorespaces Schéma zapojenia tretej verzie AeroShieldu.}}{16}{}%
 \contentsline {figure}{\numberline {1.15}{\ignorespaces Knižnica AeroLibrary.}}{27}{}%
@@ -54,13 +56,13 @@
 \contentsline {figure}{\numberline {2.3}{\ignorespaces AeroShield\_OpenLoop.}}{39}{}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Schéma riadenia PID regulátorom.}}{41}{}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Reakcia systému na jednotkový skok.}}{47}{}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Reakcia systému na skokovú zmenu referenčnej hodnoty- Arduino IDE.}}{47}{}%
 \contentsline {figure}{\numberline {3.3}{\ignorespaces Automatická trajektória.}}{48}{}%
 \contentsline {figure}{\numberline {3.4}{\ignorespaces Manuálna trajektória.}}{48}{}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Reakcia systému na jednotkový skok referenčnej hodnoty.}}{49}{}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Reakcia systému na skokovú zmenu referenčnej hodnoty- MATLAB.}}{49}{}%
 \contentsline {figure}{\numberline {3.6}{\ignorespaces Automatická trajektória.}}{50}{}%
 \contentsline {figure}{\numberline {3.7}{\ignorespaces Manuálna trajektória.}}{51}{}%
 \contentsline {figure}{\numberline {3.8}{\ignorespaces Ukážka riadenia systému pomocou PID regulátora v API Simulink.}}{52}{}%
-\contentsline {figure}{\numberline {3.9}{\ignorespaces Reakcia systému na skokovú zmenu referenčnej hodnoty.}}{52}{}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Reakcia systému na skokovú zmenu referenčnej hodnoty- Simulink.}}{52}{}%
 \contentsline {figure}{\numberline {3.10}{\ignorespaces Manuálna trajektória.}}{52}{}%
 \addvspace {10\p@ }

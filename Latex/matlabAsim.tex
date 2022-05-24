@@ -6,12 +6,12 @@ Príklad na ukážku fungovania PID regulátora bol taktiež vytvorený v prostr
 
 Na vzorkovanie využívame funkcie \verb|TIC a TOC |, ktoré merajú prejdený čas. Funkcia TIC zaznamenáva aktuálny čas a funkcia TOC používa zaznamenanú hodnotu na výpočet uplynulého času. Ak je splnená podmienka \code{if (toc>=Ts*k)}, povolí sa posun na nasledujúcu vzorku, pričom premenná \verb*|k|, udáva počet vykonaných vzoriek. Dáta sú postupne zapisované do poľa \code{ PIDresponse(k,:)=[r y u]}, a toto pole je vykresľované pomocou funkcie \code{plotLive(PIDresponse(k,:))}. Na konci sú všetky dáta uložené, a teda sú prístupné aj po ukončený programu. Kompletný zdrojový kód sa nachádza v prílohe na strane \pageref{AeroShieldPID.m}.
 
-Regulácia PID v prostredí MATLAB potrebuje pre svoje fungovanie pomerne vysoký výpočtový výkon počítača, pretože výpočty prebiehajú na zariadení s ktorým je Arduino prepojené. Na zariadení\cite{Notebook} v ktorom boli písané všetky didaktické príklady dosahujeme rýchlosť maximálne piatich vzoriek za sekundu tj. Ts=0.2s. Pri pomalšom vzorkovaní musíme spomaliť aj rýchlosť reakcie PID regulátora (napr. znížením proporcionálnej zložky). Výpočtová náročnosť sa dá znížiť, zamedzením vykresľovania grafu, alebo odstránením možnosti ukladania zaznamenaných dát. 
+Regulácia PID v prostredí MATLAB potrebuje pre svoje fungovanie pomerne vysoký výpočtový výkon počítača, pretože výpočty prebiehajú na zariadení, s ktorým je Arduino prepojené. Na zariadení\cite{Notebook} v ktorom boli písané všetky didaktické príklady dosahujeme rýchlosť maximálne piatich vzoriek za sekundu tj. Ts=0.2s. Pri pomalšom vzorkovaní musíme spomaliť aj rýchlosť reakcie PID regulátora (napr. znížením proporcionálnej zložky). Výpočtová náročnosť sa dá znížiť, zamedzením vykresľovania grafu, alebo odstránením možnosti ukladania zaznamenaných dát. 
 
 \begin{figure}[!tbh]
 	\centering
 	\includegraphics[width=90mm]{obr/jednotkovyskoskMAt.png}
-	\caption{Reakcia systému na jednotkový skok referenčnej hodnoty.}\label{OBRAZOK 2.6.1}
+	\caption{Reakcia systému na skokovú zmenu referenčnej hodnoty- MATLAB.}\label{OBRAZOK 2.6.1}
 \end{figure}
 
 \subsubsection{Výstupy}
@@ -55,7 +55,7 @@ Blok \verb|Discrete PID Controller| predstavuje riadiaci systém PID regulátora
 \begin{figure}[!tbh]
 	\centering
 	\includegraphics[width=100mm]{obr/SimSkok.png}
-	\caption{Reakcia systému na skokovú zmenu referenčnej hodnoty.}\label{OBRAZOK 2.6.11}
+	\caption{Reakcia systému na skokovú zmenu referenčnej hodnoty- Simulink.}\label{OBRAZOK 2.6.11}
 \end{figure}
 
 \begin{figure}[!tbh]

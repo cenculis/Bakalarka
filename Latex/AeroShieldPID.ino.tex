@@ -21,7 +21,8 @@
 	
 	int i=i;          
 	int T=1000;           
-	float R[]={45.0,23.0,75.0,32.0,58.0,10.0,35.0,19.0,9.0,43.0,23.0,65.0,15.0,80.0}; 
+	float R[]={45.0,23.0,75.0,32.0,58.0,
+		10.0,35.0,19.0,9.0,43.0,23.0,65.0,15.0,80.0}; 
 	float r=0.0;          
 	float y = 0.0;        
 	float u = 0.0;         
@@ -72,7 +73,8 @@
 			i++; 
 		}
 		#endif
-		y= AutomationShield.mapFloat(AeroShield.getRawAngle(),startAngle,lastAngle,0.00,100.00);
+		y= AutomationShield.mapFloat(AeroShield.getRawAngle(),
+		startAngle,lastAngle,0.00,100.00);
 		u = PIDAbs.compute(r-y,0,100,0,100);
 		AeroShield.actuatorWrite(u);
 		
