@@ -39,7 +39,7 @@ Rozdelenie na public a privat má zmysel hlavne v prípade, ak chceme mať zadef
 
 \subsubsection{Source}
 
-Prepojenie súborov source a header spravíme pomocou príkazu \code{#include "AeroShield.h"}, ktorý vložíme na začiatok súboru. Ďalej v súbore deklarujeme jednotlivé funkcie, ktoré majú na začiatku zápisu, zvolený istý dátový typ. Dátové typy funkcií poznáme rôzne\cite{datovetypy}, najviac však v AeroShielde využívame typy \verb|void|, \verb|float| a \verb|bool|. 
+Súbory \verb|header| a \verb|source| prepojíme príkazom \code{#include "AeroShield.h"}, ktorý vložíme na začiatok súboru. Ďalej v súbore deklarujeme jednotlivé funkcie, ktoré majú na začiatku zápisu, zvolený istý dátový typ. Dátové typy funkcií poznáme rôzne\cite{datovetypy}, najviac však v AeroShielde využívame typy \verb|void|, \verb|float| a \verb|bool|. 
 
 
 \subsubsection{Popis použitých funkcií z knižnice AutomationShield}
@@ -326,15 +326,7 @@ V tomto programe, rovnako ako pri Arduino IDE, vieme príkazy a funkcie zapisova
 
 V našom prípade ide o jeden súbor, na ktorého začiatku definujeme triedu súboru, pomocou príkazu \code{classdef AeroShield < handle ... end}. Za príkazom \verb|classdef| nasleduje názov našej triedy \verb|AeroShield| a porovnávací symbol $<$, za ktorým nasleduje $"$super trieda$"$ \verb|handle|. Super, alebo nad-trieda \verb|handle| je abstraktná trieda, ktorej inštancia sa nedá vytvoriť priamo. Táto trieda sa využíva na odvodenie iných tried, ktoré sú už konkrétnymi triedami, ktorých inštancie sú objektmi handle\cite{HANDLE}. 
 
-Každá trieda môže následne obsahovať jeden alebo viacero triednych blokov: 
-\begin{itemize}
-	\item Properties(atribúty) ...end- Vymedzuje blok kódu, ktorý definuje vlastnosti s rovnakými nastaveniami atribútov.
-	\item Methods(atribúty)    ...end- Má rovnaký názov ako trieda, v ktorej sa nachádza a vracia inicializovaný objekt triedy.
-	\item Events(atribúty)     ...end- Vymedzuje blok kódu, v ktorom nastane istá preddefinovaná udalosť, napr. zmena stavu. 
-	\item Enumeration(atribúty)...end- Vytvorí zoznam hodnôt/premenných. 
-\end{itemize}
-
-V AeroShield knižnici máme definované dva triedne bloky typu properties. V prom bloku sa nachádzajú objekty pre dosku arduino a hall senzor. V druhom bloku definujeme všetky premenné, ktoré budeme ďalej v kóde využívať. Jedná sa hlavne o názvy a čísla pinov, ktoré používame na čítanie alebo zapisovanie hodnôt, ako aj o premenné, na výpočet prúdu odoberaného motorom. 
+Každá trieda môže následne obsahovať jeden alebo viacero triednych blokov. V knižnici AeroShield máme definované dva triedne bloky typu \verb|properties|. V prom bloku sa nachádzajú objekty pre dosku arduino a hall senzor. V druhom bloku definujeme všetky premenné, ktoré budeme ďalej v kóde využívať. Jedná sa hlavne o názvy a čísla pinov, ktoré používame na čítanie alebo zapisovanie hodnôt, ako aj o premenné, na výpočet prúdu odoberaného motorom. 
 
 \begin{lstlisting}[caption={Knižnica AeroShield.m properties.},captionpos=b]
 classdef AeroShield < handle
@@ -357,7 +349,7 @@ properties(Constant)
 end		
 \end{lstlisting}
 		
-Nasleduje triedy blok \verb|methods|, v ktorom sú všetky funkcie, ktoré budeme volať do hlavnej časti kódu. Keďže logika funkcií je rovnaká ako pri súbore \verb|Source|, nebudeme si funkcie vysvetľovať po jednom. Na ukážku si opíšeme časť kódu \code{function begin(AeroShieldObject)}, v ktorej prebieha tvorba objektov pre arduino a hall senzor. Príkaz \verb|arduino()| slúži na vyhľadanie dosky arduino, pripojenej do počítača a nastavenie parametrov potrebných na komunikáciu s doskou. Rovnako sa odvolávame aj na objekt \verb|as5600|, ktorý vytvoríme pomocou príkazu \verb|device()|, v ktorom zadávame objekt dosky arduino, a adresu zariadenia I$^2$C. Poslednou funkciou je vypísanie správy a konfiguráciu pinu \verb|AERO_UPIN| ako výstup. 
+Nasleduje triedy blok \verb|methods|, v ktorom sú definované všetky funkcie. Keďže logika funkcií je rovnaká ako pri súbore \verb|Source|, nebudeme si funkcie vysvetľovať po jednom. Na ukážku si opíšeme časť kódu \code{function begin(AeroShieldObject)}, v ktorej prebieha tvorba objektov pre arduino a hall senzor. Príkaz \verb|arduino()| slúži na vyhľadanie dosky arduino, pripojenej do počítača a nastavenie parametrov potrebných na komunikáciu s doskou. Rovnako sa odvolávame aj na objekt \verb|as5600|, ktorý vytvoríme pomocou príkazu \verb|device()|, v ktorom zadávame objekt dosky arduino, a adresu zariadenia I$^2$C. Poslednou funkciou je vypísanie správy a konfiguráciu pinu \verb|AERO_UPIN| ako výstup. 
 
 \begin{lstlisting}[caption={Knižnica AeroShield.m properties.},captionpos=b]
 function begin(AeroShieldObject)          % funkcia inicializacie

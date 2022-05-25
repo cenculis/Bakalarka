@@ -40,9 +40,9 @@ V tejto časti sa bližšie pozrieme na menšie celky zapojenia AeroShieldu:
 \begin{multicols}{2}
 	\begin{itemize}
 		\item napájanie,
+		\item meranie prúdu,
 		\item ovládanie akčného člena,
-		\item meranie uhla natočenia kyvadla,
-		\item meranie prúdu.
+		\item meranie uhlu kyvadla.
 	\end{itemize}
 \end{multicols}
 
@@ -65,15 +65,15 @@ Hlavnou časťou konvertora je čip TPS56339 od výrobcu Texas Instruments obr.\
 
 Na čip je privádzané napätie 12 V ktoré sa pomocou zapojenia viditeľného na schéme obr.\ref{OBRAZOK 2.1}.a, znižuje na napätie 3,7 V. Domnievali sme sa, že napájanie motora musí byť realizované externe, pomocou koaxiálneho napájacieho konektora z dôvodu vysokého prúdu odoberaného motorom počas silného zaťaženia. Rovnaký konektor sa síce nachádza aj na doske Arduino UNO a pomocou VIN pinu sa z neho dajú napájať napätím 6-12 V aj iné zariadenia, avšak tento pin je napojený na diódu, obmedzujúcu prúd na 1 A\cite{ampere}\cite{ampere2}. 
 
-Pri testovaní prototypov druhej verzie AeroShieldu, sa merané hodnoty prúdu pohybovali nad hodnotu 1 A, čo by zničilo spomínanú internú diódu na doske Arduino UNO. 
-Po zostavení finálnej verzie shieldu a opätovnom meraní odoberaného prúdu, bola maximálna dosahovaná hodnota menšia ako 0,5 A. Z tohoto dôvodu sme sa rozhodli pre zmenu v schéme kyvadla, z ktorej sme odobrali externý napájací konektor a následne bola vyrobená nová doska plošných spojov. Tretej verzii AeroShieldu sa bližšie venujeme v časti \ref{tretia}.
+Pri testovaní prototypov AeroShieldu, sa merané hodnoty prúdu pohybovali nad hodnotu 1 A, čo by zničilo spomínanú internú diódu na doske Arduino UNO. 
+Po zostavení druhej verzie AeroShieldu a opätovnom meraní odoberaného prúdu, bola maximálna dosahovaná hodnota menšia ako 0,5 A. Z tohoto dôvodu sme sa rozhodli pre zmenu v schéme kyvadla, z ktorej sme odobrali externý napájací konektor a následne bola vyrobená nová doska plošných spojov. Tretej verzii AeroShieldu sa bližšie venujeme v časti \ref{tretia}.
 
 \subsubsection{Akčný člen}
 \label{akcclen}
 
 Ako akčný člen AeroShieldu je použitý 7 mm, 3,7 V motorček na jednosmerný prúd bez jadra, používaný hlavne pre pohon dronov. “Coreless motor“, alebo motor bez jadra, je motor s cievkou navinutou samou na sebe\cite{coreless}. Stator je vyrobený z magnetov na báze vzácnych zemín, ako je neodým alebo SmCo(samárium-kobalt).
 
-Takýto motor ponúka mnoho výhod oproti motoru so železným jadrom. Výrazne sa znižuje hmotnosť a tým aj zotrvačnosť rotora, čo je dôležité pre naše použitie, kedy potrebujeme dosahovať vysokú akceleráciu motora. Ďalšou výhodou je fakt, že nedochádza k stratám na železe a tým pádom sa účinnosť takýchto motorov blíži až ku 90\%\cite{5545147}. Motor, resp. otáčky motora sú riadené pomocou PWM signálu a ten do motoru prechádza cez N-kanálový mosfet PMV45EN2 od výrobcu Nexperia\cite{pmv}.
+Takýto motor ponúka niekoľko výhod. Výrazne sa znižuje hmotnosť a tým aj zotrvačnosť rotora, čo je dôležité pre naše použitie, kedy potrebujeme dosahovať vysokú akceleráciu motora. Ďalšou výhodou je fakt, že nedochádza k stratám na železe a tým pádom sa účinnosť takýchto motorov blíži až ku 90\%\cite{5545147}. Motor, resp. otáčky motora sú riadené pomocou PWM signálu a ten do motoru prechádza cez N-kanálový mosfet PMV45EN2 od výrobcu Nexperia\cite{pmv}.
 
 
 \begin{figure}[!tbh]
@@ -115,7 +115,7 @@ kde $V_{OUT}$ je napätie namerané na výstupe, 1 k$\Omega$ je konštanta vnút
 \subsubsection{Meranie uhla kyvadla}
 \label{meruhl}
 
-Na fungovanie AeroShieldu je dôležité vedieť s vysokou presnosťou merať uhol naklonenia kyvadla. Na tento účel sme si zvolili meranie uhlu bezkontaktnou formou, pomocou snímača Hallovho javu. Hallov jav vieme opísať ako vznik priečneho elektrického poľa v pevnom materiáli, keď ním preteká elektrický prúd a tento materiál je umiestnený v magnetickom poli, ktoré je kolmé na prúd\cite{Hall}. Toto elektrické pole, resp. vznik elektrického potenciálu, vieme detegovať ako Hallovo napätie a na základe jeho zmeny, vieme určiť rotáciu kyvadla. Fyzikálna podstata tohoto javu je na obr.\ref{OBRAZOK 1.323}, kde V$_H$ je Hallovo napätie, B je magnetické pole, F$_m$ magnetická sila pôsobiaca na negatívne prenášače náboja, F$_e$ elektrická sila z nahromadeného náboja, I je dohodnutý smer elektrického prúdu. 
+Na fungovanie AeroShieldu je dôležité vedieť s vysokou presnosťou merať uhol naklonenia kyvadla. Na tento účel sme si zvolili meranie uhlu bezkontaktnou formou, pomocou snímača Hallovho javu. Hallov jav vieme opísať ako vznik priečneho elektrického poľa v pevnom materiáli, keď ním preteká elektrický prúd a tento materiál je umiestnený v magnetickom poli, ktoré je kolmé na prúd\cite{Hall}. Toto elektrické pole, resp. vznik elektrického potenciálu, vieme detegovať ako Hallovo napätie a na základe jeho zmeny, vieme určiť rotáciu kyvadla. Fyzikálna podstata tohoto javu je na obr.\ref{OBRAZOK 1.323}, kde V$_H$(V) je Hallovo napätie, B(T) je magnetické pole, F$_m$(N) magnetická sila pôsobiaca na negatívne prenášače náboja, F$_e$(C) elektrická sila z nahromadeného náboja, I(A) je dohodnutý smer elektrického prúdu. 
 
 \begin{figure}[!tbh]
 	\centering
@@ -127,7 +127,7 @@ V kyvadle je na konci horizontálneho ramena umiestnený špeciálny magnet kruh
 automatického riadenia zosilnenia(AGC) kompenzuje zmeny teploty priestoru a taktiež zmeny sily magnetického poľa.
 
 Na výber sú dva typy výstupu a to analógový, alebo digitálny výstup s kódovaním PWM. Senzor má taktiež možnosti interného programovania pomocou rozhrania I2C.
-V našom prípade používame 12-bitový analógový výstup s rozlíšením 0°5'16". Toto rozlíšenie nám umožňuje s vysokou presnosťou kontrolovať naklonenie kyvadla a na základe získaných informácii ovplyvňovať fungovanie akčného člena sústavy. Schéma zapojenia enkóderu na meranie uhlu môžeme vidieť na obr.\ref{OBRAZOK 2.2}.a.
+V našom prípade používame 12-bitový analógový výstup s rozlíšením 0°5'16". Toto rozlíšenie nám umožňuje s vysokou presnosťou kontrolovať naklonenie kyvadla a na základe získaných informácii ovplyvňovať fungovanie akčného člena sústavy. Schéma zapojenia enkóderu na meranie uhla môžeme vidieť na obr.\ref{OBRAZOK 2.2}.a.
 
 
 
@@ -228,9 +228,9 @@ Telo kyvadla ako aj všetky konektory spájajúce jeho jednotlivé časti, boli 
 
 \begin{figure}
 	\hfill
-	\subfigure[Model tvorený v programe CATIA.]{\includegraphics[width=75mm]{obr/spojeneKyvadlo.png}}
+	\subfigure[Model tvorený v programe CATIA.]{\includegraphics[width=65mm]{obr/spojeneKyvadlo.png}}
 	\hfill
-	\subfigure[Zostavený model AeroShieldu.]{\includegraphics[width=65mm]{obr/BezPozadnia.png}}
+	\subfigure[Zostavený model AeroShieldu.]{\includegraphics[width=58mm]{obr/BezPozadnia.png}}
 	\hfill
 	\caption{AeroShield.}\label{OBRAZOK 1.1}
 \end{figure}
@@ -238,7 +238,7 @@ Telo kyvadla ako aj všetky konektory spájajúce jeho jednotlivé časti, boli 
 
 \subsubsection{Cenová kalkulácia AeroShieldu}
 
-Hlavnou podmienku pri tvorbe AeroShieldu bola jeho funkcionalita, dostupnosť použitých komponentov, jednoduchosť vyhotovenia, ako aj nízka cena zostaveného modelu. Za účelom predstavy cenovej relácie jedného kusu AeroShieldu, bola zostavená tabuľka\ref{Cenova kalkulacia} s použitými komponentami, ich počtom a reálnou kúpnou cenou v eurách(spolu s DPH). Pri komponentoch ako sú rezistory a kapacitory, bola cena určená ako priemerná hodnota týchto komponentov pri kúpe viac ako 100kusov, keďže pri kúpe zopár kusov(1-20) je ich cena rádovo vyššia, ako cena pri nákupoch viacero kusov. 
+Hlavnou podmienku pri tvorbe AeroShieldu bola jeho funkcionalita, dostupnosť použitých komponentov, jednoduchosť vyhotovenia, ako aj nízka cena zostaveného modelu. Za účelom predstavy cenovej jedného kusu AeroShieldu, bola zostavená tabuľka\ref{Cenova kalkulacia} s použitými komponentami, ich počtom a reálnou kúpnou cenou v eurách(spolu s DPH). Pri komponentoch ako sú rezistory a kapacitory, bola cena určená ako priemerná hodnota týchto komponentov pri kúpe viac ako 100kusov, keďže pri kúpe zopár kusov(1-20) je ich cena rádovo vyššia, ako cena pri nákupoch viacero kusov. 
 
 \begin{table}
 	\begin{tabular}{p{0.25\textwidth} p{0.43\textwidth} p{0.05\textwidth} p{0.07\textwidth} p{0.07\textwidth}}

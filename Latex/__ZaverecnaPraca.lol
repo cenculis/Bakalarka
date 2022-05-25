@@ -11,7 +11,7 @@
 \contentsline {lstlisting}{\numberline {1.11}Zdrojový kód funkcie referenceRead.}{24}{}%
 \contentsline {lstlisting}{\numberline {1.12}Zdrojový kód funkcie actuatorWrite.}{24}{}%
 \contentsline {lstlisting}{\numberline {1.13}Zdrojový kód funkcie currentMeasure.}{24}{}%
-\contentsline {lstlisting}{\numberline {1.14}Knižnica AeroShield.m properties.}{26}{}%
+\contentsline {lstlisting}{\numberline {1.14}Knižnica AeroShield.m properties.}{25}{}%
 \contentsline {lstlisting}{\numberline {1.15}Knižnica AeroShield.m properties.}{26}{}%
 \contentsline {lstlisting}{\numberline {1.16}MATLAB function blok autiomatická trajektoria.}{28}{}%
 \contentsline {lstlisting}{\numberline {1.17}Mapovacia funkcia vo fcn bloku.}{30}{}%

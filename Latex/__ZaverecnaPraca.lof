@@ -57,7 +57,7 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Schéma riadenia PID regulátorom.}}{41}{}%
 \contentsline {figure}{\numberline {3.2}{\ignorespaces Reakcia systému na skokovú zmenu referenčnej hodnoty- Arduino IDE.}}{47}{}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Automatická trajektória.}}{48}{}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Automatická trajektória.}}{47}{}%
 \contentsline {figure}{\numberline {3.4}{\ignorespaces Manuálna trajektória.}}{48}{}%
 \contentsline {figure}{\numberline {3.5}{\ignorespaces Reakcia systému na skokovú zmenu referenčnej hodnoty- MATLAB.}}{49}{}%
 \contentsline {figure}{\numberline {3.6}{\ignorespaces Automatická trajektória.}}{50}{}%

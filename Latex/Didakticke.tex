@@ -140,11 +140,11 @@ PID regulátor obr.\ref{OBRAZOK 3.3}, ovplyvňuje akčné zásahy do sústavy \v
 
 \begin{figure}[!tbh]
 	\centering
-	\includegraphics[width=120mm]{obr/pid.jpg}
+	\includegraphics[width=120mm]{obr/pid.png}
 	\caption{Schéma riadenia PID regulátorom.}\label{OBRAZOK 3.3}
 \end{figure}
 
-Skratka PID odzrkadľuje zložky, z ktorých sa regulátor skladá: 
+Skratka PID je zložená zo začiatočných písmen zložiek, z ktorých sa regulátor skladá. 
 
 \begin{itemize}
 	\item \textbf{P}- označuje tzv. proporcionálnu zložku. Akčný zásah \verb|u(t)|, je priamo úmerný veľkosti regulačnej odchýlky \verb|e(t)|. K$_p$ predstavuje proporcionálnu konštantu, ktorou násobíme regulačnú odchýlku na získanie požadovaného vstupu rov.\ref{rovnicajedna}. 
@@ -154,17 +154,14 @@ Skratka PID odzrkadľuje zložky, z ktorých sa regulátor skladá:
 	\end{align}
 	Konštanta K$_p$ je veľmi dôležitou pri nastavovaní parametrov PID regulátora. Zvyšovaním hodnoty proporcionálnej zložky znižuje regulačnú odchýlku, avšak nikdy nedosiahneme úplne odstránenie trvalej regulačnej odchýlky. Zmenou proporcionálnej zložky vieme taktiež urýchliť, alebo spomaliť nábeh na požadovanú hodnotu. Pre malé hodnoty K$_p$ je nábeh pomalý, a regulačná odchýlka veľká. Pri zvyšovaní hodnoty K$_p$ sa zrýchľuje nábeh, no zároveň narastá nežiadúce kmitanie sústavy. Zvyšovanie hodnoty K$_p$ má svoj limit, za ktorým sa sústava dostáva za hranicu stability a ďalšia regulácia nie je možná. 
 	
-	\item \textbf{I}- predstavuje integračnú zložku. Integrálny riadiaci člen je priamo úmerný veľkosti ako aj trvaniu chyby. Pokiaľ má regulovaná veličina menšiu hodnotu ako je požadovaná, integrálna časť PID sa zväčšuje. Naopak pokiaľ je hodnota regulovanej veličiny väčšia ako požadovaná, integrálna časť PID klesá. Za predpokladu že systém je v ustálenom stave s konštantným výstupom u$_o$ ako aj konštantnou regulačnou odchýlkou e$_o$. Z rovnice \ref{rovnicatriapol} potom vyplýva, že trvalá regulačná odchýlka bude pri použití integračnej zložky nulová\cite{PIDcko}. 
-	
-	Čím nižšia bude hodnota T$_i$, tým rýchlejšie sa bude výstup približovať žiadanej hodnote, no zároveň však bude narastať kmitanie sústavy.   
-	
+	\item \textbf{I}- predstavuje integračnú zložku. Integrálny riadiaci člen je priamo úmerný veľkosti chyby, ako aj dobe jej trvania. Pokiaľ má regulovaná veličina menšiu hodnotu ako je požadovaná, integrálna časť PID sa zväčšuje. Naopak pokiaľ je hodnota regulovanej veličiny väčšia ako požadovaná, integrálna časť PID klesá. Pri použití integračnej zložky PID regulátora, bude trvalá regulačná odchýlka nulová\cite{PIDcko}. Čím nižšia bude hodnota T$_i$ rov.\ref{rovnicatriapol}, tým rýchlejšie sa bude výstup približovať žiadanej hodnote, no zároveň však bude narastať kmitanie sústavy.   
 	\begin{align}
 		\label{rovnicadva}
 		u(t)=K_i  \int_{0}^{t} e(\tau)d\tau  
 	\end{align}
 	\begin{align}
 	\label{rovnicatriapol}
-	u_o = K_p \left(e_o + \dfrac{e_o}{T_i}t\right)
+        T_i = \dfrac{K_p}{K_i}
     \end{align}
 	
 	\item \textbf{D}- reprezentuje derivačnú zložku, ktorá predpovedá správanie sa systému, pomocou derivácie regulačnej odchýlky v čase. Rýchlosť zmeny je následne prenásobená derivačnou konštantou K$_d$. Vstup je počítaný podľa rov.\ref{rovnicatri}. Zvyšovanie derivačnej zložky PID regulátora tlmí kmitanie sústavy. Ak však zvolíme derivačnú konštantu priveľkú, kmitanie začne znova narastať\cite{PIDcko}. V praxi sa derivačná zložka veľmi nepoužíva a využívaný je P alebo PI regulátor\cite{1453566}. 
