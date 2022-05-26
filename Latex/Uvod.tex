@@ -6,46 +6,46 @@ Cieľom tejto práce je návrh, výroba a naprogramovanie modernej učebnej pom�
  
 Experimentálny modul vzdušného kyvadla je pomerne jednoduché zariadenie, pozostávajúce z niekoľkých častí. Akčným členom kyvadla je motorček, ktorý má na rotor pripojené lopatky, ktoré vďaka otáčaniu produkujú ťah. Motorček je zvyčajne upevnený na koniec ľahkej tyčky, ktorá je v mieste otáčania pripevnená k zariadeniu na meranie uhlu pootočenia. Takýmto zariadením môže byť potenciometer, senzor hallovho javu(efektu), alebo iné \cite{senzor}. Zariadenie na meranie uhlu je upevnené na podstavec, ktorý kyvadlo stabilizuje a umožňuje jeho voľný pohyb. 
  
-Tvorba AeroShieldu bola inšpirovaná experimentom známym pod názvom Aeropendulum, čo v doslovnom preklade znamená vzdušné kyvadlo. Na túto tému existuje niekoľko publikácií, ktoré sa zaoberajú zostavením, ovládaním, alebo simuláciami takéhoto kyvadla. Medzi najviac citované články patria práce autorov Mila Mary Job a P. Subha Hency Jose\cite{7192959} a dvojice Eniko T. Enikov a Giampiero Campa\cite{enikov_campa_2012}. Práca Mila Mary Job a P. Subha Hency Jose bola zameraná hlavne na simuláciu kyvadla a matematiku, ktorá je na takúto simuláciu potrebná. Kyvadlo od autorov Eniko T. Enikov a Giampiero Campa vznikalo na univerzite Arizona. Ovládané bolo pomocou špeciálne navrhnutej dosky plošných spojov, ktorá sa programovala v softvéri Simulink. 
+Tvorba AeroShieldu bola inšpirovaná experimentom známym pod názvom Aeropendulum, čo v doslovnom preklade znamená vzdušné kyvadlo. Na túto tému existuje niekoľko publikácií, ktoré sa zaoberajú zostavením, ovládaním, alebo simuláciami takéhoto kyvadla. Medzi najviac citované články patria práce autorov Mila Mary Job a P. Subha Hency Jose \cite{7192959} a dvojice Eniko T. Enikov a Giampiero Campa \cite{enikov_campa_2012}. Práca Mila Mary Job a P. Subha Hency Jose bola zameraná hlavne na simuláciu kyvadla a matematiku, ktorá je na takúto simuláciu potrebná. Kyvadlo od autorov Eniko T. Enikov a Giampiero Campa vznikalo na univerzite Arizona. Ovládané bolo pomocou špeciálne navrhnutej dosky plošných spojov, ktorá sa programovala v softvéri Simulink. 
 
-Na Arizonský projekt nadviazali aj dve záverečné práce vypracované na Strojníckej fakulte Slovenskej technickej univerzity v Bratislave. Boli to diplomové práce študentov Andreja Poláka\cite{Polakk} a Jakuba Onderu\cite{onderkaaa}. Tieto práce sa zaoberali vylepšením Arizonského kyvadla, lepším pohonom, presnejším ovládaním, rôznymi meraniami polohy a zrýchlenia a zmenou ovládacieho modulu za mikrokontrolér Arduino.
+Na Arizonský projekt nadviazali aj dve záverečné práce vypracované na Strojníckej fakulte Slovenskej technickej univerzity v Bratislave. Boli to diplomové práce študentov Andreja Poláka \cite{Polakk} a Jakuba Onderu \cite{onderkaaa}. Tieto práce sa zaoberali vylepšením Arizonského kyvadla, lepším pohonom, presnejším ovládaním, rôznymi meraniami polohy a zrýchlenia ako aj zmenou ovládacieho modulu za mikrokontrolér Arduino.
 
-Medzi komerčne dostupné riešenia patrí napríklad kyvadlo značky Real Sim obr.\ref{OBRAZOK 1.2}.a, ktorá ponúka hotový, zostavený modul. Ďalším takýmto modulom je kyvadlo od univerzity Arizona\cite{enikov_campa_2012} obr.\ref{OBRAZOK 1.2}.b, ktoré je predávané ako nezostavený model. 
+Medzi komerčne dostupné riešenia tohoto experimentu patrí napríklad kyvadlo značky Real Sim Obr. \ref{OBRAZOK 1.2}.a, ktorá ponúka hotový, zostavený modul. Ďalším takýmto modulom je kyvadlo od univerzity Arizona\cite{enikov_campa_2012} Obr. \ref{OBRAZOK 1.2}.b, ktoré je predávané ako nezostavený model. 
 
 \begin{figure}[!tbh]
 	\hfill
-	\subfigure[{Aeropendulum značky Real Sim\cite{AeroPendulumTeheran}.}]{\includegraphics[width=8cm]{obr/pendulum.jpg}}
+	\subfigure[{Aeropendulum značky Real Sim \cite{AeroPendulumTeheran}.}]{\includegraphics[width=8cm]{obr/pendulum.jpg}}
 	\hfill
-	\subfigure[{Aeropendulum univerzity Arizona\cite{enikov_campa_2012}.}]{\includegraphics[width=6.5cm]{obr/arizona.png}}
+	\subfigure[{Aeropendulum univerzity Arizona \cite{enikov_campa_2012}.}]{\includegraphics[width=6.5cm]{obr/arizona.png}}
 	\hfill
 	\caption{Experimentálne moduly vzdušného kyvadla.}\label{OBRAZOK 1.2}
 \end{figure}
 
 \newpage
-Open-source\footnote[1]{Open-source je zo všeobecného pohľadu akákoľvek informácia, ktorá je dostupná verejnosti bez poplatku(s voľným prístupom), s ohľadom na fakt, že jej voľné šírenie zostane zachované.} projekt AutomationShield je zameraný na vývoj hardvérových a softvérových nástrojov, určených na vzdelávanie a doplnenie vzdelávacieho procesu. Jadrom celého projektu je tvorba rozširujúcich dosiek (shieldov) vyvíjaných pre populárny typ prototypizačných dosiek s mikrokontrolérmi Arduino. Tieto pomerne lacné učebné pomôcky majú za cieľ skvalitniť výučbu strojného inžinierstva, mechatroniky a základov automatického riadenia\cite{Auto}.
+Open-source\footnote[1]{Open-source je zo všeobecného pohľadu akákoľvek informácia, ktorá je dostupná verejnosti bez poplatku(s voľným prístupom), s ohľadom na fakt, že jej voľné šírenie zostane zachované.} projekt AutomationShield je zameraný na vývoj hardvérových a softvérových nástrojov, určených na vzdelávanie a doplnenie vzdelávacieho procesu. Jadrom celého projektu je tvorba rozširujúcich dosiek (shieldov) vyvíjaných pre populárny typ prototypizačných dosiek s mikrokontrolérmi Arduino. Tieto pomerne lacné učebné pomôcky majú za cieľ skvalitniť výučbu strojného inžinierstva, mechatroniky a základov automatického riadenia \cite{Auto}.
 
-Všetky informácie ohľadom projektu AutomationShield, sú dostupné na open-source platforme GitHub\cite{Git}, ktorá slúži ako knižnica kódov, návodov a postupov, ktoré sú voľne dostupné na čítanie a úpravu. Na samostatnej stránke AutomationShieldu nájdeme zoznam jednotlivých shieldov a to, v akom procese výroby a fungovania sa nachádzajú. Ku každému shieldu nájdeme jeho podrobnú dokumentáciu, knižnice, zdrojové kódy, ako aj predprogramované ukážky jeho fungovania. 
+Všetky informácie ohľadom projektu AutomationShield, sú dostupné na open-source platforme GitHub \cite{Git}, ktorá slúži ako knižnica kódov, návodov a postupov, ktoré sú voľne dostupné na čítanie a úpravu. Na samostatnej stránke AutomationShieldu nájdeme zoznam jednotlivých shieldov a to, v akom procese výroby a fungovania sa nachádzajú. Ku každému shieldu nájdeme jeho podrobnú dokumentáciu, knižnice, zdrojové kódy, ako aj predprogramované ukážky jeho fungovania. 
 
-Hlavnou motiváciou tohoto projektu je nízka dostupnosť a vysoká cena podobných učebných pomôcok. Z môjho pohľadu je výučba častokrát až príliš zameraná na memorovanie faktov a teórie, namiesto praktických experimentov a skúseností typu pokus-omyl. Študenti pochopia vyučovanú teóriu jednoduchšie, pokiaľ majú možnosť experimenty sami tvoriť, skúmať a testovať\cite{Dhanapal2013ASO}. 
+Hlavnou motiváciou tohoto projektu je nízka dostupnosť a vysoká cena podobných učebných pomôcok. Z môjho pohľadu je výučba častokrát až príliš zameraná na memorovanie faktov a teórie, namiesto praktických experimentov a skúseností typu pokus-omyl. Študenti pochopia vyučovanú teóriu jednoduchšie, pokiaľ majú možnosť experimenty sami tvoriť, skúmať a testovať \cite{Dhanapal2013ASO}. 
 
-V roku 2005 prišla na trh prototypizačná doska Arduino. Projekt vznikal v Taliansku ako kolaborácia medzi viacerými nadšencami elektrotechniky a programovania, na ktorej čele bol Massimo Banzi. Veľkou výhodou dosiek Arduino a ich nadstavbových shieldov je fakt, že sú pomerne lacné a majú malé rozmery (Arduino UNO: 68.6$\times$53.4mm\cite{UNO}). Tieto skutočnosti umožňujú študentom pracovať na experimentoch nielen na pôde školy, ale experimenty si môžu zobrať aj domov. 
+V roku 2005 prišla na trh prototypizačná doska Arduino. Projekt vznikal v Taliansku ako kolaborácia medzi viacerými nadšencami elektrotechniky a programovania, na ktorej čele bol Massimo Banzi. Veľkou výhodou dosiek Arduino a ich nadstavbových shieldov je fakt, že sú pomerne lacné a majú malé rozmery (Arduino UNO: 68.6$\times$53.4 mm \cite{UNO}). Tieto skutočnosti umožňujú študentom pracovať na experimentoch nielen na pôde školy, ale experimenty si môžu zobrať aj domov. 
 
 \begin{figure}[!tbh]
 	\centering
 	\includegraphics[width=80mm]{obr/arduino.jpg}
-	\caption{{Arduino UNO R3\cite{UNOFOTO}.}}\label{OBRAZOK 1.3}
+	\caption{{Arduino UNO R3 \cite{UNOFOTO}.}}\label{OBRAZOK 1.3}
 \end{figure}
 
-Na fungovanie a programovanie dosky postačuje len USB kábel, programovací softvér a samotná doska. Vzhľadom na nízky počet potrebných komponentov a fakt, že mikročip Arduina je v prípade poruchy jednoducho vymeniteľný\footnote[2]{Platí pri mikročipoch typu DIP(Dual in-line package), ktoré stačí jednoducho vytiahnuť z konektora bez použitia spájkovania.}, je jeho používanie na školách príjemné a jednoduché. Mikrokontroléri Arduino využívame z dôvodu nízkej ceny, širokej dostupnosti rôznych modelov, postačujúcej výpočtovej sile a príjemnému používateľskému rozhraniu. Pre naše účely využívame najmä dve verzie Arduina. Prvou z nich je doska Arduino UNO R3  obr.\ref{OBRAZOK 1.3}. Na doske sa nachádza 14 digitálnych a 6 analógových pinov.
+Na fungovanie a programovanie dosky postačuje len USB kábel, programovací softvér a samotná doska. Vzhľadom na nízky počet potrebných komponentov a fakt, že mikročip Arduina je v prípade poruchy jednoducho vymeniteľný\footnote[2]{Platí pri mikročipoch typu DIP(Dual in-line package), ktoré stačí jednoducho vytiahnuť z konektora bez použitia spájkovania.}, je jeho používanie na školách príjemné a jednoduché. Mikrokontroléri Arduino využívame z dôvodu nízkej ceny, širokej dostupnosti rôznych modelov, postačujúcej výpočtovej sile a príjemnému používateľskému rozhraniu. Pre naše účely využívame najmä dve verzie Arduina. Prvou z nich je doska Arduino UNO R3  Obr. \ref{OBRAZOK 1.3}. Na doske sa nachádza 14 digitálnych a 6 analógových pinov.
 
-Na prácu v MATLABE a Simulinku využívame najmä Arduino Mega 2560 R3 obr.\ref{OBRAZOK 1.32}. Na tejto doske sa nachádza 54 digitálnych a 16 analógových pinov. AeroShield je kompatibilný so všetkými doskami s označením R3 alebo s doskami, ktoré majú rozloženie pinov rovnaké ako Arduino UNO R3. 
+Na prácu v MATLABE a Simulinku využívame najmä Arduino Mega 2560 R3 Obr. \ref{OBRAZOK 1.32}. Na tejto doske sa nachádza 54 digitálnych a 16 analógových pinov. AeroShield je kompatibilný so všetkými doskami s označením R3 alebo s doskami, ktoré majú rozloženie pinov rovnaké ako Arduino UNO R3. 
 
 Niektoré piny sú označené špeciálnym symbolom ,,$\sim$''. Tieto piny sú schopné generovať PWM\footnote[3]{Šírková modulácia impulzov alebo PWM je technika na dosiahnutie analógových výsledkov pomocou digitálnych prostriedkov a to za pomoci striedania dĺžok medzi High a Low stavom, resp. zapnutý a vypnutý stav.} signál, ktorý využívame na ovládanie motora kyvadla.
 
 \begin{figure}[!tbh]
 	\centering
 	\includegraphics[width=100mm]{obr/mega.png}
-	\caption{{Arduino Mega 2560 R3\cite{megafoto}.}}\label{OBRAZOK 1.32}
+	\caption{{Arduino Mega 2560 R3 \cite{megafoto}.}}\label{OBRAZOK 1.32}
 \end{figure}
 
 \newpage

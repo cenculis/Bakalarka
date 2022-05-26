@@ -9,7 +9,7 @@ Ich rozdiel spočíva v tom, že pri riadení bez spätnej väzby, hovoríme o o
 \subsection{Arduino IDE}
 \label{bezspatnej}
 
-Ako prvý príklad si ukážeme program s názvom \verb|AeroShield_OpenLoop.ino| napísaný v prostredí Arduino IDE. Hlavnou ideou tohoto programu je jednoduché ovládanie otáčok motorčeka, pomocou potenciometra. Na začiatku programu inicializujeme hlavnú knižnicu AeroShieldu pomocou príkazu \verb|#include "AeroShield.h"|. Následne deklarujeme premenné, ktorých hodnoty budú vypisované na sériový monitor. 
+Ako prvý príklad si ukážeme program s názvom \verb|AeroShield_OpenLoop.ino| napísaný v prostredí Arduino IDE. Hlavnou ideou tohoto programu je jednoduché ovládanie otáčok motorčeka pomocou potenciometra. Na začiatku programu inicializujeme hlavnú knižnicu AeroShieldu pomocou príkazu \verb|#include "AeroShield.h"|. Následne deklarujeme premenné, ktorých hodnoty budú vypisované na sériový monitor. 
 
 \begin{lstlisting}[caption={AeroShield open loop dekleracia.},captionpos=b]
 	float startangle=0;           //  Premenna pre nulovy uhol
@@ -19,7 +19,7 @@ Ako prvý príklad si ukážeme program s názvom \verb|AeroShield_OpenLoop.ino|
 	float CurrentMean;	      //  Hodnota prudu odoberaneho motorom 
 \end{lstlisting}
 
-V časti \verb|setup()| ako prvé prebehne nastavenie rýchlosti sériovej komunikácie \verb|Serial.begin(115200)|. Číslo 115 200 predstavuje počet zmien, stavu z 0 na 1 resp. zo stavu high na stav low, za sekundu. Toto tempo signálnej rýchlosti nazývame \verb|baud rate|. Nasleduje funkcia \verb|AeroShield.begin()|, ktorá sleduje prítomnosť magnetu, a prednastaví potrebné premenné a funkcie pinov. Poslednou funkciou je kalibrácia kyvadla \verb|AeroShield.calibration()|, spolu s výpočtom začiatočného a koncového uhla kyvadla. 
+V časti \verb|setup()| ako prvé prebehne nastavenie rýchlosti sériovej komunikácie \newline\verb|Serial.begin(115200)|. Číslo 115 200 predstavuje počet zmien, stavu z 0 na 1 resp. zo stavu high na stav low, za sekundu. Toto tempo signálnej rýchlosti nazývame \verb|baud rate|. Nasleduje funkcia \verb|AeroShield.begin()|, ktorá sleduje prítomnosť magnetu, a prednastaví potrebné premenné a funkcie pinov. Poslednou funkciou je kalibrácia kyvadla \verb|AeroShield.calibration()|, spolu s výpočtom začiatočného a koncového uhla kyvadla. 
 
 \begin{lstlisting}[caption={AeroShield open loop setup().},captionpos=b]
 	void setup() {                // Setup prebehne len jeden krat 
@@ -30,7 +30,7 @@ V časti \verb|setup()| ako prvé prebehne nastavenie rýchlosti sériovej komun
 	}
 \end{lstlisting}
 
-V cykle \verb|loop()| prebehne ako prvé mapovanie uhlu kyvadla pomocou funkcie \newline\verb|AutomationShield.mapFloat()|. Nasleduje čítanie hodnoty potenciometra, ktorá slúži na ovládanie akčného člena pomocou funkcie \verb|AeroShield.actuatorWrite()|. Na sériový súradnicový zapisovač sa modrou farbou vykreslí uhol kyvadla, červenou farbou hodnota potenciometra a zelenou veľkosť prúdu odoberaného motorom obr.\ref{OBRAZOK 3.1}. 
+V cykle \verb|loop()| prebehne ako prvé mapovanie uhlu kyvadla pomocou funkcie \newline\verb|AutomationShield.mapFloat()|. Nasleduje čítanie hodnoty potenciometra, ktorá slúži na ovládanie akčného člena pomocou funkcie \verb|AeroShield.actuatorWrite()|. Na sériový súradnicový zapisovač sa modrou farbou vykreslí uhol kyvadla, červenou farbou hodnota potenciometra a zelenou veľkosť prúdu odoberaného motorom Obr. \ref{OBRAZOK 3.1}. 
 
 \begin{lstlisting}[caption={AeroShield open loop loop().},captionpos=b]
 	void loop() {
@@ -81,7 +81,7 @@ Na začiatku kódu vymažeme všetky premenné a objekty pomocou série príkazo
 	potentiometer = 0;  % hodnota potenciometra
 \end{lstlisting}
 
-Nasleduje while cyklus, ktorý je ukončený zatvorením vykresľovaného grafu. V cykle najskôr čítame hodnotu potenciometra pomocou príkazu \verb|AeroShield.referenceRead()| a túto hodnotu zapisujeme na akčný člen príkazom \verb| AeroShield.actuatorWrite()|. Pokračujeme čítaním uhlu kyvadla \verb|AeroShield.getRawAngle()|, za ktorým prebehne mapovanie premennej z hodnoty raw na stupne. Premenná \verb|count| slúži na počítanie počtu prejdených cyklov, na tvorbu usporiadaného radu premenných, ako aj na vykresľovanie pohyblivej x-ovej osi grafu obr.\ref{OBRAZOK 3.2}. Ľavá stupnica grafu je stacionárna a zobrazuje hodnotu potenciometra, pravá stupnica zobrazuje uhol kyvadla v stupňoch a svoje rozpätie zväčšuje, alebo zmenšuje v závislosti na výchylke kyvadla. Na konci programu ešte nájdeme if podmienku, ktorá kontroluje uhol kyvadla, ktorý ak nadobudne hodnotu väčšiu ako 110°, proces sa automaticky ukončí a vypíše sa upozornenie. Posledný príkaz \verb|clear AeroShield.arduino| vymaže objekt \verb|arduino| a pripraví MATLAB na spustenie ďalšieho programu. 
+Nasleduje while cyklus, ktorý je ukončený zatvorením vykresľovaného grafu. V cykle najskôr čítame hodnotu potenciometra pomocou príkazu \verb|AeroShield.referenceRead()| a túto hodnotu zapisujeme na akčný člen príkazom \verb|AeroShield.actuatorWrite()|. Pokračujeme čítaním uhlu kyvadla \verb|AeroShield.getRawAngle()|, za ktorým prebehne mapovanie premennej z hodnoty raw na stupne. Premenná \verb|count| slúži na počítanie počtu prejdených cyklov, na tvorbu usporiadaného radu premenných, ako aj na vykresľovanie pohyblivej x-ovej osi grafu Obr. \ref{OBRAZOK 3.2}. Ľavá stupnica grafu je stacionárna a zobrazuje hodnotu potenciometra, pravá stupnica zobrazuje uhol kyvadla v stupňoch a svoje rozpätie zväčšuje, alebo zmenšuje v závislosti na výchylke kyvadla. Na konci programu ešte nájdeme if podmienku, ktorá kontroluje uhol kyvadla, ktorý ak nadobudne hodnotu väčšiu ako 110°, proces automaticky ukončí a vypíše upozornenie. Posledný príkaz \verb|clear AeroShield.arduino| vymaže objekt \verb|arduino| a pripraví MATLAB na spustenie ďalšieho programu. 
 
 \begin{lstlisting}[caption={AeroShield open loop, while cyklus.},captionpos=b]
 	while ishandle(plotGraph)           % slucka bezi pokial sa nezatvori graf
@@ -98,7 +98,7 @@ Nasleduje while cyklus, ktorý je ukončený zatvorením vykresľovaného grafu.
 	potentiometer(count) = percenta(1);             % hodnota potenciometra v case
 	set(plotGraph,'XData',time,'YData',angle);      % vykresli prve data
 	set(plotGraph1,'XData',time,'YData',potentiometer); % vykresli druhe data  
-	axis([time(count)-5 time(count) 0 100]);        % ,,beziaca" x-ova osa
+	axis([time(count)-5 time(count) 0 100]);        % beziaca x-ova osa
 	
 	if (angle_ > 110)                            % ak uhol kyvadla vacsi ako 110 stupnov 
 	AeroShield.actuatorWrite(0.0);      % zastav motor  
@@ -119,12 +119,18 @@ Nasleduje while cyklus, ktorý je ukončený zatvorením vykresľovaného grafu.
 \subsection{Simulink}
 
 
-Na ukážku funkcií jednotlivých blokov \verb|AeroLibrary|, bol v API Simulink zostavený inštruktážny príklad \verb|AeroShieldOpenLoop| obr.\ref{OBRAZOK 2.6.111}. V tomto príklade sa pomocou hodnoty potenciometra ovláda akčný člen. Zároveň je meraný uhol, v ktorom sa kyvadlo nachádza a obe tieto hodnoty sú priebežne zobrazované na grafe pomocou bloku \verb|Scope|. 
+Na ukážku funkcií jednotlivých blokov \verb|AeroLibrary|, bol v API Simulink zostavený inštruktážny príklad \verb|AeroShieldOpenLoop| Obr. \ref{OBRAZOK 2.6.111}. V tomto príklade sa pomocou hodnoty potenciometra ovláda akčný člen. Zároveň je meraný uhol, v ktorom sa kyvadlo nachádza a obe tieto hodnoty sú priebežne zobrazované na grafe pomocou bloku \verb|Scope| Obr. \ref{OBRAZOK 3.22}. 
 
 \begin{figure}[!tbh]
 	\centering
-	\includegraphics[width=100mm]{obr/AeroOpenLoop.png}
+	\includegraphics[width=90mm]{obr/AeroOpenLoop.png}
 	\caption{AeroShield\_OpenLoop.}\label{OBRAZOK 2.6.111}
+\end{figure}
+
+\begin{figure}[!tbh]
+	\centering
+	\includegraphics[width=120mm]{obr/SSmulinkOpenloop.png}
+	\caption{Výstup z programu AeroShieldOpenLoop.sim.}\label{OBRAZOK 3.22}
 \end{figure}
 
 
@@ -134,9 +140,9 @@ Na ukážku funkcií jednotlivých blokov \verb|AeroLibrary|, bol v API Simulink
 
 PID reguláciu sme si vybrali z dôvodu jednoduchosti použitia, ako aj z dôvodu že práve PID regulácia je vyučovaná medzi prvými v rámci teórie riadenia. P, PI alebo PID regulátory taktiež patria medzi veľmi populárne typy riadiacich algoritmov.  
 
-Skôr ako si ukážeme príklady s využitím PID regulátora, musíme si vysvetliť ako PID regulátor funguje. Základom je získavanie informácii o sledovanej resp. riadenej veličine, za pomoci senzoru a jej porovnávanie s hodnotou žiadanou. Vďaka tomu, že získavame informácie o výstupe, ktoré aktívne využívame na riadenie akčného člena, môžeme hovoriť o spätnoväzbovom riadení. Spätnoväzbové riadenie, je teda také riadenie, ktoré ovplyvnuje sústavu na základe aktuálne získaných informácii o stave, v ktorom sa sústava nachádza. Pri takomto riadení existuje množstvo algoritmov, ktoré ovládajú správanie sa systému. Medzi tieto algoritmy patrí napríklad: Lineárne riadenie s premenlivým parametrom (LPV), Lineárno-kvadratické riadenie (LQ), Modelové prediktívne riadenie (MPC), Proporcionálno-integračno-derivačné riadenie (PID)...
+Skôr ako si ukážeme príklady s využitím PID regulátora, musíme si vysvetliť ako takýto regulátor funguje. Základom je získavanie informácii o sledovanej resp. riadenej veličine, za pomoci senzoru a jej porovnávanie s hodnotou žiadanou. Vďaka tomu, že získavame informácie o výstupe, ktoré aktívne využívame na riadenie akčného člena, môžeme hovoriť o spätnoväzbovom riadení. Spätnoväzbové riadenie, je teda také riadenie, ktoré ovplyvnuje sústavu na základe aktuálne získaných informácii o stave, v ktorom sa sústava nachádza. Pri takomto riadení existuje množstvo algoritmov, ktoré ovládajú správanie sa systému. Medzi tieto algoritmy patrí napríklad: Lineárne riadenie s premenlivým parametrom (LPV), Lineárno-kvadratické riadenie (LQ), Modelové prediktívne riadenie (MPC), Proporcionálno-integračno-derivačné riadenie (PID)...
 
-PID regulátor obr.\ref{OBRAZOK 3.3}, ovplyvňuje akčné zásahy do sústavy \verb|u(t)| na základe zaznamenaných výstupných informácii \verb|y(t)|. Veľkosť akčného zásahu \verb|u(t)| vypočítame na základe rozdielu medzi požadovanou hodnotou \verb|w(t)| a hodnotou reálnou \verb|y(t)|. Tento rozdiel označujeme tiež ako regulačná odchýlka \verb|e(t)|. Písmeno $"$t$"$ v zátvorkách predstavuje, časovú závislosť premenných. 
+PID regulátor Obr. \ref{OBRAZOK 3.3}, ovplyvňuje akčné zásahy do sústavy \verb|u(t)| na základe zaznamenaných výstupných informácii \verb|y(t)|. Veľkosť akčného zásahu \verb|u(t)| vypočítame na základe rozdielu medzi požadovanou hodnotou \verb|w(t)| a hodnotou reálnou \verb|y(t)|. Tento rozdiel označujeme tiež ako regulačná odchýlka \verb|e(t)|. Písmeno ,,t'' v zátvorkách predstavuje, časovú závislosť premenných. 
 
 \begin{figure}[!tbh]
 	\centering
@@ -147,14 +153,14 @@ PID regulátor obr.\ref{OBRAZOK 3.3}, ovplyvňuje akčné zásahy do sústavy \v
 Skratka PID je zložená zo začiatočných písmen zložiek, z ktorých sa regulátor skladá. 
 
 \begin{itemize}
-	\item \textbf{P}- označuje tzv. proporcionálnu zložku. Akčný zásah \verb|u(t)|, je priamo úmerný veľkosti regulačnej odchýlky \verb|e(t)|. K$_p$ predstavuje proporcionálnu konštantu, ktorou násobíme regulačnú odchýlku na získanie požadovaného vstupu rov.\ref{rovnicajedna}. 
+	\item \textbf{P}- označuje tzv. proporcionálnu zložku. Akčný zásah \verb|u(t)|, je priamo úmerný veľkosti regulačnej odchýlky \verb|e(t)|. K$_p$ predstavuje proporcionálnu konštantu, ktorou násobíme regulačnú odchýlku na získanie požadovaného vstupu Rov. \ref{rovnicajedna}. 
 	\begin{align}
 		\label{rovnicajedna}
 		u(t)=K_p e(t)
 	\end{align}
-	Konštanta K$_p$ je veľmi dôležitou pri nastavovaní parametrov PID regulátora. Zvyšovaním hodnoty proporcionálnej zložky znižuje regulačnú odchýlku, avšak nikdy nedosiahneme úplne odstránenie trvalej regulačnej odchýlky. Zmenou proporcionálnej zložky vieme taktiež urýchliť, alebo spomaliť nábeh na požadovanú hodnotu. Pre malé hodnoty K$_p$ je nábeh pomalý, a regulačná odchýlka veľká. Pri zvyšovaní hodnoty K$_p$ sa zrýchľuje nábeh, no zároveň narastá nežiadúce kmitanie sústavy. Zvyšovanie hodnoty K$_p$ má svoj limit, za ktorým sa sústava dostáva za hranicu stability a ďalšia regulácia nie je možná. 
+	Konštanta K$_p$ je veľmi dôležitou pri nastavovaní parametrov PID regulátora. Zvyšovaním hodnoty proporcionálnej zložky znižujeme regulačnú odchýlku, avšak nikdy nedosiahneme úplne odstránenie trvalej regulačnej odchýlky. Zmenou proporcionálnej zložky vieme taktiež urýchliť, alebo spomaliť nábeh na požadovanú hodnotu. Pre malé hodnoty K$_p$ je nábeh pomalý, a regulačná odchýlka veľká. Pri zvyšovaní hodnoty K$_p$ sa zrýchľuje nábeh, no zároveň narastá nežiadúce kmitanie sústavy. Zvyšovanie hodnoty K$_p$ má svoj limit, za ktorým sa sústava dostáva za hranicu stability a ďalšia regulácia nie je možná. 
 	
-	\item \textbf{I}- predstavuje integračnú zložku. Integrálny riadiaci člen je priamo úmerný veľkosti chyby, ako aj dobe jej trvania. Pokiaľ má regulovaná veličina menšiu hodnotu ako je požadovaná, integrálna časť PID sa zväčšuje. Naopak pokiaľ je hodnota regulovanej veličiny väčšia ako požadovaná, integrálna časť PID klesá. Pri použití integračnej zložky PID regulátora, bude trvalá regulačná odchýlka nulová\cite{PIDcko}. Čím nižšia bude hodnota T$_i$ rov.\ref{rovnicatriapol}, tým rýchlejšie sa bude výstup približovať žiadanej hodnote, no zároveň však bude narastať kmitanie sústavy.   
+	\item \textbf{I}- predstavuje integračnú zložku. Integrálny riadiaci člen je priamo úmerný veľkosti chyby, ako aj dobe jej trvania. Pokiaľ má regulovaná veličina menšiu hodnotu ako je požadovaná, integrálna časť PID sa zväčšuje. Naopak pokiaľ je hodnota regulovanej veličiny väčšia ako požadovaná, integrálna časť PID klesá. Pri použití integračnej zložky PID regulátora, bude trvalá regulačná odchýlka nulová \cite{PIDcko}. Čím nižšia bude hodnota T$_i$ Rov. \ref{rovnicatriapol}, tým rýchlejšie sa bude výstup približovať žiadanej hodnote, no zároveň však bude narastať kmitanie sústavy.   
 	\begin{align}
 		\label{rovnicadva}
 		u(t)=K_i  \int_{0}^{t} e(\tau)d\tau  
@@ -164,7 +170,7 @@ Skratka PID je zložená zo začiatočných písmen zložiek, z ktorých sa regu
         T_i = \dfrac{K_p}{K_i}
     \end{align}
 	
-	\item \textbf{D}- reprezentuje derivačnú zložku, ktorá predpovedá správanie sa systému, pomocou derivácie regulačnej odchýlky v čase. Rýchlosť zmeny je následne prenásobená derivačnou konštantou K$_d$. Vstup je počítaný podľa rov.\ref{rovnicatri}. Zvyšovanie derivačnej zložky PID regulátora tlmí kmitanie sústavy. Ak však zvolíme derivačnú konštantu priveľkú, kmitanie začne znova narastať\cite{PIDcko}. V praxi sa derivačná zložka veľmi nepoužíva a využívaný je P alebo PI regulátor\cite{1453566}. 
+	\item \textbf{D}- reprezentuje derivačnú zložku, ktorá predpovedá správanie sa systému, pomocou derivácie regulačnej odchýlky v čase. Rýchlosť zmeny je následne prenásobená derivačnou konštantou K$_d$. Vstup je počítaný podľa Rov. \ref{rovnicatri}. Zvyšovanie derivačnej zložky PID regulátora tlmí kmitanie sústavy. Ak však zvolíme derivačnú konštantu priveľkú, kmitanie začne znova narastať \cite{PIDcko}. V praxi sa derivačná zložka veľmi nepoužíva a využívaný je P alebo PI regulátor \cite{1453566}. 
 	\begin{align}
 		\label{rovnicatri}
 		u(t)=K_d  \dfrac{de(t)}{dt}
@@ -172,21 +178,22 @@ Skratka PID je zložená zo začiatočných písmen zložiek, z ktorých sa regu
 
 \end{itemize}
 
-Pre lepšie chápanie je v tab.\ref{PIDvplyv}\cite{pidcontrol} zhrnutý vplyv jednotlivých zložiek PID, na odozvu systému v uzatvorenej slučke a to pri zvyšovaní hodnoty K$_p$, K$_i$ a K$_d$\footnote[10]{Tabuľka slúži len ako pomôcka pre hrubé ladenia. Jednotlivé zložky PID regulátora, ako aj ich vplyv na sústavu, sú v realite previazané.}. 
+Pre lepšie chápanie je v Tab. \ref{PIDvplyv} \cite{pidcontrol} zhrnutý vplyv jednotlivých zložiek PID, na odozvu systému v uzatvorenej slučke a to pri zvyšovaní hodnoty K$_p$, K$_i$ a K$_d$\footnote[10]{Tabuľka slúži len ako pomôcka pre hrubé ladenia. Jednotlivé zložky PID regulátora, ako aj ich vplyv na sústavu, sú v realite previazané.}. 
 
 \begin{table}[!tbh]
+	\resizebox{\textwidth}{!}{%
 	\begin{tabular}{|c|c|c|c|c|c|}
 		\hline
 		& Regulačná odchýlka & Rýchlosť ustálenia & Prekmit & Rýchlosť odozvy & Stabilita \\ \hline
 		K$_p$                    & znižuje            & malý vplyv         & zvyšuje      & zvyšuje         & znižuje           \\ \hline
 		K$_i$                    & znižuje            & znižuje            & zvyšuje      & zvyšuje         & znižuje           \\ \hline
 		K$_d$                    & malý vplyv         & zvyšuje            & znižuje      & znižuje         & zvyšuje           \\ \hline
-	\end{tabular}
+	\end{tabular}}
 	\caption{Odozva systému na zmenu konštánt.}
 	\label{PIDvplyv}
 \end{table}
 
-Spojením jednotlivých samostatných zložiek, získame kompletný vzťah pre PID regulátor rov.\ref{rovnicastr}.
+Spojením jednotlivých samostatných zložiek, získame kompletný vzťah pre PID regulátor Rov. \ref{rovnicastr}.
 \begin{align}
 	\label{rovnicastr}
 	u(t)=K_p e(t) + K_i  \int_{0}^{t} e(\tau)d\tau + K_d  \dfrac{de(t)}{dt}
@@ -196,9 +203,9 @@ Spojením jednotlivých samostatných zložiek, získame kompletný vzťah pre P
 	\label{rovnicapat}
 	u(t)=K_p \left(e(t) + \dfrac{1}{T_i}  \int_{0}^{t} e(\tau)d\tau + T_d  \dfrac{de(t)}{dt}\right)
 \end{align}
-Rovnica \ref{rovnicastr} predstavuje jeden z možných zápisov vzťahu pre PID regulátor. V praxi sa často využíva tvar rov.\ref{rovnicapat}, z dôvodu lepšej interpretácie parametrov, ktoré rovnicu tvoria. T$_i$ predstavuje integračnú a T$_d$ derivačnú časovú konštantu, pričom ich vzťah s konštantami K$_i$ a K$_d$ je v tvare T$_i$ = (K$_p$/K$_i$) a T$_d$ = (K$_d$/K$_p$). Jednotlivé zložky v zátvorke tvoria novú a samostatnú regulačnú odchýlku, ktorá je ešte násobená konštantou K$_p$. Derivačná zložka predpovedá hodnotu regulačnej odchýlky T$_d$ sekúnd(vzoriek) do budúcnosti a integračná zložka sa snaží korigovať súčet hodnoty regulačných odchýlok do T$_i$ sekúnd(vzoriek)\cite{pidcontrol}.
+Rovnica \ref{rovnicastr} predstavuje jeden z možných zápisov vzťahu pre PID regulátor. V praxi sa často využíva tvar Rov. \ref{rovnicapat}, z dôvodu lepšej interpretácie parametrov, ktoré rovnicu tvoria. T$_i$ predstavuje integračnú a T$_d$ derivačnú časovú konštantu, pričom ich vzťah s konštantami K$_i$ a K$_d$ je v tvare T$_i$ = (K$_p$/K$_i$) a T$_d$ = (K$_d$/K$_p$). Jednotlivé zložky v zátvorke tvoria novú a samostatnú regulačnú odchýlku, ktorá je ešte násobená konštantou K$_p$. Derivačná zložka predpovedá hodnotu regulačnej odchýlky T$_d$ sekúnd(vzoriek) do budúcnosti a integračná zložka sa snaží korigovať súčet hodnoty regulačných odchýlok do T$_i$ sekúnd(vzoriek) \cite{pidcontrol}.
 
-Predchádzajúce rovnice PID regulátorov fungujú pri spojitých procesoch. Avšak pri implementácii PID pomocou číslicových regulátorov, musíme rovnicu transformovať do jej diskrétnej podoby rov.\ref{diskretna}.
+Predchádzajúce rovnice PID regulátorov fungujú pri spojitých procesoch. Avšak pri implementácii PID pomocou číslicových regulátorov, musíme rovnicu transformovať do jej diskrétnej podoby Rov. \ref{diskretna}.
 
 \begin{align}
 	\label{diskretna}
@@ -256,7 +263,7 @@ regulátora, ako aj rýchlosť vzorkovania.
 
 Funkcia \verb|stepEnable()| je volaná z knižnice sampling, v intervale zadanom na začiatku programu, ako vzorkovacia perióda. Slúži na kontrolu postupnosti vzoriek a povolenie spustenia nasledujúcej vzorky. Táto funkcia je volaná vždy len na začiatku jednotlivých vzoriek. Pokiaľ je teda v trvaní jednej vzorky spustená viacero krát, vieme povedať že nastala chyba vzorkovania. Pri takejto chybe sa vypne motor a pomocou príkazu \code{while(1)}, je ukončené vykonávanie programu. 
 
-Pokiaľ nedošlo ku chybe vzorkovania, funkcia povolí vykonanie nasledujúcej vzorky, zmenou hodnoty premennej \verb|nextStep|, na hodnotu $"$true$"$ teda 1. 
+Pokiaľ nedošlo ku chybe vzorkovania, funkcia povolí vykonanie nasledujúcej vzorky, zmenou hodnoty premennej \verb|nextStep|, na hodnotu ,,true'' teda 1. 
 
 \begin{lstlisting}[caption={Funkcia stepEnable().},captionpos=b]
 	void stepEnable() {                          
@@ -270,7 +277,7 @@ Pokiaľ nedošlo ku chybe vzorkovania, funkcia povolí vykonanie nasledujúcej v
 	}
 \end{lstlisting}
 
-V organizačnej funkcii \code{loop()}, je ako prvá, kontrolovaná podmienka \code{if(pendulumAngle>120)}. Táto kontrola slúži ako ochranný mechanizmus, pred pretočením kyvadla o príliš veľký uhol. Ďalej je v rámci vzorkovania volaná funkcia \verb|step()|. V if podmienke je testovaná premenná nextStep. Pokiaľ táto premenná nadobudne hodnotu "true", teda 1, podmienka sa splní a vykoná sa funkcia \verb|step()|, za ktorou sa premennej nextStep priradí hodnota "false", teda 0.
+V organizačnej funkcii \code{loop()}, je ako prvá, kontrolovaná podmienka \code{if(pendulumAngle>120)}. Táto kontrola slúži ako ochranný mechanizmus, pred pretočením kyvadla o príliš veľký uhol. Ďalej je v rámci vzorkovania volaná funkcia \verb|step()|. V if podmienke je testovaná premenná nextStep. Pokiaľ táto premenná nadobudne hodnotu ,,true'', teda 1, podmienka sa splní a vykoná sa funkcia \verb|step()|, za ktorou sa premennej nextStep priradí hodnota ,,false'', teda 0.
 
 \begin{lstlisting}[caption={Organzačná funkcia loop.},captionpos=b]
 	void loop() {
@@ -288,8 +295,8 @@ V organizačnej funkcii \code{loop()}, je ako prvá, kontrolovaná podmienka \co
 Funkcia \verb|step()| vykonáva samotné meranie, ovládanie a výpočty potrebné pri riadení systému pomocou PID regulátora. Na začiatku funkcie sa zvolí buď manuálna, alebo automatická trajektória. Pri automatickej dráhe je dôležité, vedieť kedy bol dosiahnutý koniec predprogramovanej trajektórie. Táto kontrola je vykonávaná pomocou porovnávania veľkostí premennej \verb|i|, ktorá zaznamenáva počet vykonaných sekcií trajektórie, oproti veľkosti pola \verb|R[]|, v ktorom sú zapísané hodnoty jednotlivých sekcií. Príkaz \code{sizeof(R)/sizeof(R[0])}, vráti počet prvkov pola \verb|R[]|. Zároveň sa kontroluje dĺžka chodu sekcie. Pokiaľ výraz \verb|k % (T*i)|, dosiahne hodnotu 0, nastaví sa ako trajektória nasledujúca sekcia. 
 
 Následne je mapovaný uhol kyvadla na percentuálnu hodnotu od 0\% do 100\%, ktorá je uložená ako premenná \verb|y|. Veľkosť regulačnej odchýlky, obmedzenie integračného nasýtenia\footnote[11]{K nasýteniu integračnej zložky dochádza, v prípade že akčný člen nie je schopný dosiahnuť požadovanú referenčnú
-	hodnotu. V takom prípade začne hodnota integračná zložka nekontrolovateľne stúpať.}(angl. anti-windup), ako aj hodnotu saturácie systému\footnote[12]{Ak sa ktorákoľvek so zložiek PID regulátora dostane do oblasti nasýtenia, ďalšia zmena tejto zložky nevyvolá žiadnu odozvu.}, zadávame do algoritmu na výpočet akčného zásahu v tvare \verb|PIDAbs.compute(r-y,minSaturacia,maxSaturacia|
-\verb|,antiWindupMin,antiWindupMax);|. 
+	hodnotu. V takom prípade začne hodnota integračná zložka nekontrolovateľne stúpať.}(angl. anti-windup), ako aj hodnotu saturácie systému\footnote[12]{Ak sa ktorákoľvek so zložiek PID regulátora dostane do oblasti nasýtenia, ďalšia zmena tejto zložky nevyvolá žiadnu odozvu.}, zadávame do algoritmu na výpočet akčného zásahu v tvare \verb|PIDAbs.compute(r-y,minSaturacia|
+\verb|,maxSaturacia,antiWindupMin,antiWindupMax);|. 
 
 
 \begin{lstlisting}[caption={Funkcia step().},captionpos=b]
@@ -324,7 +331,7 @@ Následne je mapovaný uhol kyvadla na percentuálnu hodnotu od 0\% do 100\%, kt
 
 Všetky výstupy z API Arduino IDE, boli zaznamenávané programom CoolTerm a následne vykreslené do grafov v prostredí MATLAB. 
 
-Na obr.\ref{OBRAZOK 2.5.1}, vidíme reakciu systému na skokovú zmenu z nulovej referenčnej hodnoty na hodnotu maximálnu, teda 100\%. Pomocou sledovania odozvy systému vieme lepšie nastaviť parametre PID regulátora. Systém nadobudne 1\% regulačnú odchýlku v priebehu 500 vzoriek, čo znamená čas približne jeden a pol sekundy. 
+Na Obr. \ref{OBRAZOK 2.5.1}, vidíme reakciu systému na skokovú zmenu z nulovej referenčnej hodnoty na hodnotu maximálnu, teda 100\%. Pomocou sledovania odozvy systému vieme lepšie nastaviť parametre PID regulátora. Systém nadobudne 1\% regulačnú odchýlku v priebehu 500 vzoriek, čo znamená čas približne jeden a pol sekundy. 
 
 \begin{figure}[!tbh]
 	\centering
@@ -332,7 +339,7 @@ Na obr.\ref{OBRAZOK 2.5.1}, vidíme reakciu systému na skokovú zmenu z nulovej
 	\caption{Reakcia systému na skokovú zmenu referenčnej hodnoty- Arduino IDE.}\label{OBRAZOK 2.5.1}
 \end{figure}
 
-Manuálna trajektória obr.\ref{OBRAZOK 2.5.3}, má oproti automatickej trajektórii obr.\ref{OBRAZOK 2.5.2}, väčšie rozdiely v hodnote akčného zásahu. Je to spôsobené kontinuálnou zmenou referenčnej hodnoty, ako aj miernym šumom signálu z potenciometra. V rámci obr.\ref{OBRAZOK 2.5.3} si ešte môžeme všimnúť časť medzi vzorkami 5000-6000. Ide o manuálne zavedenie chyby, pomocou buchnutia do kyvadla. Systém na takúto zmenu reaguje zmenou akčného zásahu a regulačnú odchýlku menšiu ako 2\%, nadobúda v priebehu jednej sekundy. 
+Manuálna trajektória Obr. \ref{OBRAZOK 2.5.3}, má oproti automatickej trajektórii Obr. \ref{OBRAZOK 2.5.2}, väčšie rozdiely v hodnote akčného zásahu. Je to spôsobené kontinuálnou zmenou referenčnej hodnoty, ako aj miernym šumom signálu z potenciometra. V rámci Obr. \ref{OBRAZOK 2.5.3} si ešte môžeme všimnúť časť medzi vzorkami 5000-6000. Ide o manuálne zavedenie chyby, pomocou buchnutia do kyvadla. Systém na takúto zmenu reaguje zmenou akčného zásahu a regulačnú odchýlku menšiu ako 2\%, nadobúda v priebehu jednej sekundy. 
 
 \begin{figure}[!tbh]
 	\centering
