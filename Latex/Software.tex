@@ -245,7 +245,7 @@ float AeroShield::calibration(word rawAngle) {
 
 \subsubsection{Funkcia convertRawAngleToDegrees()}
 
-Ako sme už spomínali v kap. \ref{meruhl}, zaznamenávaná hodnota uhlu kyvadla je v rozmedzí od 0 do 4096 a tieto hodnoty sú priamo úmerné so stupňami od 0\textdegree  do 360\textdegree. 1\textdegree   predstavuje hodnotu približne 11.77 vo formáte raw. Funkcia teda prenásobí raw hodnotu číslom 0.087\textdegree, ktoré sme získali z Rov. \ref{RovnicaConvert} a predstavuje veľkosť rozlíšenia rotačného enkóderu. Výstupom funkcie je uhol kyvadla v stupňoch.
+Ako sme už spomínali v Kap. \ref{meruhl}, zaznamenávaná hodnota uhlu kyvadla je v rozmedzí od 0 do 4096 a tieto hodnoty sú priamo úmerné so stupňami od 0\textdegree  do 360\textdegree. 1\textdegree   predstavuje hodnotu približne 11.77 vo formáte raw. Funkcia teda prenásobí raw hodnotu číslom 0.087\textdegree, ktoré sme získali z Rov. \ref{RovnicaConvert} a predstavuje veľkosť rozlíšenia rotačného enkóderu. Výstupom funkcie je uhol kyvadla v stupňoch.
  \begin{align}
  	\label{RovnicaConvert}
  	  \dfrac{360^{\circ}}{4096} = 0.087^{\circ}

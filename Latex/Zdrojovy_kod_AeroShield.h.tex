@@ -15,7 +15,7 @@
 	class AeroShield{		    	               
 		public:
 		AeroShield(void);
-		float begin(bool isDetected);                                       
+		void begin(void);                                       
 		void actuatorWrite(float PotPercent);          
 		float calibration(word RawAngle);          
 		float convertRawAngleToDegrees(word newAngle);  

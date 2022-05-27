@@ -4,23 +4,24 @@
 \begin{lstlisting}[numbers=left,basicstyle=\tiny,caption={Zdrojový kód súboru AeroShield.cpp.},captionpos=b]	
 	#include "AeroShield.h"     
 	
-	float AeroShield::begin(bool isDetected){   
-		pinMode(AERO_UPIN,OUTPUT);  		   
-		#ifdef ARDUINO_ARCH_AVR      
-		Wire.begin();                            
-		#elif ARDUINO_ARCH_SAM                            
-		Wire1.begin();                
-		#elif ARDUINO_ARCH_SAMD         
-		Wire.begin();                            
-		#endif
+	void AeroClass::begin(void){                     
+		bool isDetected = AeroShield.detectMagnet();
+		pinMode(AERO_UPIN,OUTPUT);  
 		
-		if(isDetected == 0 ){                
-			while(1){                                    
-				if(isDetected == 1 ){                          
+		#ifdef ARDUINO_ARCH_AVR  
+		Wire.begin();                                      
+		#elif ARDUINO_ARCH_SAM 
+		Wire1.begin();     
+		#elif ARDUINO_ARCH_SAMD   
+		Wire.begin();    
+		#endif
+		if(isDetected == 0 ){ 
+			while(1){     
+				if(isDetected == 1 ){  
 					AutomationShield.serialPrint("Magnet detected \n");
 					break;
 				}
-				else{                                                 
+				else{      
 					AutomationShield.serialPrint("Can not detect magnet \n"); 
 				}
 			}

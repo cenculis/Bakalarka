@@ -17,7 +17,7 @@ V novej verzii dosky bolo odstránených niekoľko nedostatkov predchádzajúcej
 	\item nesprávne zapojenie mosfetu PMW45EN, ktorý ovláda PWM signál idúci do akčného člena,
 	\item nesprávne umiestnená ochranná dióda na konektoroch akčného člena,
 	\item nesprávne zapojený obvod s čipom INA169, ktorý slúži na meranie prúdu,
-	\item neprepojenie nulového konektora shieldu s nulovým konektorom arduina.
+	\item neprepojenie nulového konektora shieldu s nulovým konektorom Arduina.
 \end{itemize}
 
 Základom tejto bakalárskej práce teda bolo pochopiť jednotlivé časti zapojenia, ich úprava do funkčnej podoby a následne zostavenie modelu. V rámci projektu bola vytvorená hlavná doska, na ktorej sa nachádza väčšina elektroniky a menšia doska tzv. breakout board Obr. \ref{OBRAZOK 2.1.2}.b, ktorý je uchytený v hornej časti kyvadla a slúži na prepojenie senzoru hall efektu s hlavnou doskou shieldu. Doska breakout boardu fungovala bezproblémovo, a teda nebolo potrebné nijakým spôsobom meniť jej schému zapojenia Obr. \ref{OBRAZOK 2.1.2}.a. Breakout boardu sa budeme bližšie venovať v Kap. \ref{PCBcka}.
@@ -151,7 +151,7 @@ Nie všetky komponenty potrebné na tvorbu schémy zapojenia boli zahrnuté v kn
 
 Polohu volíme takú, aby schéma bola čo najprehľadnejšia a komponenty, ktoré sú medzi sebou prepojené, boli čo najbližšie pri sebe. Akonáhle máme všetky komponenty uložené, začneme s ich postupným prepájaním. Pri zapájaní jednotlivých komponentov sa riadime ich priloženými katalógovými listami, v ktorých býva častokrát aj návrh schémy zapojenia a spôsobu využitia daného komponentu.
 
-DipTrace umožňuje rozdielne zafarbovanie jednotlivých elektrických spojení, rozličnými farbami a názvami Obr. \ref{OBRAZOK 2.3.5}. Tento fakt nám veľmi uľahčuje, na prvý pohľad rozoznať napríklad elektrické zemniace spojenie- zelená, fázové spojenia 3,3V- červená. Na schéme zapojenia sú použité nasledujúce komponenty:
+DipTrace umožňuje rozdielne zafarbovanie jednotlivých elektrických spojení, rozličnými farbami a názvami Obr. \ref{OBRAZOK 2.3.5}. Tento fakt nám veľmi uľahčuje, na prvý pohľad rozoznať napríklad elektrické zemniace spojenie- zelená, fázové spojenia 3,3 V- červená. Na schéme zapojenia sú použité nasledujúce komponenty:
 \begin{multicols}{3}
 	\begin{itemize}
 		\item R- Rezistor
